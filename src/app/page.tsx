@@ -251,7 +251,7 @@ const page = () => {
       <div className='flex flex-col items-center gap-[20px] mt-[3em]'>
         <p className='text-textColor font-semibold text-[2.5em]'>Latest Blog Post</p>
         <div className='flex h-[400px] gap-[40px]'>
-          <div className='flex flex-col bg-had '>
+          <div className='flex flex-col bg-headerBgColor '>
             <Image src={LatestBlog1} className='h-[70%]' alt='image' />
             <div className='flex h-[30%]'>
               <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-centeritems-center'>
@@ -270,7 +270,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className='flex flex-col bg-had '>
+          <div className='flex flex-col bg-headerBgColor '>
             <Image src={LatestBlog2} className='h-[70%]' alt='image' />
             <div className='flex h-[30%]'>
               <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
@@ -289,7 +289,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className='flex flex-col bg-had'>
+          <div className='flex flex-col bg-headerBgColor'>
             <Image src={LatestBlog3} className='h-[70%]' alt='image' />
             <div className='flex h-[30%]'>
               <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center  items-center'>
@@ -314,7 +314,6 @@ const page = () => {
         </div>
       </div>
 
-      <Footer />
 
     </div>
   )
