@@ -35,7 +35,7 @@ const Navbar = () => {
                 <Link className={`text-headerInfoBgColor font-semibold`} href={"/"}>HOME</Link>
                 <Link className='font-semibold text-navBarLinksColor' href={"/about"}>ABOUT</Link>
                 <Link className='font-semibold text-navBarLinksColor' href={"/services"}>SERVICE</Link>
-                <Link className='flex font-semibold text-navBarLinksColor items-center gap-1' href={"/pages"}>PAGES
+                <Link className='flex font-semibold text-navBarLinksColor items-center gap-1' href={"/blogs"}>PAGES
                     <div className='w-[6px] h-[4px] bg-black'></div>
                 </Link>
                 <Link className='font-semibold text-navBarLinksColor' href={"/contact"}>CONTACT</Link>
