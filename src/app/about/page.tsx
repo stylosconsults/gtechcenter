@@ -3,16 +3,12 @@ import Mission from "../../../public/icons/Mission.svg"
 import Vision from "../../../public/icons/Vision.svg"
 import AboutOurApproach from "../../../public/images/AboutOurApproach.svg"
 import Footer from '@/components/Footer'
+import PagesTopDiv from '@/components/PagesTopDiv'
 
 const page = () => {
     return (
         <div>
-            <div className='flex flex-col items-center justify-center h-[200px]  bg-textColor'>
-                <p className='text-white text-[2.3em] font-semibold leading-[1.5em]'>About Us</p>
-                <p className='text-headerInfoBgColor text-[1.3em]'>About</p>
-            </div>
-
-
+            <PagesTopDiv heading='About Us' paragraph='About' />
             <div className='flex h-[450px]'>
                 <div className='flex flex-col justify-center bg-headerBgColor w-[50%] px-6 gap-7 h-full '>
                     <p className='font-bold text-[2.5em] '>Welcome to <span className='text-headerInfoBgColor'>GTech Center Ltd</span></p>
@@ -55,7 +51,6 @@ const page = () => {
                 </div>
             </div>
 
-            <Footer/>
         </div>
     )
 }
