@@ -26,19 +26,19 @@ const Navbar = () => {
     <nav className='flex flex-col h-[16vh] gap-2'>
         <Header />
         <div className={`${barlow.className} flex items-center justify-between px-[40px] h-[60%]`}>
-            <Link href={""} className='flex items-center gap-4 ' >
+            <Link href={"/"} className='flex items-center gap-4 ' >
                 <NavIcon width = "40px"/>
                 <p className={`text-[40px] font-extrabold text-headerInfoBgColor`}>GTECH CENTER LTD</p>
             </Link>
 
             <div className='flex gap-[40px]'>
-                <Link className={`text-headerInfoBgColor font-semibold`} href={""}>HOME</Link>
-                <Link className='font-semibold text-navBarLinksColor' href={""}>ABOUT</Link>
-                <Link className='font-semibold text-navBarLinksColor' href={""}>SERVICE</Link>
-                <Link className='flex font-semibold text-navBarLinksColor items-center gap-1' href={""}>PAGES
+                <Link className={`text-headerInfoBgColor font-semibold`} href={"/"}>HOME</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={"/about"}>ABOUT</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={"/services"}>SERVICE</Link>
+                <Link className='flex font-semibold text-navBarLinksColor items-center gap-1' href={"/pages"}>PAGES
                     <div className='w-[6px] h-[4px] bg-black'></div>
                 </Link>
-                <Link className='font-semibold text-navBarLinksColor' href={""}>CONTACT</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={"/contact"}>CONTACT</Link>
             </div>
         </div>
 

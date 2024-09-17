@@ -70,7 +70,7 @@ const page = () => {
       <div className='flex '>
         <div className='flex flex-col items-center justify-center bg-headerBgColor w-[50%] px-6 gap-7 '>
           <p className='font-bold text-[2.5em]'>Welcome to <span className='text-headerInfoBgColor'>GTech Center Ltd</span></p>
-          <p className='text-welcomeBgColor'>GTech is a forward-thinking consultancy firm established in 2024 and headquartered in Kk 345 st. Founded by Fabrice Kagina, GTech is driven by innovation, integrity, and a commitment to excellence. We focus on delivering impactful solutions that drive sustainable growth for our clients.</p>
+          <p className='text-welcomeBgColor'>where innovation meets expertise! As a forward-thinking technology consultancy firm, we deliver cutting-edge solutions that drive growth and efficiency for businesses across various industries. Whether you're looking to scale your operations, improve data management, or integrate new technology into your workflow, Gtech Center is here to guide you every step of the way.</p>
           <div className='w-full'>
             <button className='bg-headerInfoBgColor text-white font-semibold mx-auto  rounded-[30px] p-3 w-[10em]'>Get A Quote</button>
           </div>
@@ -251,7 +251,7 @@ const page = () => {
       <div className='flex flex-col items-center gap-[20px] mt-[3em]'>
         <p className='text-textColor font-semibold text-[2.5em]'>Latest Blog Post</p>
         <div className='flex h-[400px] gap-[40px]'>
-          <div className='flex flex-col bg-headerBgColor '>
+          <div className='flex flex-col bg-had '>
             <Image src={LatestBlog1} className='h-[70%]' alt='image' />
             <div className='flex h-[30%]'>
               <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-centeritems-center'>
@@ -270,7 +270,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className='flex flex-col bg-headerBgColor '>
+          <div className='flex flex-col bg-had '>
             <Image src={LatestBlog2} className='h-[70%]' alt='image' />
             <div className='flex h-[30%]'>
               <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
@@ -289,7 +289,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className='flex flex-col bg-headerBgColor'>
+          <div className='flex flex-col bg-had'>
             <Image src={LatestBlog3} className='h-[70%]' alt='image' />
             <div className='flex h-[30%]'>
               <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center  items-center'>
