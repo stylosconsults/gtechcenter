@@ -16,11 +16,11 @@ const Header = () => {
   return (
     <div className={`${open_sans.variable } flex justify-between items bg-headerBgColor h-[35px]`}>
         <div className='flex items-center ps-[35px] w-[40%]'>
-            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full' href={""}>FAQs</Link>
-            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full' href={""}>Support</Link>
-            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full' href={""}>Privacy</Link>
-            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full' href={""}>Policy</Link>
-            <Link className='flex justify-center w-[30%] h-full items-center' href={""}>Career</Link>
+            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full text-welcomeBgColor' href={""}>FAQs</Link>
+            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full text-welcomeBgColor' href={""}>Support</Link>
+            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full text-welcomeBgColor' href={""}>Privacy</Link>
+            <Link className='border-r-headerLinkBorderColor border-r-2 flex justify-center w-[30%] items-center h-full text-welcomeBgColor' href={""}>Policy</Link>
+            <Link className='flex justify-center w-[30%] h-full items-center text-welcomeBgColor' href={""}>Career</Link>
         </div>
 
         <div className='flex items-center ps-9 justify-center pe-[35px] gap-[30px] text-white w-[30%]  bg-headerInfoBgColor inclined-left'>

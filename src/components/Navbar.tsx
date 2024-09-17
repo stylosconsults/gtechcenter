@@ -33,12 +33,12 @@ const Navbar = () => {
 
             <div className='flex gap-[40px]'>
                 <Link className={`text-headerInfoBgColor font-semibold`} href={""}>HOME</Link>
-                <Link className='font-semibold' href={""}>ABOUT</Link>
-                <Link className='font-semibold' href={""}>SERVICE</Link>
-                <Link className='flex font-semibold items-center gap-1' href={""}>PAGES
+                <Link className='font-semibold text-navBarLinksColor' href={""}>ABOUT</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={""}>SERVICE</Link>
+                <Link className='flex font-semibold text-navBarLinksColor items-center gap-1' href={""}>PAGES
                     <div className='w-[6px] h-[4px] bg-black'></div>
                 </Link>
-                <Link className='font-semibold' href={""}>CONTACT</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={""}>CONTACT</Link>
             </div>
         </div>
 

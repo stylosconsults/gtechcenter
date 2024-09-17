@@ -13,7 +13,13 @@ const config: Config = {
         foreground: "var(--foreground)",
         headerBgColor: "#F6F6F6",
         headerLinkBorderColor: "#DEE2E6",
-        headerInfoBgColor: "#F3525A"
+        headerInfoBgColor: "#F3525A",
+        welcomeBgColor: "#6B6A75",
+        textColor: "#152440",
+        inputBorderColor: "#CED4DA",
+        navBarLinksColor: "#152440"
+      
+      
       },
     },
   },
