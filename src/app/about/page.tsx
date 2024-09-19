@@ -7,7 +7,7 @@ import PagesTopDiv from '@/components/PagesTopDiv'
 
 const page = () => {
     return (
-        <div>
+        <div className='flex flex-col mb-[3em]'>
             <PagesTopDiv heading='About Us' paragraph='About' />
             <div className='flex h-[450px]'>
                 <div className='flex flex-col justify-center bg-headerBgColor w-[50%] px-6 gap-7 h-full '>

@@ -46,7 +46,7 @@ const open_sans = Open_Sans({
 
 const page = () => {
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col mb-[4em]'>
       <div className={`bg-[url('/images/bgImg.svg')] bg-cover h-[80vh] bg-center text-white flex flex-col justify-center items-center gap-9 px-[200px] ${barlow.variable}`}>
         <p className='font-semibold text-[20px]'>
           IT CONSULTANCY
@@ -289,7 +289,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className='flex flex-col bg-headerBgColor'>
+          <div className='flex flex-col bg-headerBgColor '>
             <Image src={LatestBlog3} className='h-[70%]' alt='image' />
             <div className='flex h-[30%]'>
               <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center  items-center'>

@@ -7,7 +7,7 @@ import LinkedIn from "../../public/icons/linkedIn.svg"
 
 const Footer = () => {
     return (
-        <div className='flex flex-col mt-[5em] bg-textColor'>
+        <div className='flex flex-col bg-textColor'>
             <div className='flex flex-col gap-6 py-[30px] items-center bg-headerInfoBgColor'>
                 <p className='text-textColor font-semibold text-[2.5em]'>Stay Update!!!</p>
                 <form action="" className='flex w-[30%] rounded-[5px] overflow-hidden justify-between '>

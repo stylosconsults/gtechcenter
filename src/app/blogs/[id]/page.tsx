@@ -26,7 +26,7 @@ const barlow = Barlow({
 
 const page = () => {
     return (
-        <div className={`${barlow.variable}`}>
+        <div className={`${barlow.variable} flex flex-col mb-[4em]`}>
             <PagesTopDiv heading='Blog Detail' paragraph='Home Blog_Detail' />
 
             <div className='flex justify-evenly'>

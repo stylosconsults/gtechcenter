@@ -124,7 +124,7 @@ const page = () => {
 
     ]
     return (
-        <div className='flex flex-col gap-7'>
+        <div className='flex flex-col gap-7 mb-[4em]'>
             <PagesTopDiv heading='Blogs' paragraph='Home Blogs' />
             <div className='flex justify-centerp-4'>
 
