@@ -25,7 +25,7 @@ const Header = () => {
 
         <div className='flex items-center ps-9 justify-center pe-[35px] gap-[30px] text-white w-[30%]  bg-headerInfoBgColor inclined-left'>
             <Link href={""} className='flex items-center gap-1 font-semibold '> <InfoIcon /> info@example.com</Link>
-            <Link href={""} className='flex items-center gap-2 font-semibold'> <PhoneIcon />+0123456789</Link>
+            <Link href={""} className='flex items-center gap-2 font-semibold'> <PhoneIcon />+250788647871</Link>
         </div>
 
 

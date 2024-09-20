@@ -1,19 +1,57 @@
 "use client"
 import PagesTopDiv from '@/components/PagesTopDiv'
-import React from 'react'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
+import React, { useState } from 'react'
+import { GoogleMap, LoadScript, Marker, DirectionsService,Libraries, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api'
+import { strict } from 'assert'
 
 const containerStyle = {
     width: "100%",
     height: "100%"
 }
 
-const center = {
+const currentLocation = {
+    lat: 1,
+    lng: 2
+}
+
+const destination = {
     lat: -1.9757035631385522,
     lng: 30.10670646256887
 }
 
+
+const libraries: Libraries = ['places']
+
+
 const page = () => {
+    const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
+    const [travelTime, settravelTime] = useState<string | null>(null)
+
+
+    const { isLoaded, loadError } = useJsApiLoader({
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API as string,
+        libraries
+    })
+
+    const directionsCallback = (response: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
+        if (response !== null) {
+            if (response.routes.length && response.routes[0].legs.length) {
+                setDirections(response)
+                const route = response.routes[0].legs[0]
+                settravelTime(route.duration?.text || 'N/A')
+            } else {
+                console.error('Directions request  failed as no routes found');
+            }
+        }
+    }
+
+    if(loadError){
+        return <p>Error loading google maps</p>
+    }
+
+    if(!isLoaded){
+        return <p>Loading google maps...</p>
+    }
     return (
         <div className='flex flex-col'>
             <PagesTopDiv heading='Contact Us' paragraph='Home Contact' />
@@ -39,12 +77,32 @@ const page = () => {
                 <div className='w-[50%] flex justify-center items-center'>
                     {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API ?
                         (<LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API}>
-                            <GoogleMap 
+                            <GoogleMap
                                 mapContainerStyle={containerStyle}
-                                center={center}
+                                center={currentLocation}
                                 zoom={19}
                             >
-                                <Marker position={center}/>
+                                <Marker position={currentLocation} />
+                                <Marker position={destination} />
+                                <DirectionsService
+                                    options={{
+                                        destination: destination,
+                                        origin: currentLocation,
+                                        travelMode: google.maps.TravelMode.WALKING
+                                    }}
+
+                                    callback={directionsCallback}
+                                />
+
+                                {
+                                    directions && (
+                                        <DirectionsRenderer
+                                            options={{
+                                                directions: directions
+                                            }}
+                                        />
+                                    )
+                                }
                             </GoogleMap>
                         </LoadScript>)
                         :
