@@ -17,7 +17,8 @@ const config: Config = {
         welcomeBgColor: "#6B6A75",
         textColor: "#152440",
         inputBorderColor: "#CED4DA",
-        navBarLinksColor: "#152440"
+        navBarLinksColor: "#152440",
+        dragAndDropColor: "#5A5A5A"
       
       
       },

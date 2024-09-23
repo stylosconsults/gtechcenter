@@ -1,18 +1,17 @@
 "use client"
 import React from 'react'
-import { Open_Sans } from 'next/font/google';
+// import { Open_Sans } from 'next/font/google';
 import { Barlow } from 'next/font/google';
 import Header from './Header';
 import Link from 'next/link';
-import Image from 'next/image';
 import NavIcon from "../../public/icons/navbarIcon.svg"
 
-const open_sans = Open_Sans({
-    display: "swap",
-    subsets: ['latin'],
-    variable: "--font-open-sans",
-    weight: "300",
-  });
+// const open_sans = Open_Sans({
+//     display: "swap",
+//     subsets: ['latin'],
+//     variable: "--font-open-sans",
+//     weight: "300",
+//   });
 
 const barlow = Barlow({
     display : "swap",
@@ -26,19 +25,19 @@ const Navbar = () => {
     <nav className='flex flex-col h-[16vh] gap-2'>
         <Header />
         <div className={`${barlow.className} flex items-center justify-between px-[40px] h-[60%]`}>
-            <Link href={"/"} className='flex items-center gap-4 ' >
+            <Link href={"/app"} className='flex items-center gap-4 ' >
                 <NavIcon width = "40px"/>
                 <p className={`text-[40px] font-extrabold text-headerInfoBgColor`}>GTECH CENTER LTD</p>
             </Link>
 
             <div className='flex gap-[40px]'>
-                <Link className={`text-headerInfoBgColor font-semibold`} href={"/"}>HOME</Link>
-                <Link className='font-semibold text-navBarLinksColor' href={"/about"}>ABOUT</Link>
-                <Link className='font-semibold text-navBarLinksColor' href={"/services"}>SERVICE</Link>
-                <Link className='flex font-semibold text-navBarLinksColor items-center gap-1' href={"/blogs"}>PAGES
+                <Link className={`text-headerInfoBgColor font-semibold`} href={"/app"}>HOME</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={"/app/about"}>ABOUT</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={""}>SERVICE</Link>
+                <Link className='flex font-semibold text-navBarLinksColor items-center gap-1' href={"/app/blogs"}>PAGES
                     <div className='w-[6px] h-[4px] bg-black'></div>
                 </Link>
-                <Link className='font-semibold text-navBarLinksColor' href={"/contact"}>CONTACT</Link>
+                <Link className='font-semibold text-navBarLinksColor' href={"/app/contact"}>CONTACT</Link>
             </div>
         </div>
 

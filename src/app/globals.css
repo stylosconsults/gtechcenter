@@ -2,8 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities{
-    .inclined-left{
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 9.06% 100%);
-    }
+@layer utilities {
+  .inclined-left {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 9.06% 100%);
+  }
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 95%
+}
+
+::-webkit-scrollbar-track {
+  background-color: #dfdede;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f3525a;
+  border-radius: 5px;
+}
+

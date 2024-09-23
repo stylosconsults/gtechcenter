@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
     webpack(config) {
       // Add the rule for handling SVG files with @svgr/webpack
       config.module.rules.push({
