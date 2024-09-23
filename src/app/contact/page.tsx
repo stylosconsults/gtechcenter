@@ -1,31 +1,32 @@
 "use client"
 import PagesTopDiv from '@/components/PagesTopDiv'
-import React, { useState } from 'react'
-import { GoogleMap, LoadScript, Marker, DirectionsService,Libraries, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api'
-import { strict } from 'assert'
+import React, { useEffect, useState } from 'react'
+import { GoogleMap, LoadScript, Marker, DirectionsService, Libraries, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api'
 
 const containerStyle = {
     width: "100%",
     height: "100%"
 }
 
-const currentLocation = {
-    lat: 1,
-    lng: 2
-}
 
 const destination = {
     lat: -1.9757035631385522,
     lng: 30.10670646256887
 }
 
+const defaultValue = {
+    lat: 0,
+    lng: 0
+}
 
 const libraries: Libraries = ['places']
 
 
-const page = () => {
+const Page = () => {
     const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
-    const [travelTime, settravelTime] = useState<string | null>(null)
+    // const [travelTime, settravelTime] = useState<string | null>(null)
+    const [currentLocation, setcurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
+    const [watchPositionId, setwatchPositionId] = useState<number | null>(null)
 
 
     const { isLoaded, loadError } = useJsApiLoader({
@@ -33,23 +34,59 @@ const page = () => {
         libraries
     })
 
-    const directionsCallback = (response: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
+    const successCallback = (position: GeolocationPosition) => {
+        setcurrentLocation(
+            {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+        )
+    }
+
+
+    const errorCallback = (error: GeolocationPositionError) => {
+        alert(`ERROR: ${error.code} MESSAGE: ${error.message}`)
+
+    }
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            const watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {
+                enableHighAccuracy: true, // Optional: better accuracy but higher battery usage
+                maximumAge: 0,            // Optional: don't use cached location
+            })
+
+
+            setwatchPositionId(watchId)
+
+            return () => {
+                if (watchId !== null) {
+                    navigator.geolocation.clearWatch(watchId)
+                }
+            }
+        }
+
+
+    }, [])
+
+
+    const directionsCallback = (response: google.maps.DirectionsResult | null) => {
         if (response !== null) {
             if (response.routes.length && response.routes[0].legs.length) {
                 setDirections(response)
                 const route = response.routes[0].legs[0]
-                settravelTime(route.duration?.text || 'N/A')
+                // settravelTime(route.duration?.text || 'N/A')
             } else {
                 console.error('Directions request  failed as no routes found');
             }
         }
     }
 
-    if(loadError){
+    if (loadError) {
         return <p>Error loading google maps</p>
     }
 
-    if(!isLoaded){
+    if (!isLoaded) {
         return <p>Loading google maps...</p>
     }
     return (
@@ -75,40 +112,47 @@ const page = () => {
                 </div>
 
                 <div className='w-[50%] flex justify-center items-center'>
-                    {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API ?
-                        (<LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API}>
-                            <GoogleMap
-                                mapContainerStyle={containerStyle}
-                                center={currentLocation}
-                                zoom={19}
-                            >
-                                <Marker position={currentLocation} />
-                                <Marker position={destination} />
-                                <DirectionsService
+                    <GoogleMap
+                        mapContainerStyle={containerStyle}
+                        center={currentLocation}
+                        zoom={12}
+                    >
+
+                        <Marker
+                            position={currentLocation}
+                            // icon={{
+                            //     url: "/gifs/output-onlinegiftools (1).gif",  // Path to the blinking GIF
+                            //     scaledSize: new window.google.maps.Size(50, 50), // Adjust the size
+                            //     origin: new window.google.maps.Point(0,0),
+                            //     anchor: new window.google.maps.Point(25,25)
+                            
+                            // }}
+
+                            
+                        /> 
+                        <Marker position={destination} />
+                        <DirectionsService
+                            options={{
+                                destination: destination,
+                                origin: currentLocation,
+                                travelMode: google.maps.TravelMode.WALKING
+                            }}
+
+                            callback={directionsCallback}
+                        />
+
+                        {
+                            directions && (
+                                <DirectionsRenderer
                                     options={{
-                                        destination: destination,
-                                        origin: currentLocation,
-                                        travelMode: google.maps.TravelMode.WALKING
+                                        directions: directions
                                     }}
-
-                                    callback={directionsCallback}
                                 />
+                            )
+                        }
+                    </GoogleMap>
 
-                                {
-                                    directions && (
-                                        <DirectionsRenderer
-                                            options={{
-                                                directions: directions
-                                            }}
-                                        />
-                                    )
-                                }
-                            </GoogleMap>
-                        </LoadScript>)
-                        :
-                        <p>Google map api is missing</p>
 
-                    }
                 </div>
             </div>
 
@@ -116,4 +160,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
