@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CallCenter from "../../../public/icons/callCenter.svg"
 import ProjectManage from "../../../public/icons/projectManagement.svg"
 import ItSolutions from "../../../public/icons/itSolutions.svg"
@@ -21,9 +21,14 @@ import LatestBlog1 from "../../../public/images/latestBlog1.png"
 import LatestBlog2 from "../../../public/images/latestBlog2.png"
 import LatestBlog3 from "../../../public/images/latestBlog3.png"
 import WelcomeToGTech from "../../../public/images/welcomeToGtech.svg"
-import Image from 'next/image'
+import bgImg1 from "../../../public/images/bgImg2.png"
+import bgImg2 from "../../../public/images/bgImg3.jpeg"
+import bgImg3 from "../../../public/images/bgImg4.jpeg"
+import bgImg4 from "../../../public/images/bgImg5.jpeg"
+import Image, { StaticImageData } from 'next/image'
 import { Barlow } from 'next/font/google'
 import Link from 'next/link'
+import transparentPicture from "../../../public/images/transparentPicture.png"
 
 const barlow = Barlow({
   display: "swap",
@@ -39,27 +44,83 @@ const barlow = Barlow({
 //   weight: "300",
 // });
 
+type BgImg = {
+  image: StaticImageData,
+  imgIndex: number
+}
+
+const bgImgs: BgImg[] = [
+  {
+    image: bgImg1,
+    imgIndex: 1
+  },
+
+  {
+    image: bgImg2,
+    imgIndex: 2
+  },
+
+  {
+    image: bgImg3,
+    imgIndex: 3
+  },
+
+  {
+    image: bgImg4,
+    imgIndex: 4
+  }
+
+
+]
+
 const page = () => {
+
+  const [currentIndex, setcurrentIndex] = useState<number>(1)
+
+  useEffect(() => {
+    let n = 4
+    const intervalId = setInterval(()=>{
+      setcurrentIndex(currentIndex + 1)
+      if(currentIndex === n){
+        setcurrentIndex(1)
+      }
+    }, 5000)
+  
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [currentIndex])
+  
   return (
-    <div className='flex flex-col mb-[4em]'>
-      <div className={`bg-[url('/images/bgImg.svg')] bg-cover h-[80vh] bg-center text-white flex flex-col justify-center items-center gap-9 px-[200px] ${barlow.variable}`}>
-        <p className='font-semibold text-[20px]'>
-          IT CONSULTANCY
-        </p>
+    <div className='flex flex-col mb-[4em] w-full'>
+      <div className={`relative  h-[80vh] w-full text-white flex flex-col justify-center items-center  ${barlow.variable}`}>
 
-        <p className='text-[4em] text-center font-bold leading-[1.3em]'>
-          Your Trusted Partner for Innovative Solutions
-        </p>
-
-        <div className='flex gap-3'>
-          <button className='bg-headerInfoBgColor rounded-[30px] p-3 w-[10em] font-semibold'>
-            Get quote
-          </button>
-
-          <button className='bg-white text-black rounded-[30px] p-3 w-[10em] font-semibold'>
-            Contact Us
-          </button>
+        <div className='0 w-full h-[600px] flex relative'>
+            {bgImgs.map(({image,imgIndex}, index)=>(
+              <Image className={`w-[100%] h-full absolute transition-opacity duration-[3000ms] ease-in-out ${currentIndex===imgIndex ? 'opacity-1':'opacity-[.5]'}`} src={currentIndex===imgIndex ? image:transparentPicture } key={index} alt='image'/>
+            ))}
         </div>
+
+        <div className='absolute text-white border flex flex-col justify-center items-center gap-[3em] w-full h-full'>
+          <p className='font-semibold text-[20px]'>
+            IT CONSULTANCY
+          </p>
+
+          <p className='text-[4em] w-[60%] text-center font-bold leading-[1.3em]'>
+            Your Trusted Partner for Innovative Solutions
+          </p>
+
+          <div className='flex gap-3'>
+            <button className='bg-headerInfoBgColor rounded-[30px] p-3 w-[10em] font-semibold'>
+              Get quote
+            </button>
+
+            <button className='bg-white text-black rounded-[30px] p-3 w-[10em] font-semibold'>
+              Contact Us
+            </button>
+          </div>
+        </div>
+
       </div>
 
       <div className='flex '>
