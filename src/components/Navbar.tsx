@@ -22,7 +22,7 @@ const barlow = Barlow({
 
 const Navbar = () => {
   return (
-    <nav className='flex flex-col h-[16vh] gap-2'>
+    <nav className='flex flex-col h-[18vh] gap-2 '>
         <Header />
         <div className={`${barlow.className} flex items-center justify-between px-[40px] h-[60%]`}>
             <Link href={"/app"} className='flex items-center gap-4 ' >

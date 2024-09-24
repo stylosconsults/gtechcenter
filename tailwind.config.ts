@@ -19,9 +19,8 @@ const config: Config = {
         inputBorderColor: "#CED4DA",
         navBarLinksColor: "#152440",
         dragAndDropColor: "#5A5A5A"
-      
-      
-      },
+      }
+     
     },
   },
   plugins: [],
