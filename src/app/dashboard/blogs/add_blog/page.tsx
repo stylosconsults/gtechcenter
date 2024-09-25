@@ -15,16 +15,20 @@ const barlow = Barlow({
 
 const AddBlog = () => {
 
-    const [imagePreview, setImagePreview] = useState<string>("")
+    const [imgBlobUrl, setImgBlobUrl] = useState<string>("")
+    const [imageObj, setImgObj] = useState<File | null>(null)
     const router = useRouter()
 
     const getImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
         if (files && files.length > 0) {
             const uploadedImg = files[0]
+
+            setImgObj(uploadedImg)
+
             const blogUrl = URL.createObjectURL(uploadedImg)
 
-            setImagePreview(blogUrl)
+            setImgBlobUrl(blogUrl)
         }
 
     }
@@ -36,9 +40,12 @@ const AddBlog = () => {
         const files = e.dataTransfer?.files
         if (files && files.length > 0) {
             const uploadedImg = files[0]
+
+            setImgObj(uploadedImg)
+            
             const blogUrl = URL.createObjectURL(uploadedImg)
 
-            setImagePreview(blogUrl)
+            setImgBlobUrl(blogUrl)
         }
     }
 
@@ -91,19 +98,19 @@ const AddBlog = () => {
                                 onDragOver={(e) => handleDragOver(e)}
                                 // onDragLeave={(e)=>handleDragLeave(e)}
                                 id='blog_image'
-                                className={`flex relative bg-headerInfoBgColor bg-opacity-[6%] flex-col  justify-center items-center border-[1px] border-dashed  border-headerInfoBgColor w-full h-[95%] rounded-[25px]`}>
+                                className={`cursor-pointer flex relative bg-headerInfoBgColor bg-opacity-[6%] flex-col  justify-center items-center border-[1px] border-dashed  border-headerInfoBgColor w-full h-[95%] rounded-[25px]`}>
                                 <input onChange={(e) => getImagePreview(e)} id='blog_image' type="file" accept='image/*' className='hidden' />
 
-                                {imagePreview &&
+                                {imgBlobUrl &&
                                     <div className='w-full h-full rounded-[25px] '>
-                                        <Image className=' w-full h-[405px]  rounded-[25px] ' width={300} height={500} src={imagePreview} alt={'uploadedImage'} />
+                                        <Image className=' w-full h-[405px]  rounded-[25px] ' width={300} height={500} src={imgBlobUrl} alt={'uploadedImage'} />
                                     </div>
                                 }
 
-                                <div className={`${imagePreview ? "absolute rounded-[25px] w-[638px] h-[400px] bg-white bg-opacity-[.8]": ""} w-full h-full flex flex-col justify-center items-center gap-3 `}>
+                                <div className={`${imgBlobUrl ? "absolute rounded-[25px] w-[638px] h-[400px] bg-white bg-opacity-[.8]": ""} w-full h-full flex flex-col justify-center items-center gap-3 `}>
                                     <UploadImageSvg className="mb-7" />
                                     <p className='text-[1.9em] text-headerInfoBgColor font-semibold'>Upload Image</p>
-                                    <p className='text-[1.2em] text-dragAndDropColor'>Drag & Drop or click to add an image</p>
+                                    <p className='text-[1.2em] text-dragAndDropColor'>{imageObj ? imageObj.name : 'Drag & Drop or click to add an image'}</p>
                                 </div>
 
                             </label>

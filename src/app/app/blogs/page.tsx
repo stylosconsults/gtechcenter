@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { StaticImageData } from 'next/image'
 import PinkCircle from "../../../../public/icons/pinkCirlcle.svg"
 import Link from 'next/link'
+import PaginationControls from '@/components/PaginationControls'
 
 type blogTypes = {
     image: StaticImageData,
@@ -17,122 +18,151 @@ type blogTypes = {
 
 }
 
-const page = () => {
-    const blogs: blogTypes[] = [
-        {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+const blogs: blogTypes[] = [
+    {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    }, {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
+    }, {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    },
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    },
+    {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    },
+    {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    },
+    {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    }
+    ,{
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
+    }
 
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    ,{
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-        }, {
+    },
+    {
+        image: Blog,
+        day: "01",
+        month: "JAN",
+        year: "2025",
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
 
-            image: Blog,
-            day: "01",
-            month: "JAN",
-            year: "2025",
-            param1: "ADMIN",
-            param2: "WEB DESIGN",
-            param3: "Magna sea dolor ipsum amet lorem eos"
+    }
 
-        }
+]
 
-    ]
+
+type SearchParamsType = {
+    searchParams: Record<string, string> | null | undefined;
+}
+
+const page = ({ searchParams }: SearchParamsType) => {
+
+    const page = searchParams?.page ? searchParams?.page : 1
+    const per_page = searchParams?.per_page ? searchParams?.per_page : 5
+    const startIndex = (Number(page) - 1) * Number(per_page)
+    const endIndex = startIndex + Number(per_page)
+
+    const slicedBlogs = blogs.slice(startIndex, endIndex)
+
     return (
         <div className='flex flex-col gap-7 mb-[4em]'>
             <PagesTopDiv heading='Blogs' paragraph='Home Blogs' />
-            <div className='flex justify-centerp-4'>
+            <div className='flex justify-center p-4'>
 
-                <div className='flex flex-wrap gap-8 w-[65%] ps-12'>
-                    {blogs.map(({ image, day, month, year, param1, param2, param3 }, index) => (
-                        <Link href={`blogs/${index}`} key={index} className='flex flex-col bg-headerBgColor '>
-                            <Image src={image} className='h-[70%]' alt='image' />
-                            <div className='flex h-[30%]'>
+                <div className='flex flex-wrap gap-8 h-[10%]  w-[65%] ps-12'>
+                    {slicedBlogs.map(({ image, day, month, year, param1, param2, param3 }, index) => (
+                        // <Link href={`blogs/${index}`} key={index} className='flex flex-col  bg-headerBgColor h-[450px] border border-red-500 '>
+                        //     <Image src={image} className='h-[70%]' alt='image' />
+                        //     <div className='flex h-[30%]'>
+                        //         <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
+                        //             <p className='text-white'>{day}</p>
+                        //             <p className='text-textColor'>{month}</p>
+                        //             <p className='text-white'>{year}</p>
+                        //         </div>
+                        //         <div className='flex flex-col justify-center w-[90%]'>
+                        //             <div className='flex justify-evenly w-full'>
+                        //                 <p className='text-welcomeBgColor'>{param1}</p>
+                        //                 <p className='text-welcomeBgColor'>{param2}</p>
+                        //             </div>
+                        //             <p className='text-[1.1em] font-semibold text-textColor px-3'>{param3}</p>
+                        //         </div>
+                        //     </div>
+                        // </Link>
+                        <Link href={`blogs/${index}`} key={index} className='flex flex-col h-[450px] bg-headerBgColor w-[40%]'>
+                            <Image src={image} className='h-[75%]' alt='image' />
+                            <div className='flex h-[25%]'>
                                 <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
                                     <p className='text-white'>{day}</p>
                                     <p className='text-textColor'>{month}</p>
@@ -233,13 +263,7 @@ const page = () => {
                 </div>
             </div>
 
-            <div className='flex w-[20%] ms-11 border-2 border-headerLinkBorderColor'>
-                <button className='w-[20%] p-2 border-2 border-r-headerLinkBorderColor border-t-0 border-b-0 border-l-0 '></button>
-                <button className='w-[20%] p-2 border-2 border-r-headerLinkBorderColor border-t-0 border-b-0 border-l-0 bg-headerInfoBgColor text-white'>1</button>
-                <button className='w-[20%] p-2 border-2 border-r-headerLinkBorderColor border-t-0 border-b-0 border-l-0'>2</button>
-                <button className='w-[20%] p-2 border-2 border-r-headerLinkBorderColor border-t-0 border-b-0 border-l-0'>3</button>
-                <button className='w-[20%] p-2 border-2 border-r-0 border-t-0 border-b-0 border-l-0'></button>
-            </div>
+            <PaginationControls baseUrl='/app/blogs/'  numOfBlogs={blogs.length} />
         </div>
     )
 }

@@ -8,6 +8,7 @@ import { Barlow, Inter, Open_Sans } from 'next/font/google'
 import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import Modal from '@/components/Modal'
+import PaginationControls from '@/components/PaginationControls'
 
 
 const barlow = Barlow({
@@ -108,6 +109,13 @@ const blogs: BlogType[] = [
         param1: "ADMIN",
         param2: "WEB DESIGN",
         param3: "Magna sea dolor ipsum amet lorem eos"
+    }, 
+
+    {
+        image: Blog,
+        param1: "ADMIN",
+        param2: "WEB DESIGN",
+        param3: "Magna sea dolor ipsum amet lorem eos"
     }
 ]
 
@@ -115,8 +123,15 @@ type SearchParamsType = {
     searchParams: Record<string, string> | null | undefined;
 }
 
-const page = ({searchParams}: SearchParamsType) => {
+const page = ({ searchParams }: SearchParamsType) => {
     const show = searchParams?.show_delete
+    const page = searchParams?.page ? searchParams?.page : 1
+    const per_page = searchParams?.per_page ? searchParams?.per_page : 5
+
+    const startIndex = (Number(page)-1) * Number(per_page)
+    const endIndex = startIndex + Number(per_page)
+
+    const slicedBlogs = blogs.slice(startIndex, endIndex)
 
     return (
         <div className={`flex flex-col w-[95%] ${barlow.className} gap-5 p-3 overflow-auto`}>
@@ -127,9 +142,9 @@ const page = ({searchParams}: SearchParamsType) => {
 
             <div className='flex flex-col gap-5 h-[90%] '>
                 <p className='text-[1.5em] h-[2%]'>All blogs</p>
-                <div className='flex flex-wrap gap-3 h-[98%] overflow-auto p-1'>
+                <div className='flex flex-wrap gap-3 h-[98%] min-h-[300px]  overflow-auto p-1'>
 
-                    {blogs.map(({ image, param1, param2, param3 }, index) => (
+                    {slicedBlogs.map(({ image, param1, param2, param3 }, index) => (
                         <div key={index} className='bg-headerBgColor  flex flex-col justify-between h-[420px] w-[420px]'>
                             <Image className='w-full' src={image} alt='Image' />
                             <div className='flex justify-around items-center h-[30%] '>
@@ -151,10 +166,12 @@ const page = ({searchParams}: SearchParamsType) => {
                         </div>
                     ))}
 
+
                 </div>
+                <PaginationControls baseUrl='/dashboard/blogs/' numOfBlogs={blogs.length} />
             </div>
 
-            {show && <Modal/>}
+            {show && <Modal />}
         </div>
     )
 }
