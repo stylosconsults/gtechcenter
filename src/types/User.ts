@@ -6,3 +6,4 @@ export interface User {
     password: string;
     role?: typeof ROLES[keyof typeof ROLES]
 }
+

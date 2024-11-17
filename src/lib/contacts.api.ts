@@ -1,4 +1,4 @@
-import { Contact, SavedContact } from "@/types/Contact"
+import { Contact, ResponseContact, SavedContact } from "@/types/Contact"
 import axios,{ AxiosError } from "axios"
 
 const apiClient= axios.create({
@@ -8,10 +8,12 @@ const apiClient= axios.create({
     }
 })
 
-export const createContactApi = async(newContact: Contact):Promise<SavedContact>=>{
+export const createContactApi = async(newContact: Contact):Promise<ResponseContact>=>{
     try {
         const response = await apiClient.post('/contacts', newContact)
+        console.log('response data ', response.data);
         return response.data
+
     } catch (error) {
         if(error instanceof AxiosError) {
             throw new Error(error.response?.data.message)
@@ -21,7 +23,7 @@ export const createContactApi = async(newContact: Contact):Promise<SavedContact>
     }
 }
 
-export const updateContactApi = async(contactId: string,updatedContactData: Contact):Promise<SavedContact>=>{
+export const updateContactApi = async(contactId: string,updatedContactData: Contact):Promise<ResponseContact>=>{
     try {
         const response = await apiClient.put(`/contacts/${contactId}`, updatedContactData)
         return response.data
@@ -35,9 +37,10 @@ export const updateContactApi = async(contactId: string,updatedContactData: Cont
 }
 
 
-export const fetchAllContactsApi = async():Promise<SavedContact[]>=>{
+export const fetchAllContactsApi = async():Promise<ResponseContact >=>{
     try {
         const response = await apiClient.get(`/contacts/`)
+        console.log('fetched contacts ', response.data);
         return response.data
     } catch (error) {
         if(error instanceof AxiosError) {
@@ -48,7 +51,7 @@ export const fetchAllContactsApi = async():Promise<SavedContact[]>=>{
     }
 }
 
-export const fetchSingleContactApi = async(contactId: string):Promise<SavedContact> => {
+export const fetchSingleContactApi = async(contactId: string):Promise<ResponseContact> => {
     try {
         const response = await apiClient.get(`/contacts/${contactId}`)
         return response.data

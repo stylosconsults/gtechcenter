@@ -24,11 +24,11 @@ const defaultValue = {
 const libraries: Libraries = ['places']
 
 const Page = () => {
-    const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
-    // const [travelTime, settravelTime] = useState<string | null>(null)
-    const [currentLocation, setcurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
-    // const [watchPositionId, setwatchPositionId] = useState<number | null>(null)
 
+    const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
+    const [currentLocation, setcurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
+
+    // contact form control 
     const [errorAlerted, setErrorAlerted] = useState<boolean>(false)
     const [contactInputData, setContactInputData] = useState<Contact>(
         {
@@ -38,7 +38,13 @@ const Page = () => {
             message: ""
         }
     )
-    const { error, loading, createContact } = useContacts()
+    const { error, loading, createContact, successMsgs, seterror } = useContacts()
+
+    const { isLoaded, loadError } = useJsApiLoader({
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API as string,
+        libraries
+    })
+
 
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -56,32 +62,38 @@ const Page = () => {
 
     }
 
-    const handleOnSubmit = (e: FormEvent) => {
+
+
+    const handleOnSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        createContact(contactInputData)
-        setContactInputData({
-            first_name:"",
-            last_name: "",
-            subject: "",
-            message: ""
-        })
-    }
+        await createContact(contactInputData)
 
-    if(!error && !loading) {
-        // alert("contacted successfuly")
-    }
 
-    useEffect(()=>{
-        if(error && !errorAlerted){
-            alert(error)
-            setErrorAlerted(true)
+    }
+    useEffect(() => {
+        if (successMsgs.createSuccessMsg !== "") {
+            alert(successMsgs.createSuccessMsg)
+            console.log('createsuccessms ', successMsgs.createSuccessMsg);
+            setContactInputData({
+                first_name: "",
+                last_name: "",
+                subject: "",
+                message: ""
+            })
         }
-    }, [error, errorAlerted])
+    }, [successMsgs.createSuccessMsg])
 
-    const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API as string,
-        libraries
-    })
+    useEffect(() => {
+        if (error) {
+            alert(error)
+            
+        }
+
+    }, [error])
+
+
+    // contact from control
+
 
     const successCallback = (position: GeolocationPosition) => {
         setcurrentLocation(
@@ -96,6 +108,18 @@ const Page = () => {
     const errorCallback = (error: GeolocationPositionError) => {
         alert(`ERROR: ${error.code} MESSAGE: ${error.message}`)
 
+    }
+
+    const directionsCallback = (response: google.maps.DirectionsResult | null) => {
+        if (response !== null) {
+            if (response.routes.length && response.routes[0].legs.length) {
+                setDirections(response)
+                // const route = response.routes[0].legs[0]
+                // settravelTime(route.duration?.text || 'N/A')
+            } else {
+                console.error('Directions request  failed as no routes found');
+            }
+        }
     }
 
     useEffect(() => {
@@ -119,17 +143,7 @@ const Page = () => {
     }, [])
 
 
-    const directionsCallback = (response: google.maps.DirectionsResult | null) => {
-        if (response !== null) {
-            if (response.routes.length && response.routes[0].legs.length) {
-                setDirections(response)
-                // const route = response.routes[0].legs[0]
-                // settravelTime(route.duration?.text || 'N/A')
-            } else {
-                console.error('Directions request  failed as no routes found');
-            }
-        }
-    }
+
 
     if (loadError) {
         return <p>Error loading google maps</p>
@@ -153,7 +167,7 @@ const Page = () => {
                             <input disabled type="text" placeholder='Subject' className='p-3 text-[1.1em] outline-none rounded-[5px]' />
                             <textarea disabled name="message" id="message" placeholder='Message' className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'></textarea>
 
-                            <button  className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
+                            <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
                         </form>
 
                     </div>
@@ -169,7 +183,7 @@ const Page = () => {
 
 
     // Contacting logic
-    
+
 
 
     return (
@@ -179,48 +193,56 @@ const Page = () => {
             <div className='flex h-[500px] bg-headerBgColor'>
 
                 <div className='flex flex-col gap-3 pt-2 w-[50%] h-full px-4 justify-center'>
-                    <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
-                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
-                        <div className='flex justify-between'>
-                            <input
-                                className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
-                                type="text"
-                                name='first_name'
-                                placeholder='First Name'
-                                value={contactInputData.first_name}
-                                onChange={handleInputChange}
-                                
-                            />
-                            <input
-                                className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
-                                type="text"
-                                name="last_name"
-                                placeholder='Last Name'
-                                value={contactInputData.last_name}
-                                onChange={handleInputChange}
+                    {loading ? (
+                        <p>Loading</p>
+                    ) :
+                        (<>
+                            <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
+                            <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                                <div className='flex justify-between'>
+                                    <input
+                                        className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
+                                        type="text"
+                                        name='first_name'
+                                        placeholder='First Name'
+                                        value={contactInputData.first_name}
+                                        onChange={handleInputChange}
 
-                            />
-                        </div>
+                                    />
+                                    <input
+                                        className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
+                                        type="text"
+                                        name="last_name"
+                                        placeholder='Last Name'
+                                        value={contactInputData.last_name}
+                                        onChange={handleInputChange}
 
-                        <input
-                            type="text"
-                            name='subject'
-                            placeholder='Subject'
-                            className='p-3 text-[1.1em] outline-none rounded-[5px]'
-                            value={contactInputData.subject}
-                            onChange={handleInputChange}
-                        />
-                        <textarea
-                            name="message"
-                            id="message"
-                            placeholder='Message'
-                            className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'
-                            value={contactInputData.message}
-                            onChange={handleInputChange}
-                            ></textarea>
+                                    />
+                                </div>
 
-                        <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
-                    </form>
+                                <input
+                                    type="text"
+                                    name='subject'
+                                    placeholder='Subject'
+                                    className='p-3 text-[1.1em] outline-none rounded-[5px]'
+                                    value={contactInputData.subject}
+                                    onChange={handleInputChange}
+                                />
+                                <textarea
+                                    name="message"
+                                    id="message"
+                                    placeholder='Message'
+                                    className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'
+                                    value={contactInputData.message}
+                                    onChange={handleInputChange}
+                                ></textarea>
+
+                                <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
+                            </form>
+
+                        </>
+                        )
+                    }
 
                 </div>
 

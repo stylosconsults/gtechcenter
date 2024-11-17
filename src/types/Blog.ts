@@ -11,3 +11,7 @@ export interface Blog {
 export interface SavedBlog extends Blog {
   _id: string;
 }
+export interface ResponseBlog {
+  blog: SavedBlog;
+  message: string
+}

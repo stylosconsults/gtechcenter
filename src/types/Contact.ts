@@ -10,3 +10,8 @@ export interface SavedContact extends Contact {
     createdAt: string;
     lastlyUpdatedAt: string
 }
+
+export interface ResponseContact {
+    contact: SavedContact[];   
+    message: string
+}

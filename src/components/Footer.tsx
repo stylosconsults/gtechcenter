@@ -1,6 +1,6 @@
 "use client"
 import Link from 'next/link'
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import Facebook from "../../public/icons/facebook.svg"
 import Instagram from "../../public/icons/instagram.svg"
 import Twitter from "../../public/icons/twitter.svg"
@@ -8,21 +8,30 @@ import LinkedIn from "../../public/icons/linkedIn.svg"
 import { useSubscription } from '@/hooks/useSubscription'
 
 const Footer = () => {
-    const { error, loading, createSubscription } = useSubscription()
+    const { error, loading, createSubscription, seterror } = useSubscription()
     const [subscribingEmail, setsubscribingEmail] = useState<string>("")
+    const [errorAlerted, setErrorAlerted] = useState<boolean>(false)
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         const email = e.target.value
         setsubscribingEmail(email)
     }
 
-    const handleOnSubmit = (e:FormEvent)=> {
+    const handleOnSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        createSubscription(subscribingEmail)
-        
+        await createSubscription(subscribingEmail)
+
     }
 
-    if(error) return <p>Error: {error}</p>
-    if(loading) return <p>{loading}</p>
+
+    useEffect(() => {
+        if (error) {
+            alert(error)
+            seterror("")
+        }
+
+    }, [error])
+
+
 
 
     return (
@@ -37,7 +46,14 @@ const Footer = () => {
                         onChange={handleEmailChange}
                         className='w-[80%] outline-none p-3'
                     />
-                    <button className='bg-textColor text-white w-[20%] p-2'>Sign Up</button>
+
+                    <button className='bg-textColor text-white w-[20%]  p-2'>
+                        {!loading ?
+                        "Sign Up":
+                        "Loading"
+                        
+                        }
+                    </button>
                 </form>
             </div>
 

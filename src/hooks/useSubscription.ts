@@ -108,6 +108,7 @@ export const useSubscription = () => {
     loading,
     subscriptions,
     singleSubscription,
+    seterror,
     createSubscription,
     updateSubscription,
     getSingleSubscription,
