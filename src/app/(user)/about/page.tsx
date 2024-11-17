@@ -2,7 +2,7 @@ import React from 'react'
 import Mission from "../../../../public/icons/Mission.svg"
 import Vision from "../../../../public/icons/Vision.svg"
 import AboutOurApproach from "../../../../public/images/AboutOurApproach.svg"
-import PagesTopDiv from '@/components/PagesTopDiv'
+import PagesTopDiv from '../../../components/PagesTopDiv'
 
 const page = () => {
     return (

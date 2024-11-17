@@ -1,11 +1,16 @@
-import PagesTopDiv from '@/components/PagesTopDiv'
-import React from 'react'
+"use client"
+import PagesTopDiv from '../../../../components/PagesTopDiv'
+import React, { useEffect, useState } from 'react'
 import RedCircle from "../../../../../public/icons/redCircle.svg"
 import Image from 'next/image'
 import Blog from "../../../../../public/images/latestBlog1.png"
 import LatestBlog3 from "../../../../../public/images/latestBlog2.png"
 import Link from 'next/link'
 import { Barlow, Open_Sans } from 'next/font/google'
+import { useRouter } from 'next/navigation'
+import { useBlogs } from '@/hooks/useBlogs'
+import { CldImage } from 'next-cloudinary'
+import { SavedBlog } from '@/types/Blog'
 
 
 
@@ -15,28 +20,58 @@ const open_sans = Open_Sans({
     subsets: ['latin'],
     variable: "--font-open-sans",
     weight: "300",
-  });
-  
+});
+
 const barlow = Barlow({
     display: "swap",
     variable: "--font-barlow",
     subsets: ['latin'],
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
-  })
+})
 
-const page = () => {
+
+interface BlogParams {
+    params: {
+        _id: string
+    }
+}
+const page = ({ params }: BlogParams) => {
+    const blogId = params._id
+    const { error, loading, fetchSingleBlog, singleBlog } = useBlogs()
+
+
+    useEffect(() => {
+        fetchSingleBlog(blogId)
+    }, [blogId])
+
+
+    if (loading) return <p>loading</p>
+    if (error) return <p>Error: {error}</p>
     return (
         <div className={`${barlow.variable} flex flex-col mb-[4em]`}>
             <PagesTopDiv heading='Blog Detail' paragraph='Home Blog_Detail' />
 
             <div className='flex justify-evenly'>
                 <div className='w-[60%] flex flex-col  justify-between gap-[2em]'>
+
+
+                    {/* target */}
                     <div className='flex flex-col gap-7'>
-                        <Image className='w-full' src={Blog} alt='image' />
-                        <p className='text-textColor text-[2em] font-bold leading-10'>Diam dolor est labore duo ipsum clita sed et lorem tempor duo</p>
+                        <CldImage
+                            src={singleBlog?.imagePublicId || "/images/latestBlog1.png"}
+                            width={100}
+                            height={100}
+                            alt='img'
+                            crop="fill"
+                            gravity='auto'
+                            className=' w-full'
+                        />
+                        <p className='text-textColor text-[2em] font-bold leading-10'>{singleBlog?.title}</p>
 
                         <div className='flex flex-col gap-3 text-[1.1em] text-welcomeBgColor'>
-                            <p>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut magna lorem. Nonumy vero
+
+                            <p>{singleBlog?.description}</p>
+                            {/* <p>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut magna lorem. Nonumy vero
                                 labore lorem sanctus rebum et lorem magna kasd, stet amet magna accusam consetetur eirmod. Kasd accusam sit
                                 ipsum sadipscing et at at sanctus et. Ipsum sit gubergren dolores et, consetetur justo invidunt at et aliquyam ut et
                                 vero clita. Diam sea sea no sed dolores diam nonumy, gubergren sit stet no diam kasd vero.</p>
@@ -51,13 +86,13 @@ const page = () => {
                                 dolores sit kasd diam takimata justo diam lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam
                                 tempor rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor sea diam kasd,
                                 takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at lorem invidunt sadipscing rebum sit amet ut ut,
-                                voluptua diam dolores at sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos.</p>
+                                voluptua diam dolores at sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos.</p> */}
 
 
                         </div>
                     </div>
 
-
+                    {/* target */}
                     <div className='flex flex-col gap-5'>
                         <p className={`${open_sans.variable} text-textColor text-[1.6em] font-semibold`}>3 Comments</p>
                         <div className='flex flex-col gap-7'>
@@ -119,14 +154,14 @@ const page = () => {
                     </form>
 
                     <div className='relative flexflex-col gap-3'>
-                        <p className='text-textColor text-[2em] font-semibold'>Categories</p>
+                        <p className='text-textColor text-[2em] font-semibold'>Category</p>
                         <div className='bg-headerBgColor flex text-textColor font-semibold flex-col gap-3 p-7 '>
 
-                            <p>Web Design</p>
+                            {/* <p>Web Design</p>
                             <p>Web Development</p>
                             <p>Web Development</p>
-                            <p>Keyword Research</p>
-                            <p>Email Marketing</p>
+                            <p>Keyword Research</p> */}
+                            <p>{singleBlog?.category}</p>
                         </div>
                         <RedCircle className="absolute top-[18em] left-[23em]" />
                     </div>

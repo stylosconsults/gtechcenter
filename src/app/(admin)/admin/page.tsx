@@ -7,8 +7,8 @@ import Blog from "../../../../public/images/latestBlog1.png"
 import { Barlow, Inter, Open_Sans } from 'next/font/google'
 import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
-import Modal from '@/components/Modal'
-import PaginationControls from '@/components/PaginationControls'
+import Modal from '../../../components/Modal'
+import PaginationControls from '../../../components/PaginationControls'
 
 
 const barlow = Barlow({
@@ -137,7 +137,7 @@ const page = ({ searchParams }: SearchParamsType) => {
         <div className={`flex flex-col w-[95%] ${barlow.className} gap-5 p-3 overflow-auto`}>
             <div className='flex justify-between h-[7%]'>
                 <p className='text-[2em]'><span className='font-bold'>Dashboard / </span>Blogs</p>
-                <Link href={"/dashboard/blogs/add_blog"} className='text-[1.4em] bg-headerInfoBgColor text-white w-[6em] rounded-[8px] text-center p-2'>Add Blog</Link>
+                <Link href={"/admin/add_blog"} className='text-[1.4em] bg-headerInfoBgColor text-white w-[6em] rounded-[8px] text-center p-2'>Add Blog</Link>
             </div>
 
             <div className='flex flex-col gap-5 h-[90%] '>
@@ -159,7 +159,7 @@ const page = ({ searchParams }: SearchParamsType) => {
                                 </div>
 
                                 <div className='flex flex-col gap-3'>
-                                    <Link href={"/dashboard/blogs/?show_delete=true"}><DeleteIcon /></Link>
+                                    <Link href={"/admin/?show_delete=true"}><DeleteIcon /></Link>
                                     <button><EditIcon /></button>
                                 </div>
                             </div>

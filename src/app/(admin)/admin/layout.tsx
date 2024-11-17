@@ -1,4 +1,4 @@
-import DashboardSideBar from '@/components/DashboardSideBar'
+import DashboardSideBar from '../../../components/DashboardSideBar'
 import { Metadata } from 'next'
 import React from 'react'
 import "../../globals.css"
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: "Dashboard blogs management"
 }
 
-const barlow = Barlow({
+const barlow = Barlow({                           
     display: 'swap',
     subsets: ['latin'],
     variable: "--font-barlow",

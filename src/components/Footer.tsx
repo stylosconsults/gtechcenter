@@ -1,17 +1,42 @@
+"use client"
 import Link from 'next/link'
-import React from 'react'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
 import Facebook from "../../public/icons/facebook.svg"
 import Instagram from "../../public/icons/instagram.svg"
 import Twitter from "../../public/icons/twitter.svg"
 import LinkedIn from "../../public/icons/linkedIn.svg"
+import { useSubscription } from '@/hooks/useSubscription'
 
 const Footer = () => {
+    const { error, loading, createSubscription } = useSubscription()
+    const [subscribingEmail, setsubscribingEmail] = useState<string>("")
+    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const email = e.target.value
+        setsubscribingEmail(email)
+    }
+
+    const handleOnSubmit = (e:FormEvent)=> {
+        e.preventDefault()
+        createSubscription(subscribingEmail)
+        
+    }
+
+    if(error) return <p>Error: {error}</p>
+    if(loading) return <p>{loading}</p>
+
+
     return (
         <div className='flex flex-col bg-textColor'>
             <div className='flex flex-col gap-6 py-[30px] items-center bg-headerInfoBgColor'>
                 <p className='text-textColor font-semibold text-[2.5em]'>Stay Update!!!</p>
-                <form action="" className='flex w-[30%] rounded-[5px] overflow-hidden justify-between '>
-                    <input type="text" placeholder='Your Email' className='w-[80%] outline-none p-3' />
+                <form onSubmit={handleOnSubmit} className='flex w-[30%] rounded-[5px] overflow-hidden justify-between '>
+                    <input
+                        type="text"
+                        placeholder='Your Email'
+                        value={subscribingEmail}
+                        onChange={handleEmailChange}
+                        className='w-[80%] outline-none p-3'
+                    />
                     <button className='bg-textColor text-white w-[20%] p-2'>Sign Up</button>
                 </form>
             </div>

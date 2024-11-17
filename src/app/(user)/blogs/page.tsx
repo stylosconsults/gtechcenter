@@ -1,11 +1,15 @@
-import PagesTopDiv from '@/components/PagesTopDiv'
+"use client"
+import PagesTopDiv from '../../../components/PagesTopDiv'
 import React from 'react'
 import Blog from "../../../../public/images/latestBlog1.png"
 import Image from 'next/image'
 import { StaticImageData } from 'next/image'
 import PinkCircle from "../../../../public/icons/pinkCirlcle.svg"
 import Link from 'next/link'
-import PaginationControls from '@/components/PaginationControls'
+import PaginationControls from '../../../components/PaginationControls'
+import { useBlogs } from '@/hooks/useBlogs'
+import { CldImage } from 'next-cloudinary'
+import { dayExtractor, monthShortener, yearExtractor } from '@/utils/dateDetailsExtractor'
 
 type blogTypes = {
     image: StaticImageData,
@@ -19,7 +23,7 @@ type blogTypes = {
 }
 
 
-const blogs: blogTypes[] = [
+const blogss: blogTypes[] = [
     {
         image: Blog,
         day: "01",
@@ -88,7 +92,7 @@ const blogs: blogTypes[] = [
         param3: "Magna sea dolor ipsum amet lorem eos"
 
     }
-    ,{
+    , {
         image: Blog,
         day: "01",
         month: "JAN",
@@ -99,7 +103,7 @@ const blogs: blogTypes[] = [
 
     }
 
-    ,{
+    , {
         image: Blog,
         day: "01",
         month: "JAN",
@@ -134,7 +138,13 @@ const page = ({ searchParams }: SearchParamsType) => {
     const startIndex = (Number(page) - 1) * Number(per_page)
     const endIndex = startIndex + Number(per_page)
 
+    const { blogs, error, loading } = useBlogs()
+
+    console.log('blog ', blogs);
     const slicedBlogs = blogs.slice(startIndex, endIndex)
+    if (loading) return <p>Loading blogs...</p>;
+    if (error) return <p>Error: {error}</p>;
+
 
     return (
         <div className='flex flex-col gap-7 mb-[4em]'>
@@ -142,38 +152,29 @@ const page = ({ searchParams }: SearchParamsType) => {
             <div className='flex justify-center p-4'>
 
                 <div className='flex flex-wrap gap-8 h-[10%]  w-[65%] ps-12'>
-                    {slicedBlogs.map(({ image, day, month, year, param1, param2, param3 }, index) => (
-                        // <Link href={`blogs/${index}`} key={index} className='flex flex-col  bg-headerBgColor h-[450px] border border-red-500 '>
-                        //     <Image src={image} className='h-[70%]' alt='image' />
-                        //     <div className='flex h-[30%]'>
-                        //         <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
-                        //             <p className='text-white'>{day}</p>
-                        //             <p className='text-textColor'>{month}</p>
-                        //             <p className='text-white'>{year}</p>
-                        //         </div>
-                        //         <div className='flex flex-col justify-center w-[90%]'>
-                        //             <div className='flex justify-evenly w-full'>
-                        //                 <p className='text-welcomeBgColor'>{param1}</p>
-                        //                 <p className='text-welcomeBgColor'>{param2}</p>
-                        //             </div>
-                        //             <p className='text-[1.1em] font-semibold text-textColor px-3'>{param3}</p>
-                        //         </div>
-                        //     </div>
-                        // </Link>
-                        <Link href={`blogs/${index}`} key={index} className='flex flex-col h-[450px] bg-headerBgColor w-[40%]'>
-                            <Image src={image} className='h-[75%]' alt='image' />
+                    {slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
+                        <Link href={`blogs/${_id}`} key={index} className='flex flex-col h-[450px] bg-headerBgColor w-[40%]'>
+                            <CldImage
+                                src={imagePublicId}
+                                width={100}
+                                height={100}
+                                alt='img'
+                                crop="fill"
+                                gravity='auto'
+                                className='h-[75%] w-[100%]'
+                            />
                             <div className='flex h-[25%]'>
                                 <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
-                                    <p className='text-white'>{day}</p>
-                                    <p className='text-textColor'>{month}</p>
-                                    <p className='text-white'>{year}</p>
+                                    <p className='text-white'>{dayExtractor(lastlyUpdatedDate)}</p>
+                                    <p className='text-textColor'>{monthShortener(lastlyUpdatedDate)}</p>
+                                    <p className='text-white'>{yearExtractor(lastlyUpdatedDate)}</p>
                                 </div>
                                 <div className='flex flex-col justify-center w-[90%]'>
                                     <div className='flex justify-evenly w-full'>
-                                        <p className='text-welcomeBgColor'>{param1}</p>
-                                        <p className='text-welcomeBgColor'>{param2}</p>
+                                        <p className='text-welcomeBgColor'>{title}</p>
+                                        <p className='text-welcomeBgColor'>{category}</p>
                                     </div>
-                                    <p className='text-[1.1em] font-semibold text-textColor px-3'>{param3}</p>
+                                    <p className='text-[1.1em] font-semibold text-textColor px-3'>{description}</p>
                                 </div>
                             </div>
                         </Link>
@@ -263,7 +264,7 @@ const page = ({ searchParams }: SearchParamsType) => {
                 </div>
             </div>
 
-            <PaginationControls baseUrl='/app/blogs/'  numOfBlogs={blogs.length} />
+            <PaginationControls baseUrl='/blogs/' numOfBlogs={blogs.length} />
         </div>
     )
 }

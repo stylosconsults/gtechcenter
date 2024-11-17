@@ -1,7 +1,9 @@
 "use client"
-import PagesTopDiv from '@/components/PagesTopDiv'
-import React, { useEffect, useState } from 'react'
+import PagesTopDiv from '../../../components/PagesTopDiv'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { GoogleMap, Marker, DirectionsService, Libraries, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api'
+import { useContacts } from '@/hooks/useContacts'
+import { Contact } from '@/types/Contact'
 
 const containerStyle = {
     width: "100%",
@@ -21,13 +23,60 @@ const defaultValue = {
 
 const libraries: Libraries = ['places']
 
-
 const Page = () => {
     const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
     // const [travelTime, settravelTime] = useState<string | null>(null)
     const [currentLocation, setcurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
     // const [watchPositionId, setwatchPositionId] = useState<number | null>(null)
 
+    const [errorAlerted, setErrorAlerted] = useState<boolean>(false)
+    const [contactInputData, setContactInputData] = useState<Contact>(
+        {
+            first_name: "",
+            last_name: "",
+            subject: "",
+            message: ""
+        }
+    )
+    const { error, loading, createContact } = useContacts()
+
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target
+        setContactInputData(
+            (previousInputData) => (
+                {
+                    ...previousInputData,
+                    [name]: value
+                }
+            )
+        )
+
+        console.log('contact ', contactInputData);
+
+    }
+
+    const handleOnSubmit = (e: FormEvent) => {
+        e.preventDefault()
+        createContact(contactInputData)
+        setContactInputData({
+            first_name:"",
+            last_name: "",
+            subject: "",
+            message: ""
+        })
+    }
+
+    if(!error && !loading) {
+        // alert("contacted successfuly")
+    }
+
+    useEffect(()=>{
+        if(error && !errorAlerted){
+            alert(error)
+            setErrorAlerted(true)
+        }
+    }, [error, errorAlerted])
 
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API as string,
@@ -97,14 +146,14 @@ const Page = () => {
                         <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
                         <form action="" className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
                             <div className='flex justify-between'>
-                                <input className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='First Name' />
-                                <input className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='Last Name' />
+                                <input disabled className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='First Name' />
+                                <input disabled className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='Last Name' />
                             </div>
 
-                            <input type="text" placeholder='Subject' className='p-3 text-[1.1em] outline-none rounded-[5px]' />
-                            <textarea name="comment" id="comment" placeholder='Message' className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'></textarea>
+                            <input disabled type="text" placeholder='Subject' className='p-3 text-[1.1em] outline-none rounded-[5px]' />
+                            <textarea disabled name="message" id="message" placeholder='Message' className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'></textarea>
 
-                            <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
+                            <button  className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
                         </form>
 
                     </div>
@@ -117,6 +166,12 @@ const Page = () => {
             </div>
         )
     }
+
+
+    // Contacting logic
+    
+
+
     return (
         <div className='flex flex-col'>
             <PagesTopDiv heading='Contact Us' paragraph='Home Contact' />
@@ -125,14 +180,44 @@ const Page = () => {
 
                 <div className='flex flex-col gap-3 pt-2 w-[50%] h-full px-4 justify-center'>
                     <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
-                    <form action="" className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
                         <div className='flex justify-between'>
-                            <input className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='First Name' />
-                            <input className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='Last Name' />
+                            <input
+                                className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
+                                type="text"
+                                name='first_name'
+                                placeholder='First Name'
+                                value={contactInputData.first_name}
+                                onChange={handleInputChange}
+                                
+                            />
+                            <input
+                                className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
+                                type="text"
+                                name="last_name"
+                                placeholder='Last Name'
+                                value={contactInputData.last_name}
+                                onChange={handleInputChange}
+
+                            />
                         </div>
 
-                        <input type="text" placeholder='Subject' className='p-3 text-[1.1em] outline-none rounded-[5px]' />
-                        <textarea name="comment" id="comment" placeholder='Message' className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'></textarea>
+                        <input
+                            type="text"
+                            name='subject'
+                            placeholder='Subject'
+                            className='p-3 text-[1.1em] outline-none rounded-[5px]'
+                            value={contactInputData.subject}
+                            onChange={handleInputChange}
+                        />
+                        <textarea
+                            name="message"
+                            id="message"
+                            placeholder='Message'
+                            className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'
+                            value={contactInputData.message}
+                            onChange={handleInputChange}
+                            ></textarea>
 
                         <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
                     </form>
