@@ -1,4 +1,4 @@
-import { Contact, ResponseContact, SavedContact } from "@/types/Contact"
+import { Contact, ResponseContact, ResponseContacts, SavedContact } from "@/types/Contact"
 import axios,{ AxiosError } from "axios"
 
 const apiClient= axios.create({
@@ -7,6 +7,8 @@ const apiClient= axios.create({
         "Content-Type": "application/json"
     }
 })
+
+const token = localStorage.getItem("auth_token")
 
 export const createContactApi = async(newContact: Contact):Promise<ResponseContact>=>{
     try {
@@ -25,7 +27,11 @@ export const createContactApi = async(newContact: Contact):Promise<ResponseConta
 
 export const updateContactApi = async(contactId: string,updatedContactData: Contact):Promise<ResponseContact>=>{
     try {
-        const response = await apiClient.put(`/contacts/${contactId}`, updatedContactData)
+        const response = await axios.put(`/api/contacts/${contactId}`, updatedContactData,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
         return response.data
     } catch (error) {
         if(error instanceof AxiosError) {
@@ -37,10 +43,14 @@ export const updateContactApi = async(contactId: string,updatedContactData: Cont
 }
 
 
-export const fetchAllContactsApi = async():Promise<ResponseContact >=>{
+export const fetchAllContactsApi = async():Promise<ResponseContacts >=>{
     try {
-        const response = await apiClient.get(`/contacts/`)
-        console.log('fetched contacts ', response.data);
+
+        const response = await axios.get(`/api/contacts/`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
         return response.data
     } catch (error) {
         if(error instanceof AxiosError) {
@@ -53,7 +63,11 @@ export const fetchAllContactsApi = async():Promise<ResponseContact >=>{
 
 export const fetchSingleContactApi = async(contactId: string):Promise<ResponseContact> => {
     try {
-        const response = await apiClient.get(`/contacts/${contactId}`)
+        const response = await axios.get(`/api/contacts/${contactId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
         return response.data
     } catch (error) {
         if(error instanceof AxiosError) {
@@ -66,7 +80,11 @@ export const fetchSingleContactApi = async(contactId: string):Promise<ResponseCo
 
 export const deleteContactApi = async(contactId: string):Promise<void>=>{
     try {
-        const response = await apiClient.delete(`/contacts/${contactId}`)
+        const response = await axios.delete(`/api/contacts/${contactId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
     } catch (error) {
         if(error instanceof AxiosError) {
             throw new Error(error.response?.data.message)

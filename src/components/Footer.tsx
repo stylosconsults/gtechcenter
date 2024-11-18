@@ -8,12 +8,13 @@ import LinkedIn from "../../public/icons/linkedIn.svg"
 import { useSubscription } from '@/hooks/useSubscription'
 
 const Footer = () => {
-    const { error, loading, createSubscription, seterror } = useSubscription()
-    const [subscribingEmail, setsubscribingEmail] = useState<string>("")
-    const [errorAlerted, setErrorAlerted] = useState<boolean>(false)
+    const { error, loading, createSubscription, setError, subscribeSuccessMsgs } = useSubscription()
+    const [subscribingEmail, setSubscribingEmail] = useState<string>("")
+    const [disableSubscribeBtn, setDisableSubscribeBtn] = useState<boolean>(false)
+    
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         const email = e.target.value
-        setsubscribingEmail(email)
+        setSubscribingEmail(email)
     }
 
     const handleOnSubmit = async (e: FormEvent) => {
@@ -23,13 +24,26 @@ const Footer = () => {
     }
 
 
+    useEffect(()=>{
+        if(subscribeSuccessMsgs.createSuccessMsg !==""){
+            alert(subscribeSuccessMsgs.createSuccessMsg)
+            setSubscribingEmail("")
+        }
+    }, [subscribeSuccessMsgs.createSuccessMsg])
+
+
     useEffect(() => {
         if (error) {
             alert(error)
-            seterror("")
+            setError("")
         }
 
-    }, [error])
+        if(loading){
+            setDisableSubscribeBtn(true)
+        }else{
+            setDisableSubscribeBtn(false)
+        }
+    }, [error, loading])
 
 
 
@@ -45,9 +59,10 @@ const Footer = () => {
                         value={subscribingEmail}
                         onChange={handleEmailChange}
                         className='w-[80%] outline-none p-3'
+                        required
                     />
 
-                    <button className='bg-textColor text-white w-[20%]  p-2'>
+                    <button disabled={disableSubscribeBtn || loading} className={`${loading || disableSubscribeBtn ? "bg-slate-700":"bg-textColor"} bg-textColor text-white w-[20%]  p-2`}>
                         {!loading ?
                         "Sign Up":
                         "Loading"
@@ -62,20 +77,20 @@ const Footer = () => {
                     <p className='text-white font-semibold text-[1.1em]'>Quick Links</p>
                     <div className='flex flex-col gap-1 ps-4 text-headerLinkBorderColor'>
                         <Link href={""}>Home</Link>
-                        <Link href={""}>About Us</Link>
+                        <Link href={"/about"}>About Us</Link>
                         <Link href={""}>Our Services</Link>
-                        <Link href={""}>Latest Blog Post</Link>
-                        <Link href={""}>Contact Us</Link>
+                        <Link href={"blogs"}>Latest Blog Post</Link>
+                        <Link href={"/contact"}>Contact Us</Link>
                     </div>
                 </div>
                 <div className='flex flex-col gap-3'>
                     <p className='text-white font-semibold text-[1.1em]'>Popular Links</p>
                     <div className='flex flex-col gap-1 ps-4 text-headerLinkBorderColor'>
                         <Link href={""}>Home</Link>
-                        <Link href={""}>About Us</Link>
+                        <Link href={"/about"}>About Us</Link>
                         <Link href={""}>Our Services</Link>
-                        <Link href={""}>Latest Blog Post</Link>
-                        <Link href={""}>Contact Us</Link>
+                        <Link href={"/blogs"}>Latest Blog Post</Link>
+                        <Link href={"/contact"}>Contact Us</Link>
                     </div>
                 </div>
                 <div className='flex flex-col gap-3'>

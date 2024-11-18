@@ -12,7 +12,7 @@ import { Contact, SavedContact } from "@/types/Contact";
 import { all } from "axios";
 import { useEffect, useState } from "react";
 
-interface SuccessMsgs {
+interface ContactSuccessMsgs {
   createSuccessMsg: string;
   updateSuccessMsg: string;
   getAllSuccessMsg: string;
@@ -21,122 +21,139 @@ interface SuccessMsgs {
 }
 
 export function useContacts() {
-  const [contacts, setcontacts] = useState<SavedContact[]>([]);
+  const [contacts, setContacts] = useState<SavedContact[]>([]);
   const [singleContact, setSingleContact] = useState<SavedContact | null>(null);
-  const [error, seterror] = useState<string | null>(null);
-  const [loading, setloading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [successMsgs, setSuccessMsgs] = useState<SuccessMsgs>({
-    createSuccessMsg: "",
-    updateSuccessMsg: "",
-    getAllSuccessMsg: "",
-    getSingleSuccessMsg: "",
-    deleteSuccessMsg: "",
-  });
+  const [contactSuccessMsgs, setContactSuccessMsgs] =
+    useState<ContactSuccessMsgs>({
+      createSuccessMsg: "",
+      updateSuccessMsg: "",
+      getAllSuccessMsg: "",
+      getSingleSuccessMsg: "",
+      deleteSuccessMsg: "",
+    });
 
   const createContact = async (newContact: Contact) => {
     try {
       const savedContact = await createContactApi(newContact);
-      setcontacts((previousContacts) => [
+      setContacts((previousContacts) => [
         ...previousContacts,
-        savedContact.contact[0],
+        savedContact.contact,
       ]);
 
-      setSuccessMsgs((previousSuccessMsgs) => ({
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         createSuccessMsg: savedContact.message,
       }));
     } catch (error) {
-      seterror((error as Error).message);
-      setSuccessMsgs((previousSuccessMsgs) => ({
+      setError((error as Error).message);
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         createSuccessMsg: "",
       }));
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
   const updateContact = async (contactId: string, newContact: Contact) => {
     try {
       const savedContact = await updateContactApi(contactId, newContact);
-      setcontacts((previousContacts) =>
+      setContacts((previousContacts) =>
         previousContacts.map((contact) =>
-          contact._id === savedContact.contact[0]._id
-            ? savedContact.contact[0]
+          contact._id === savedContact.contact._id
+            ? savedContact.contact
             : contact
         )
       );
 
-      setSuccessMsgs((previousSuccessMsgs) => ({
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         updateSuccessMsg: savedContact.message,
       }));
     } catch (error) {
-      seterror((error as Error).message);
-      setSuccessMsgs((previousSuccessMsgs) => ({
+      setError((error as Error).message);
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         updateSuccessMsg: "",
       }));
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
   const fetchAllContact = async () => {
     try {
+
       const allContacts = await fetchAllContactsApi();
-      setcontacts((previousContacts) => [...allContacts.contact]);
-      setSuccessMsgs((previousSuccessMsgs) => ({
+      setContacts((previousContacts) => [...allContacts.contacts]);
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getAllSuccessMsg: allContacts.message,
       }));
+
     } catch (error) {
-      seterror((error as Error).message);
-      setSuccessMsgs((previousSuccessMsgs) => ({
+
+      setError((error as Error).message);
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getAllSuccessMsg: "",
       }));
+
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
   const fetchSingleContact = async (contactId: string) => {
     try {
+
       const contact = await fetchSingleContactApi(contactId);
-      setSingleContact({ ...contact.contact[0] });
-      setSuccessMsgs((previousSuccessMsgs) => ({
+      setSingleContact({ ...contact.contact });
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getSingleSuccessMsg: contact.message,
       }));
+
     } catch (error) {
-      seterror((error as Error).message);
-      setSuccessMsgs((previousSuccessMsgs) => ({
+
+      setError((error as Error).message);
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getSingleSuccessMsg: "",
       }));
+
     } finally {
-      setloading(false);
+
+      setLoading(false);
+
     }
   };
 
   const deleteContact = async (contactId: string) => {
     try {
+
       const result = await deleteContactApi(contactId);
       console.log("result after contact_delete", result);
-      setSuccessMsgs((previousSuccessMsgs) => ({
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         deleteSuccessMsg: "deleted successfully",
       }));
+
     } catch (error) {
-      seterror((error as Error).message);
-      setSuccessMsgs((previousSuccessMsgs) => ({
+
+      setError((error as Error).message);
+      setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         deleteSuccessMsg: "",
       }));
+
     } finally {
-      setloading(false);
+
+      setLoading(false);
+
     }
   };
 
@@ -149,8 +166,8 @@ export function useContacts() {
     singleContact,
     error,
     loading,
-    successMsgs,
-    seterror,
+    contactSuccessMsgs,
+    setError,
     createContact,
     updateContact,
     deleteContact,

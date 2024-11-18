@@ -6,7 +6,13 @@ export interface SavedSubscription {
 }
 
 
+export interface ResponseSubscriptions{
+    subscriptions: SavedSubscription[];
+    message: string
+}
+
 export interface ResponseSubscription{
     subscription: SavedSubscription;
     message: string
 }
+

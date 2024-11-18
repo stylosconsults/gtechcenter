@@ -2,11 +2,12 @@
 
 import { Barlow } from 'next/font/google'
 import React, { ChangeEvent, DragEvent, FormEvent, useEffect, useState } from 'react'
-import UploadImageSvg from "../../../../../public/icons/dashboard/uploadImageDashboard.svg"
+import UploadImageSvg from "../../../../../../public/icons/dashboard/uploadImageDashboard.svg"
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { image } from '@cloudinary/url-gen/qualifiers/source'
 import { useBlogs } from '@/hooks/useBlogs'
+import { CldImage } from 'next-cloudinary'
+import { edit } from '@cloudinary/url-gen/actions/animated'
 
 const barlow = Barlow({
     display: 'swap',
@@ -15,26 +16,26 @@ const barlow = Barlow({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 })
 
-interface AddBlogFormData {
+interface EditBlogFormData {
     title: string;
     category: string;
     description: string;
 }
 
-const AddBlog = () => {
+const EditBlog = ({ params }: { params: { _id: string } }) => {
 
     const [imgBlobUrl, setImgBlobUrl] = useState<string>("")
     const [imageObj, setImgObj] = useState<File | null>(null)
-    const [disableAddBtn, setDisableAddBtn] = useState<boolean>(false)
+    const [disableEditBtn , setDisableEditBtn] = useState<boolean>(false)
 
-    const [addBlogFormData, setAddBlogFormData] = useState<AddBlogFormData>({
+    const [editBlogFormData, setEditBlogFormData] = useState<EditBlogFormData>({
         title: "",
         category: "",
         description: "",
 
     })
 
-    const { createBlog, loading, error, setError, blogSuccessMsgs } = useBlogs()
+    const { updateBlog, blogSuccessMsgs, error, setError, loading, fetchSingleBlog, singleBlog, } = useBlogs()
     const router = useRouter()
 
     const getImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,45 +78,43 @@ const AddBlog = () => {
     const handleDragOver = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
+
     }
 
-    const handleAddBlogFormDataChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleEditedBlogDataChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
-        setAddBlogFormData(
-            (previousFormData) => ({
-                ...previousFormData,
+        setEditBlogFormData(
+            (previousEditedBlogData) => ({
+                ...previousEditedBlogData,
                 [name]: value
             })
         )
     }
 
-    const handleOnSubmit = async (e: FormEvent) => {
+    const handleOnSubmit = (e: FormEvent) => {
         e.preventDefault()
-        if (!imageObj) {
-            alert("Please upload an image")
-            return
-        }
 
         const data = new FormData()
 
-        data.append("file", imageObj)
-        data.append("title", addBlogFormData.title)
-        data.append("category", addBlogFormData.category)
-        data.append("description", addBlogFormData.description)
+        if (imageObj) data.append("file", imageObj)
+
+        data.append("title", editBlogFormData.title)
+        data.append("category", editBlogFormData.category)
+        data.append("description", editBlogFormData.description)
 
         console.log('image object', imageObj);
 
-        await createBlog(data)
+        updateBlog(params._id, data)
 
     }
 
-
-
     useEffect(() => {
 
-        if (blogSuccessMsgs.createSuccessMsg !== "") {
-            alert(blogSuccessMsgs.createSuccessMsg)
-            setAddBlogFormData({
+        if (blogSuccessMsgs.updateSuccessMsg) {
+           
+            alert(blogSuccessMsgs.updateSuccessMsg)
+
+            setEditBlogFormData({
                 title: "",
                 category: "",
                 description: ""
@@ -128,7 +127,7 @@ const AddBlog = () => {
 
         }
 
-    }, [blogSuccessMsgs.createSuccessMsg, router])
+    }, [blogSuccessMsgs.updateSuccessMsg, router])
 
 
     useEffect(() => {
@@ -136,28 +135,49 @@ const AddBlog = () => {
             alert(error)
         setError("")
     }, [error])
+
+
     useEffect(() => {
-
-        if (
-            imageObj &&
-            addBlogFormData.title &&
-            addBlogFormData.description &&
-            addBlogFormData.category
-        ) {
-            setDisableAddBtn(false);
-        } else {
-            setDisableAddBtn(true);
+        const loadBlog = async () => {
+            await fetchSingleBlog(params._id)
         }
+        loadBlog()
+    }, [params._id])
 
+    useEffect(() => {
+        if (singleBlog) {
+            console.log('single blog at edit', singleBlog.imagePublicId);
+            setEditBlogFormData({
+                title: singleBlog.title,
+                category: singleBlog.category,
+                description: singleBlog.description
+            })
 
-    }, [addBlogFormData, imageObj])
+            // If you want to set initial image
+        }
+    }, [singleBlog])
 
+    useEffect(()=>{
+      
+            if (
+                singleBlog?.title === editBlogFormData.title &&
+                singleBlog?.description === editBlogFormData.description &&
+                singleBlog?.category === editBlogFormData.category &&
+                !imageObj
+            ) {
+                setDisableEditBtn(true);
+            }else{
+                setDisableEditBtn(false)
+            }
+        
+        
+    },[editBlogFormData, singleBlog, imageObj])
 
-
+    console.log('imageObj ', imageObj);
     return (
         <div className={`flex flex-col gap-4 w-[94%] h-[96%] mt-2  ${barlow.className}`}>
             <div className='flex justify-between h-[7%]'>
-                <p className='text-[2em]'><span className='font-bold'>Dashboard / </span>Blogs / Add Blog</p>
+                <p className='text-[2em]'><span className='font-bold'>Dashboard / </span>Blogs / Edit Blog: <span className='text-headerInfoBgColor font-semibold'>{singleBlog?.title}</span></p>
                 <button onClick={() => router.back()} className='text-[1.4em] bg-welcomeBgColor text-white w-[6em] rounded-[8px] text-center p-2'>Back</button>
             </div>
 
@@ -171,11 +191,10 @@ const AddBlog = () => {
                                 <input
                                     className='rounded-[15px] p-3 border border-inputBorderColor outline-none'
                                     type="text"
-                                    name='title'
                                     placeholder='Blog Title'
-                                    onChange={handleAddBlogFormDataChange}
-                                    value={addBlogFormData.title}
-                                    required
+                                    name='title'
+                                    value={editBlogFormData.title}
+                                    onChange={handleEditedBlogDataChange}
                                 />
                             </div>
 
@@ -184,11 +203,11 @@ const AddBlog = () => {
                                 <input
                                     className='rounded-[15px] p-3 border border-inputBorderColor outline-none'
                                     type="text"
-                                    name='category'
                                     placeholder='Blog Category'
-                                    onChange={handleAddBlogFormDataChange}
-                                    value={addBlogFormData.category}
-                                    required
+                                    name='category'
+                                    value={editBlogFormData.category}
+                                    onChange={handleEditedBlogDataChange}
+
                                 />
                             </div>
 
@@ -197,11 +216,10 @@ const AddBlog = () => {
                                 <textarea
                                     className='rounded-[15px] h-[14em] p-3 outline-none resize-none border border-inputBorderColor'
                                     name="description"
+                                    value={editBlogFormData.description}
+                                    onChange={handleEditedBlogDataChange}
                                     id="blog_description"
                                     placeholder='Add Description'
-                                    onChange={handleAddBlogFormDataChange}
-                                    value={addBlogFormData.description}
-                                    required
                                 ></textarea>
                             </div>
                         </div>
@@ -215,18 +233,41 @@ const AddBlog = () => {
                                 // onDragLeave={(e)=>handleDragLeave(e)}
                                 id='blog_image'
                                 className={`cursor-pointer flex relative bg-headerInfoBgColor bg-opacity-[6%] flex-col  justify-center items-center border-[1px] border-dashed  border-headerInfoBgColor w-full h-[95%] rounded-[25px]`}>
-                                <input onChange={(e) => getImagePreview(e)} id='blog_image' name='file' type="file" accept='image/*' className='hidden' />
+                                <input
+                                    onChange={(e) => getImagePreview(e)}
+                                    id='blog_image'
+                                    type="file"
+                                    name='file'
+                                    accept='image/*'
+                                    className='hidden' />
 
-                                {imgBlobUrl &&
+                                {singleBlog &&
                                     <div className='w-full h-full rounded-[25px] '>
-                                        <Image className=' w-full h-[405px]  rounded-[25px] ' width={300} height={500} src={imgBlobUrl} alt={'uploadedImage'} />
+                                        {imgBlobUrl ? (
+
+                                            <div className='w-full h-full rounded-[25px] '>
+                                                <Image className=' w-full h-[405px]  rounded-[25px] ' width={300} height={500} src={imgBlobUrl} alt={'uploadedImage'} />
+                                            </div>
+                                        ) :
+                                            (
+                                                <CldImage
+                                                    src={singleBlog?.imagePublicId || "blogs/Name"}
+                                                    width={200}
+                                                    height={200}
+                                                    alt='img'
+                                                    crop="fill"
+                                                    gravity='auto'
+                                                    className='w-full h-[405px]  rounded-[25px]'
+                                                />
+                                            )
+                                        }
                                     </div>
                                 }
 
-                                <div className={`${imgBlobUrl ? "absolute rounded-[25px] w-[638px] h-[400px] bg-white bg-opacity-[.8]" : ""} w-full h-full flex flex-col justify-center items-center gap-3 `}>
+                                <div className={`${singleBlog ? "absolute rounded-[25px] w-[638px] h-[400px] bg-white bg-opacity-[.8]" : ""} w-full h-full flex flex-col justify-center items-center gap-3 `}>
                                     <UploadImageSvg className="mb-7" />
                                     <p className='text-[1.9em] text-headerInfoBgColor font-semibold'>Upload Image</p>
-                                    <p className='text-[1.2em] text-dragAndDropColor'>{imageObj ? imageObj.name : 'Drag & Drop or click to add an image'}</p>
+                                    <p className='text-[1.2em] text-dragAndDropColor'>{imageObj ? imageObj.name : singleBlog ? singleBlog.fileName : 'Drag & Drop or click to add an image'}</p>
                                 </div>
 
                             </label>
@@ -234,11 +275,11 @@ const AddBlog = () => {
 
                     </div>
 
-                    <button disabled={disableAddBtn || loading} className={`${disableAddBtn || loading ? "bg-red-400" : "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loading ? "loading" : "Add Blog "}</button>
+                    <button disabled={disableEditBtn} className={`${disableEditBtn? "bg-red-400": "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loading ? "loading" : "Edit Blog "}</button>
                 </form>
             </div>
         </div>
     )
 }
 
-export default AddBlog
+export default EditBlog

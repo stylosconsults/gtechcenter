@@ -12,6 +12,11 @@ export interface SavedContact extends Contact {
 }
 
 export interface ResponseContact {
-    contact: SavedContact[];   
+    contact: SavedContact;   
+    message: string
+}
+
+export interface ResponseContacts {
+    contacts: SavedContact[];   
     message: string
 }

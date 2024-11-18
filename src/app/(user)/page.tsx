@@ -75,14 +75,14 @@ const bgImgs: BgImg[] = [
 
 const page = () => {
 
-  const [currentIndex, setcurrentIndex] = useState<number>(1)
+  const [currentIndex, setCurrentIndex] = useState<number>(1)
 
   useEffect(() => {
     let n = 4
     const intervalId = setInterval(()=>{
-      setcurrentIndex(currentIndex + 1)
+      setCurrentIndex(currentIndex + 1)
       if(currentIndex === n){
-        setcurrentIndex(1)
+        setCurrentIndex(1)
       }
     }, 5000)
   

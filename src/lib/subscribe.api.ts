@@ -1,5 +1,9 @@
-import { SavedSubscription } from "@/types/Subscription";
-import axios, {  AxiosError } from "axios";
+import {
+  ResponseSubscription,
+  ResponseSubscriptions,
+  SavedSubscription,
+} from "@/types/Subscription";
+import axios, { AxiosError } from "axios";
 
 const apiClient = axios.create({
   baseURL: "/api",
@@ -8,9 +12,11 @@ const apiClient = axios.create({
   },
 });
 
+const token = localStorage.getItem("auth_token");
+
 export const createSubscriptionApi = async (
   newSubscription: string
-): Promise<SavedSubscription> => {
+): Promise<ResponseSubscription> => {
   try {
     const response = await apiClient.post("/subscribe", {
       email: newSubscription,
@@ -25,55 +31,65 @@ export const createSubscriptionApi = async (
   }
 };
 
-export const fetchAllSubscriptionsApi = async (): Promise<
-  SavedSubscription[]
-> => {
+export const fetchAllSubscriptionsApi =
+  async (): Promise<ResponseSubscriptions> => {
+    try {
+      const response = await axios.get("/api/subscribe", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("all subscriptions", response.data);
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log("axios error", error.message);
+        throw new Error(error.response?.data.message);
+      }
+      throw error;
+    }
+  };
+
+export const fetchSingleSubscriptionApi = async (
+  subscriptionId: string
+): Promise<ResponseSubscription> => {
   try {
-    const response = await apiClient.get("/subscribe");
-    console.log("all subscriptions", response.data);
+    const response = await axios.get(`/api/subscribe/${subscriptionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
       console.log("axios error", error.message);
       throw new Error(error.response?.data.message);
     }
-    throw error
-  }
-};
-
-export const fetchSingleSubscriptionApi = async (
-  subscriptionId: string
-): Promise<SavedSubscription> => {
-  try {
-    const response = await apiClient.get(`/subscribe/${subscriptionId}`);
-    console.log(`subscription of ${subscriptionId}`, response.data);
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-        console.log("axios error", error.message);
-        throw new Error(error.response?.data.message);
-      }
-    throw error
+    throw error;
   }
 };
 
 export const updateSubscriptionApi = async (
   subscriptionId: string,
   updatedSubData: string
-): Promise<SavedSubscription> => {
+): Promise<ResponseSubscription> => {
   try {
-    const response = await apiClient.put(
-      `/subscribe/${subscriptionId}`,
-      updatedSubData
+    const response = await axios.put(
+      `/api/subscribe/${subscriptionId}`,
+      updatedSubData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-    console.log(`updated subscription`, response.data);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-        console.log("axios error", error.message);
-        throw new Error(error.response?.data.message);
-      }
-    throw error
+      console.log("axios error", error.message);
+      throw new Error(error.response?.data.message);
+    }
+    throw error;
   }
 };
 
@@ -81,13 +97,19 @@ export const deleteSubscriptionApi = async (
   subscriptionId: string
 ): Promise<void> => {
   try {
-    const response = await apiClient.delete(`/subscribe/${subscriptionId}`);
-    console.log(`deleted of ${subscriptionId}`, response.data);
+    const response = await axios.delete(
+      `/api/subscribe/${subscriptionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
   } catch (error) {
     if (error instanceof AxiosError) {
-        console.log("axios error", error.message);
-        throw new Error(error.response?.data.message);
-      }
-    throw error
+      console.log("axios error", error.message);
+      throw new Error(error.response?.data.message);
+    }
+    throw error;
   }
 };

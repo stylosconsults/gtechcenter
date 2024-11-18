@@ -26,10 +26,10 @@ const libraries: Libraries = ['places']
 const Page = () => {
 
     const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
-    const [currentLocation, setcurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
+    const [currentLocation, setCurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
 
     // contact form control 
-    const [errorAlerted, setErrorAlerted] = useState<boolean>(false)
+    const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false)
     const [contactInputData, setContactInputData] = useState<Contact>(
         {
             first_name: "",
@@ -38,7 +38,7 @@ const Page = () => {
             message: ""
         }
     )
-    const { error, loading, createContact, successMsgs, seterror } = useContacts()
+    const { error, loading, createContact, contactSuccessMsgs, setError } = useContacts()
 
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API as string,
@@ -71,9 +71,8 @@ const Page = () => {
 
     }
     useEffect(() => {
-        if (successMsgs.createSuccessMsg !== "") {
-            alert(successMsgs.createSuccessMsg)
-            console.log('createsuccessms ', successMsgs.createSuccessMsg);
+        if (contactSuccessMsgs.createSuccessMsg !== "") {
+            alert(contactSuccessMsgs.createSuccessMsg)
             setContactInputData({
                 first_name: "",
                 last_name: "",
@@ -81,22 +80,36 @@ const Page = () => {
                 message: ""
             })
         }
-    }, [successMsgs.createSuccessMsg])
+    }, [contactSuccessMsgs.createSuccessMsg])
 
     useEffect(() => {
         if (error) {
             alert(error)
-            
+
         }
 
+
     }, [error])
+
+    useEffect(()=>{
+        if(
+            contactInputData.first_name && 
+            contactInputData.last_name &&
+            contactInputData.message && 
+            contactInputData.subject
+        ){
+            setDisableSubmitBtn(false)
+        }else{
+            setDisableSubmitBtn(true)
+        }
+    }, [contactInputData])
 
 
     // contact from control
 
 
     const successCallback = (position: GeolocationPosition) => {
-        setcurrentLocation(
+        setCurrentLocation(
             {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
@@ -167,7 +180,7 @@ const Page = () => {
                             <input disabled type="text" placeholder='Subject' className='p-3 text-[1.1em] outline-none rounded-[5px]' />
                             <textarea disabled name="message" id="message" placeholder='Message' className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'></textarea>
 
-                            <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
+                            <button disabled={disableSubmitBtn || loading} className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
                         </form>
 
                     </div>
@@ -193,10 +206,8 @@ const Page = () => {
             <div className='flex h-[500px] bg-headerBgColor'>
 
                 <div className='flex flex-col gap-3 pt-2 w-[50%] h-full px-4 justify-center'>
-                    {loading ? (
-                        <p>Loading</p>
-                    ) :
-                        (<>
+                
+                   
                             <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
                             <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
                                 <div className='flex justify-between'>
@@ -207,6 +218,7 @@ const Page = () => {
                                         placeholder='First Name'
                                         value={contactInputData.first_name}
                                         onChange={handleInputChange}
+                                        required
 
                                     />
                                     <input
@@ -216,6 +228,7 @@ const Page = () => {
                                         placeholder='Last Name'
                                         value={contactInputData.last_name}
                                         onChange={handleInputChange}
+                                        required
 
                                     />
                                 </div>
@@ -227,6 +240,7 @@ const Page = () => {
                                     className='p-3 text-[1.1em] outline-none rounded-[5px]'
                                     value={contactInputData.subject}
                                     onChange={handleInputChange}
+                                    required
                                 />
                                 <textarea
                                     name="message"
@@ -235,14 +249,14 @@ const Page = () => {
                                     className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'
                                     value={contactInputData.message}
                                     onChange={handleInputChange}
+                                    required
                                 ></textarea>
 
-                                <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
+                                <button disabled={disableSubmitBtn || loading} className={`${loading || disableSubmitBtn ? "bg-red-400": "bg-headerInfoBgColor"} text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>Submit</button>
                             </form>
 
-                        </>
-                        )
-                    }
+                       
+                        
 
                 </div>
 

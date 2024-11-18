@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { Blog, SavedBlog } from "../types/Blog";
+import { Blog, ResponseBlog, ResponseBlogs, SavedBlog } from "../types/Blog";
 
 const apiClient = axios.create({
   baseURL: "/api",
@@ -8,14 +8,17 @@ const apiClient = axios.create({
   },
 });
 
-export const fetchBlogsApi = async (): Promise<SavedBlog[]> => {
+const token = localStorage.getItem("auth_token")
+
+
+export const fetchBlogsApi = async (): Promise<ResponseBlogs> => {
   try {
     const response = await apiClient.get("/blogs");
-    return response.data.blogs;
+    return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log("axios error", error.message);
-      throw new Error(error.response?.data.message);
+      console.log("axios error", error.response?.data);
+      throw new Error(error.response?.data);
     }
     throw error;
   }
@@ -23,23 +26,37 @@ export const fetchBlogsApi = async (): Promise<SavedBlog[]> => {
 
 export const fetchSingleBlogApi = async (
   blogId: string
-): Promise<SavedBlog> => {
+): Promise<ResponseBlog> => {
   try {
-    const response = await apiClient.get(`/blogs/${blogId}`);
-    return response.data.blog;
+
+    const response = await axios.get(`/api/blogs/${blogId}`);
+    return response.data;
+
   } catch (error) {
-    throw new Error("Failed to fetch blog");
+    if (error instanceof AxiosError) {
+      console.log("axios error", error.response?.data);
+      throw new Error(error.response?.data);
+    }
+    throw error;
   }
 };
 
-export const createBlogApi = async (newBlog: Blog): Promise<SavedBlog> => {
+export const createBlogApi = async (
+  newBlog: FormData
+): Promise<ResponseBlog> => {
   try {
-    const response = await apiClient.post("/blogs", newBlog);
+    const response = await axios.post("/api/blogs", newBlog, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`
+
+      },
+    });
     console.log("created blog", response.data);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log("axios error", error.message);
+      console.log("axios error", error.response?.data);
       throw new Error(error.response?.data.message);
     }
     throw error;
@@ -48,31 +65,43 @@ export const createBlogApi = async (newBlog: Blog): Promise<SavedBlog> => {
 
 export const updateBlogApi = async (
   blogId: string,
-  updatedBlog: Blog
-): Promise<SavedBlog> => {
+  updatedBlog: FormData
+): Promise<ResponseBlog> => {
   try {
-    const response = await apiClient.put(`/blogs/${blogId}`, updatedBlog);
+    const response = await axios.put(`/api/blogs/${blogId}`, updatedBlog, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`
+      }
+    });
 
     console.log("updated blog", response.data);
     return response.data;
+
   } catch (error) {
     if (error instanceof AxiosError) {
       console.log("axios error", error.message);
       throw new Error(error.response?.data.message);
     }
 
-    throw error
+    throw error;
   }
 };
 
-export const deleteBlogApi = async (blogId: string): Promise<void> => {
+export const deleteBlogApi = async (blogId: string): Promise<number> => {
   try {
-    const response = await apiClient.delete(`/blogs/${blogId}`);
-    console.log("after blog_delete ", response.data);
+    const response = await axios.delete(`/api/blogs/${blogId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log("after delete ", response.status);
+    return response.status
   } catch (error) {
     if (error instanceof AxiosError) {
       console.log("axios error", error.message);
       throw new Error(error.response?.data.message);
     }
+    throw error
   }
 };

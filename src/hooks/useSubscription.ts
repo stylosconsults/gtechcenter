@@ -8,41 +8,79 @@ import {
   updateSubscriptionApi,
 } from "@/lib/subscribe.api";
 import { SavedSubscription } from "@/types/Subscription";
+import { all } from "axios";
 import { create } from "domain";
 import { useEffect, useState } from "react";
 
+interface SubscribeSuccessMsgs {
+  createSuccessMsg: string;
+  updateSuccessMsg: string;
+  getAllSuccessMsg: string;
+  getSingleSuccessMsg: string;
+  deleteSuccessMsg: string;
+}
+
 export const useSubscription = () => {
-  const [subscriptions, setsubscriptions] = useState<SavedSubscription[]>([]);
+  const [subscriptions, setSubscriptions] = useState<SavedSubscription[]>([]);
   const [singleSubscription, setSingleSubscription] =
     useState<SavedSubscription | null>(null);
-  const [error, seterror] = useState<string | null>(null);
-  const [loading, setloading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [subscribeSuccessMsgs, setSubscribeSuccessMsgs] =
+    useState<SubscribeSuccessMsgs>({
+      createSuccessMsg: "",
+      updateSuccessMsg: "",
+      getAllSuccessMsg: "",
+      getSingleSuccessMsg: "",
+      deleteSuccessMsg: "",
+    });
 
   const fetchSubscriptions = async () => {
-    setloading(true);
-    seterror(null);
+    setLoading(true);
+    setError("");
     try {
-      const subscriptions = await fetchAllSubscriptionsApi();
-      setsubscriptions([...subscriptions]);
+      const allSubscriptions = await fetchAllSubscriptionsApi();
+
+      setSubscriptions([...allSubscriptions.subscriptions]);
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        getAllSuccessMsg: allSubscriptions.message,
+      }));
+      console.log("subscriptions: ", allSubscriptions);
     } catch (error) {
-      seterror((error as Error).message);
+      setError((error as Error).message);
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        getAllSuccessMsg: "",
+      }));
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
-  const createSubscription = async (newSusbcription: string) => {
-    setloading(true);
-    seterror(null);
+  const createSubscription = async (newSubscription: string) => {
+    setLoading(true);
+    setError("");
     try {
       console.log("before creating subscription");
-      const savedSubscription = await createSubscriptionApi(newSusbcription);
-      console.log("after creating subscription");
-      setsubscriptions((previousSubs) => [...previousSubs, savedSubscription]);
+      const savedSubscription = await createSubscriptionApi(newSubscription);
+      setSubscriptions((previousSubs) => [
+        ...previousSubs,
+        savedSubscription.subscription,
+      ]);
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        createSuccessMsg: savedSubscription.message,
+      }));
     } catch (error) {
-      seterror((error as Error).message);
+      setError((error as Error).message);
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        createSuccessMsg: "",
+      }));
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
@@ -50,65 +88,96 @@ export const useSubscription = () => {
     subscriptionId: string,
     updatedSubscribeData: string
   ) => {
-    setloading(true);
-    seterror(null);
+    setLoading(true);
+    setError("");
     try {
       const updatedSubscription = await updateSubscriptionApi(
         subscriptionId,
         updatedSubscribeData
       );
-      setsubscriptions((previousSubs) =>
+
+      setSubscriptions((previousSubs) =>
         previousSubs.map((subscription) =>
-          subscription._id === updatedSubscription._id
-            ? updatedSubscription
+          subscription._id === updatedSubscription.subscription._id
+            ? updatedSubscription.subscription
             : subscription
         )
       );
+
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        updateSuccessMsg: updatedSubscription.message,
+      }));
     } catch (error) {
-      seterror((error as Error).message);
+      setError((error as Error).message);
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        updateSuccessMsg: "",
+      }));
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
   const getSingleSubscription = async (subscriptionId: string) => {
-    setloading(true);
-    seterror(null);
+    setLoading(true);
+    setError("");
     try {
       const subscription = await fetchSingleSubscriptionApi(subscriptionId);
-      setSingleSubscription({ ...subscription });
+
+      setSingleSubscription({ ...subscription.subscription });
+
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        getSingleSuccessMsg: subscription.message,
+      }));
     } catch (error) {
-      seterror((error as Error).message);
+      setError((error as Error).message);
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        getSingleSuccessMsg: "",
+      }));
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
   const deleteSubscription = async (subscriptionId: string) => {
-    setloading(true);
-    seterror(null);
+    setLoading(true);
+    setError("");
     try {
       const result = await deleteSubscriptionApi(subscriptionId);
-      setsubscriptions((previousSubs) =>
+
+      setSubscriptions((previousSubs) =>
         previousSubs.filter((sub) => sub._id !== subscriptionId)
       );
+
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        deleteSuccessMsg: "deleted successfully",
+      }));
     } catch (error) {
-      seterror((error as Error).message);
+      setError((error as Error).message);
+      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        deleteSuccessMsg: "",
+      }));
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
-//   useEffect(() => {
-//     fetchSubscriptions();
-//   }, []);
+  //   useEffect(() => {
+  //     fetchSubscriptions();
+  //   }, []);
 
   return {
     error,
     loading,
     subscriptions,
     singleSubscription,
-    seterror,
+    subscribeSuccessMsgs,
+    setError,
     createSubscription,
     updateSubscription,
     getSingleSubscription,
