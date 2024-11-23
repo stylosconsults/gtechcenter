@@ -29,6 +29,10 @@ import Image, { StaticImageData } from 'next/image'
 import { Barlow } from 'next/font/google'
 import Link from 'next/link'
 import transparentPicture from "../../../public/images/transparentPicture.png"
+import { useBlogs } from '@/hooks/useBlogs'
+import toast from 'react-hot-toast'
+import BlogCard from '@/components/BlogCard'
+import NoBlogsFound from '@/components/NoBlogsFound'
 
 const barlow = Barlow({
   display: "swap",
@@ -74,31 +78,42 @@ const bgImgs: BgImg[] = [
 ]
 
 const page = () => {
-
   const [currentIndex, setCurrentIndex] = useState<number>(1)
+  const { blogs, error, setError, loading } = useBlogs()
+  const latest3Blogs = blogs.slice(0, 3)
+  const loadingBlogCards = new Array(3).fill(null)
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+      setError("")
+    }
+  }, [error])
 
   useEffect(() => {
     let n = 4
-    const intervalId = setInterval(()=>{
+    const intervalId = setInterval(() => {
       setCurrentIndex(currentIndex + 1)
-      if(currentIndex === n){
+      if (currentIndex === n) {
         setCurrentIndex(1)
       }
     }, 5000)
-  
+
     return () => {
       clearInterval(intervalId)
     }
   }, [currentIndex])
-  
+
+
+
   return (
     <div className='flex flex-col mb-[4em] w-full'>
       <div className={`relative  h-[80vh] w-full text-white flex flex-col justify-center items-center  ${barlow.variable}`}>
 
         <div className='0 w-full h-[600px] flex relative'>
-            {bgImgs.map(({image,imgIndex}, index)=>(
-              <Image className={`w-[100%] h-full absolute transition-opacity duration-[3000ms] ease-in-out ${currentIndex===imgIndex ? 'opacity-1':'opacity-[.5]'}`} src={currentIndex===imgIndex ? image:transparentPicture } key={index} alt='image'/>
-            ))}
+          {bgImgs.map(({ image, imgIndex }, index) => (
+            <Image className={`w-[100%] h-full absolute transition-opacity duration-[3000ms] ease-in-out ${currentIndex === imgIndex ? 'opacity-1' : 'opacity-[.5]'}`} src={currentIndex === imgIndex ? image : transparentPicture} key={index} alt='image' />
+          ))}
         </div>
 
         <div className='absolute text-white border flex flex-col justify-center items-center gap-[3em] w-full h-full'>
@@ -111,13 +126,13 @@ const page = () => {
           </p>
 
           <div className='flex gap-3'>
-            <button className='bg-headerInfoBgColor rounded-[30px] p-3 w-[10em] font-semibold'>
-              Get quote
-            </button>
+            <Link href={"/auth/register"} className='bg-headerInfoBgColor text-center rounded-[30px] p-3 w-[10em] font-semibold'>
+              Get started
+            </Link>
 
-            <button className='bg-white text-black rounded-[30px] p-3 w-[10em] font-semibold'>
+            <Link href={"/contact"} className='bg-white text-black text-center rounded-[30px] p-3 w-[10em] font-semibold'>
               Contact Us
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -127,8 +142,8 @@ const page = () => {
         <div className='flex flex-col items-center justify-center bg-headerBgColor w-[50%] px-6 gap-7 '>
           <p className='font-bold text-[2.5em]'>Welcome to <span className='text-headerInfoBgColor'>GTech Center Ltd</span></p>
           <p className='text-welcomeBgColor'>where innovation meets expertise! As a forward-thinking technology consultancy firm, we deliver cutting-edge solutions that drive growth and efficiency for businesses across various industries. Whether you are looking to scale your operations, improve data management, or integrate new technology into your workflow, Gtech Center is here to guide you every step of the way.</p>
-          <div className='w-full'>
-            <button className='bg-headerInfoBgColor text-white font-semibold mx-auto  rounded-[30px] p-3 w-[10em]'>Get A Quote</button>
+          <div className='w-full flex '>
+            <Link href={"/auth/register"} className='bg-headerInfoBgColor text-white font-semibold text-center  rounded-[30px] p-3 w-[200px] '>Get started</Link>
           </div>
         </div>
 
@@ -217,7 +232,7 @@ const page = () => {
               accusam stet stet ipsum, sit ipsum et ipsum
               kasd</p>
 
-            <Link href={""} className='text-black w-[9em] rounded-[1.6em] text-center p-3 bg-white ' >Learn More</Link>
+            <Link href={"/about"} className='text-black w-[9em] rounded-[1.6em] text-center p-3 bg-white ' >Learn More</Link>
           </div>
 
           <div className='flex flex-col  gap-[1.9em] w-[33.3%]'>
@@ -236,7 +251,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className='flex h-[400px] mt-[7em]'>
+      {/* <div className='flex h-[400px] mt-[7em]'>
         <div className='w-[50%] flex flex-col justify-center px-8 gap-[1.3em] bg-headerBgColor'>
           <p className='text-textColor font-semibold text-[2.5em] '>Request A Free Note</p>
           <p className='text-welcomeBgColor'>Kasd vero erat ea amet justo no stet, et elitr no dolore no elitr sea kasd et dolor
@@ -256,7 +271,7 @@ const page = () => {
         <div className='w-[50%] h-full'>
           <Image src={requestNote} className='h-full w-full' alt='image' />
         </div>
-      </div>
+      </div> */}
 
       <div className='flex flex-col relative items-center gap-10 mt-[5em]'>
         <p className="text-textColor font-semibold text-[2.5em] before:absolute before:h-[1px] before:bg-headerInfoBgColor before:w-[10%] before:top-[1.6em] before:left-[17em] before:content-['']">Our Team Members</p>
@@ -303,70 +318,25 @@ const page = () => {
           </div>
         </div>
       </div>
-
+      {/* to be changed` */}
       <div className='flex flex-col items-center gap-[20px] mt-[3em]'>
         <p className='text-textColor font-semibold text-[2.5em]'>Latest Blog Post</p>
-        <div className='flex h-[400px] gap-[40px]'>
-          <div className='flex flex-col bg-headerBgColor '>
-            <Image src={LatestBlog1} className='h-[70%]' alt='image' />
-            <div className='flex h-[30%]'>
-              <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-centeritems-center'>
-                <p className='text-white'>01</p>
-                <p className='text-textColor'>JAN</p>
-                <p className='text-white'>2025</p>
-              </div>
-              <div className='flex flex-col justify-center w-[90%]'>
-                <div className='flex justify-evenly w-full'>
-                  <p className='text-welcomeBgColor'>ADMIN</p>
-                  <p className='text-welcomeBgColor'>WEB DESIGN</p>
-                </div>
-                <p className='text-[1.1em] font-semibold text-textColor px-3'>Magna sea dolor ipsum
-                  amet lorem eos</p>
-              </div>
-            </div>
-          </div>
+        <div className='flex h-[420px] w-[80%] gap-[40px]'>
+          {!loading ?
+            latest3Blogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
+              <BlogCard index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
+            )) :
+            loadingBlogCards.map((el, index) => (
+              <BlogCard loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+            ))
 
-          <div className='flex flex-col bg-headerBgColor '>
-            <Image src={LatestBlog2} className='h-[70%]' alt='image' />
-            <div className='flex h-[30%]'>
-              <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
-                <p className='text-white'>01</p>
-                <p className='text-textColor'>JAN</p>
-                <p className='text-white'>2025</p>
-              </div>
-              <div className='flex flex-col justify-center w-[90%]'>
-                <div className='flex justify-evenly w-full'>
-                  <p className='text-welcomeBgColor'>ADMIN</p>
-                  <p className='text-welcomeBgColor'>WEB DESIGN</p>
-                </div>
-                <p className='text-[1.1em] font-semibold text-textColor px-3'>Magna sea dolor ipsum
-                  amet lorem eos</p>
-              </div>
-            </div>
-          </div>
+          }
 
-          <div className='flex flex-col bg-headerBgColor '>
-            <Image src={LatestBlog3} className='h-[70%]' alt='image' />
-            <div className='flex h-[30%]'>
-              <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center  items-center'>
-                <p className='text-white'>01</p>
-                <p className='text-textColor'>JAN</p>
-                <p className='text-white'>2025</p>
-              </div>
-              <div className='flex flex-col justify-center w-[90%]'>
-                <div className='flex justify-evenly w-full'>
-                  <p className='text-welcomeBgColor'>ADMIN</p>
-                  <p className='text-welcomeBgColor'>WEB DESIGN</p>
-                </div>
-                <p className='text-[1.1em] font-semibold text-textColor px-3'>Magna sea dolor ipsum
-                  amet lorem eos</p>
-              </div>
-            </div>
-          </div>
-
-
-
-
+          {
+            blogs.length === 0 && !loading && (
+              <NoBlogsFound/>
+            )
+          }
         </div>
       </div>
 

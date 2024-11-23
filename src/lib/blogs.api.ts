@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { Blog, ResponseBlog, ResponseBlogs, SavedBlog } from "../types/Blog";
+import Cookies from "js-cookie";
 
 const apiClient = axios.create({
   baseURL: "/api",
@@ -8,7 +9,7 @@ const apiClient = axios.create({
   },
 });
 
-const token = localStorage.getItem("auth_token")
+const token = Cookies.get("auth_token")
 
 
 export const fetchBlogsApi = async (): Promise<ResponseBlogs> => {
@@ -29,7 +30,7 @@ export const fetchSingleBlogApi = async (
 ): Promise<ResponseBlog> => {
   try {
 
-    const response = await axios.get(`/api/blogs/${blogId}`);
+    const response = await apiClient.get(`/blogs/${blogId}`);
     return response.data;
 
   } catch (error) {
@@ -95,7 +96,6 @@ export const deleteBlogApi = async (blogId: string): Promise<number> => {
         Authorization: `Bearer ${token}`
       }
     });
-    console.log("after delete ", response.status);
     return response.status
   } catch (error) {
     if (error instanceof AxiosError) {

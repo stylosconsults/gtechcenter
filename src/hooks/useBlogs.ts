@@ -8,6 +8,7 @@ import {
   fetchSingleBlogApi,
   updateBlogApi,
 } from "../lib/blogs.api";
+import toast from "react-hot-toast";
 
 interface BlogSuccessMsgs {
   createSuccessMsg: string;
@@ -33,10 +34,12 @@ export function useBlogs() {
   const fetchBlogs = async () => {
     setLoading(true);
     setError("");
-
+    setBlogSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      getAllSuccessMsg: "",
+    }));
     try {
       const fetchedBlogs = await fetchBlogsApi();
-      console.log("fetched blogs ", fetchedBlogs.blogs);
       setBlogs([...fetchedBlogs.blogs]);
 
       setBlogSuccessMsgs((previousSuccessMsgs) => ({
@@ -58,7 +61,10 @@ export function useBlogs() {
   const fetchSingleBlog = async (blogId: string) => {
     setLoading(true);
     setError("");
-
+    setBlogSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      getSingleSuccessMsg: "",
+    }));
     try {
       const fetchedBlog = await fetchSingleBlogApi(blogId);
 
@@ -83,9 +89,17 @@ export function useBlogs() {
   const createBlog = async (newBlog: FormData) => {
     setLoading(true);
     setError("");
+    setBlogSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      createSuccessMsg: "",
+    }));
 
     try {
-      const createdBlog = await createBlogApi(newBlog);
+      const createdBlog = await toast.promise(createBlogApi(newBlog), {
+        loading: "Wait !! Creating blog ...",
+        success: (data) => data.message,
+        error: (err) => err.message,
+      });
 
       setBlogs((previousBlogs) => [...previousBlogs, createdBlog.blog]);
 
@@ -107,10 +121,20 @@ export function useBlogs() {
   const updateBlog = async (blogId: string, updatedBlogData: FormData) => {
     setLoading(true);
     setError("");
+    setBlogSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      updateSuccessMsg: "",
+    }));
 
     try {
-      const updatedBlog = await updateBlogApi(blogId, updatedBlogData);
-      console.log("updated msg ", updatedBlog.message);
+      const updatedBlog = await toast.promise(
+        updateBlogApi(blogId, updatedBlogData),
+        {
+          loading: "Wait !! Updating blog ...",
+          success: (data) => data.message,
+          error: (err) => err.message,
+        }
+      );
       setBlogs((previousBlogs) =>
         previousBlogs.map((blog) =>
           blog._id === updatedBlog.blog._id ? updatedBlog.blog : blog
@@ -135,9 +159,19 @@ export function useBlogs() {
   const deleteBlog = async (blogId: string) => {
     setLoading(true);
     setError("");
+    setBlogSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      deleteSuccessMsg: "",
+    }));
 
     try {
-      const deleteStatus = await deleteBlogApi(blogId);
+      const deleteStatus = await toast.promise(deleteBlogApi(blogId),
+      {
+        loading: "Wait !! Deleting blog ...",
+        success: "Blog deleted successfully",
+        error: err => err.message
+      }
+    );
       setBlogs((previousBlogs) =>
         previousBlogs.filter((blog) => blog._id !== blogId)
       );
@@ -158,6 +192,10 @@ export function useBlogs() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
   return {
     blogs,

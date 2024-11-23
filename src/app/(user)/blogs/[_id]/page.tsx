@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
 import { SavedBlog } from '@/types/Blog'
+import LatestBlogCard from '@/components/LatestBlogCard'
 
 
 
@@ -37,16 +38,15 @@ interface BlogParams {
 }
 const page = ({ params }: BlogParams) => {
     const blogId = params._id
-    const { error, loading, fetchSingleBlog, singleBlog } = useBlogs()
+    const { error, loading, fetchSingleBlog, singleBlog, blogs } = useBlogs()
+    const latestBlogs = blogs.slice(0, 5)
+    const loadingBlogCards = new Array(5).fill(null)
+
 
 
     useEffect(() => {
         fetchSingleBlog(blogId)
     }, [blogId])
-
-
-    if (loading) return <p>loading</p>
-    if (error) return <p>Error: {error}</p>
     return (
         <div className={`${barlow.variable} flex flex-col mb-[4em]`}>
             <PagesTopDiv heading='Blog Detail' paragraph='Home Blog_Detail' />
@@ -56,44 +56,40 @@ const page = ({ params }: BlogParams) => {
 
 
                     {/* target */}
-                    <div className='flex flex-col gap-7'>
-                        <CldImage
-                            src={singleBlog?.imagePublicId || "/images/latestBlog1.png"}
-                            width={100}
-                            height={100}
-                            alt='img'
-                            crop="fill"
-                            gravity='auto'
-                            className=' w-full'
-                        />
-                        <p className='text-textColor text-[2em] font-bold leading-10'>{singleBlog?.title}</p>
+                    {!singleBlog ?
+                        (
 
-                        <div className='flex flex-col gap-3 text-[1.1em] text-welcomeBgColor'>
+                            <div className='flex items-center justify-center h-[400px]'>
+                                loading
+                            </div>
 
-                            <p>{singleBlog?.description}</p>
-                            {/* <p>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut magna lorem. Nonumy vero
-                                labore lorem sanctus rebum et lorem magna kasd, stet amet magna accusam consetetur eirmod. Kasd accusam sit
-                                ipsum sadipscing et at at sanctus et. Ipsum sit gubergren dolores et, consetetur justo invidunt at et aliquyam ut et
-                                vero clita. Diam sea sea no sed dolores diam nonumy, gubergren sit stet no diam kasd vero.</p>
+                        ) : (
 
+                            <div className='flex flex-col gap-7'>
 
-                            <p>Voluptua est takimata stet invidunt sed rebum nonumy stet, clita aliquyam dolores vero stet consetetur elitr
-                                takimata rebum sanctus. Sit sed accusam stet sit nonumy kasd diam dolores, sanctus lorem kasd duo dolor dolor
-                                vero sit et. Labore ipsum duo sanctus amet eos et. Consetetur no sed et aliquyam ipsum justo et, clita lorem sit vero
-                                amet amet est dolor elitr, stet et no diam sit. Dolor erat justo dolore sit invidunt.</p>
+                                <CldImage
+                                    src={singleBlog.imagePublicId || "/images/latestBlog1.png"}
+                                    width={100}
+                                    height={100}
+                                    alt='img'
+                                    crop="fill"
+                                    gravity='auto'
+                                    className=' w-full h-[650px]'
+                                />
+                                <p className='text-textColor text-[2em] font-bold leading-10'>{singleBlog?.title}</p>
 
-                            <p>Diam dolor est labore duo invidunt ipsum clita et, sed et lorem voluptua tempor invidunt at est sanctus sanctus. Clita
-                                dolores sit kasd diam takimata justo diam lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam
-                                tempor rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor sea diam kasd,
-                                takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at lorem invidunt sadipscing rebum sit amet ut ut,
-                                voluptua diam dolores at sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos.</p> */}
+                                <div className='flex flex-col gap-3 text-[1.1em] text-welcomeBgColor'>
 
+                                    <p>{singleBlog?.description}</p>
 
-                        </div>
-                    </div>
+                                </div>
+                            </div>
 
+                        )}
                     {/* target */}
-                    <div className='flex flex-col gap-5'>
+
+                    {/* Comments */}
+                    {/* <div className='flex flex-col gap-5'>
                         <p className={`${open_sans.variable} text-textColor text-[1.6em] font-semibold`}>3 Comments</p>
                         <div className='flex flex-col gap-7'>
                             <div className='flex gap-4 '>
@@ -127,11 +123,11 @@ const page = ({ params }: BlogParams) => {
                             </div>
                         </div>
 
-                    </div>
+                    </div> */}
+                    {/* Comments */}
 
-
-
-                    <div className='h-[23%] flex flex-col p-7 gap-8 bg-headerBgColor'>
+                    {/* Leave comment */}
+                    {/* <div className='h-[23%] flex flex-col p-7 gap-8 bg-headerBgColor'>
                         <p className='text-textColor text-[2em] font-semibold h-[10%]'>Leave a comment</p>
                         <form action="" className=' h-[90%] flex flex-col gap-4 bg-headerBgColor'>
                             <div className='flex justify-between'>
@@ -144,7 +140,8 @@ const page = ({ params }: BlogParams) => {
 
                             <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Leave Your Comment</button>
                         </form>
-                    </div>
+                    </div> */}
+                    {/* leave comment */}
                 </div>
 
                 <div className='flex flex-col gap-[6em] p-1 w-[28%]'>
@@ -163,47 +160,32 @@ const page = ({ params }: BlogParams) => {
                             <p>Keyword Research</p> */}
                             <p>{singleBlog?.category}</p>
                         </div>
-                        <RedCircle className="absolute top-[18em] left-[23em]" />
+                        <RedCircle className="absolute top-[9em] left-[23em]" />
                     </div>
 
-                    <div className='h-[30%]'>
+                    <div className='h-[400px]'>
                         <p className='text-textColor text-[2em] font-semibold'>Recent Post</p>
-                        <div className='flex flex-col  h-[100%] justify-center'>
-                            <div className='flex h-[20%] items-center'>
-                                <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                                <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                    adipis elit</p>
-                            </div>
+                        <div className='flex flex-col   h-[350px] justify-center'>
 
-                            <div className='flex h-[20%] items-center'>
-                                <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                                <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                    adipis elit</p>
-                            </div>
+                            {!loading ?
+                                latestBlogs.map(({ description, imagePublicId, _id }, index) => (
+                                    <LatestBlogCard _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
+                                )) :
 
-                            <div className='flex h-[20%] items-center'>
-                                <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                                <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                    adipis elit</p>
-                            </div>
+                                loadingBlogCards.map((el, index) => (
+                                    <div className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
+                                        loading...
+                                    </div>))
 
-                            <div className='flex h-[20%] items-center'>
-                                <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                                <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                    adipis elit</p>
-                            </div>
+                            }
 
-                            <div className='flex h-[20%] items-center'>
-                                <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                                <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                    adipis elit</p>
-                            </div>
+                            {
+                                !blogs && (
+                                    <p>No blogs found</p>
+                                )
+                            }
                         </div>
 
-                    </div>
-
-                    <div>
-                        <Image src={Blog} alt='image' />
                     </div>
 
                     <div className='flex flex-col gap-3'>

@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import React from 'react'
 import "./globals.css"
 import { Barlow } from 'next/font/google'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+
+import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
     title: "user/",
@@ -21,9 +21,28 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en">
             <body className={`h-[100vh]  ${barlow.className}`}>
-                <Navbar />
+                <Toaster
+                    position="top-center"
+                    toastOptions={{
+                        duration: 3000,
+                        style: {
+                            background: '#333',
+                            color: '#fff',
+                        },
+                        success: {
+                            style: {
+                                background: 'green',
+                            },
+                        },
+                        error: {
+                            style: {
+                                background: 'red',
+                            },
+                        },
+                    }}
+                />
                 {children}
-                <Footer />
+
             </body>
         </html>
     )

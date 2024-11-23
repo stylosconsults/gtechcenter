@@ -4,6 +4,7 @@ import {
   SavedSubscription,
 } from "@/types/Subscription";
 import axios, { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 const apiClient = axios.create({
   baseURL: "/api",
@@ -12,7 +13,7 @@ const apiClient = axios.create({
   },
 });
 
-const token = localStorage.getItem("auth_token");
+const token = Cookies.get("auth_token");
 
 export const createSubscriptionApi = async (
   newSubscription: string

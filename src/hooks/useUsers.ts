@@ -1,7 +1,10 @@
+// hooks/useUsers.ts
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
 import { ROLES } from "@/constants/userRoles";
 import { loginApi, registerUserApi } from "@/lib/users.api";
 import { LoggingUser, SavedUser, User } from "@/types/User";
-import { useState } from "react";
 
 interface UserSuccessMsgs {
     logInSuccessMsg: string;
@@ -9,118 +12,137 @@ interface UserSuccessMsgs {
     getAllUsersMsgs: string;
     getSingleUserMsg: string;
     updateUserMsg: string;
-
 }
 
-export function useUsers(){
-
-    const [error, setError] = useState<string>("")
-    const [loading, setLoading] = useState<boolean>(false)
+export function useUsers() {
+    const [error, setError] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const [userSuccessMsgs, setUserSuccessMsgs] = useState<UserSuccessMsgs>({
         logInSuccessMsg: "",
         registerSuccessMsg: "",
         getAllUsersMsgs: "",
         getSingleUserMsg: "",
         updateUserMsg: ""
-    })
-    const [users, setUsers] = useState<SavedUser[]>([])
+    });
+    const [users, setUsers] = useState<SavedUser[]>([]);
     const [currentUser, setCurrentUser] = useState<SavedUser>({
         _id: "",
         email: "",
         first_name: "",
+        phone_number: "",
         last_name: "",
         password: "",
         role: ROLES.USER,
-    })
+    });
 
+    const loginUser = async (loggingUser: LoggingUser) => {
+        setLoading(true);
+        setError("");
+        setUserSuccessMsgs(prev => ({
+            ...prev,
+            logInSuccessMsg: ""
+        }));
 
-    const loginUser= async(loggingUser: LoggingUser)=>{
-        setLoading(true)
-        setError("")
         try {
-            const loggedInUser = await loginApi(loggingUser)
-            const authToken = loggedInUser.token.token
-            localStorage.setItem("auth_token", authToken)
-            localStorage.removeItem("auth_token")
-
-        
-            setCurrentUser(
+            const loggedInUser = await toast.promise(
+                loginApi(loggingUser),
                 {
-                    _id: loggedInUser.user._id,
-                    email: loggedInUser.user.email,
-                    first_name: loggedInUser.user.first_name,
-                    last_name: loggedInUser.user.last_name,
-                    password: loggedInUser.user.password,
-                    role: loggedInUser.user.role
+                    loading: 'Logging in...',
+                    success: data => data.message,
+                    error: (err) => err.message 
                 }
-            )
-            setUserSuccessMsgs(
-                (previousSuccessMsgs)=>({
-                    ...previousSuccessMsgs,
-                    logInSuccessMsg: loggedInUser.message
-                })
-            )
-        } catch (error) {
-            setError((error as Error).message)
-            setUserSuccessMsgs(
-                (previousSuccessMsgs)=>({
-                    ...previousSuccessMsgs,
-                    logInSuccessMsg: ""
-                })
-            )
-        }finally{
-            setLoading(false)
-        }
-    }
+            );
 
-    const registerUser= async(registeringUser: User)=>{
-        setLoading(true)
-        setError("")
+            const authToken = loggedInUser.token.token;
+            Cookies.set("auth_token", authToken);
+
+            setCurrentUser({
+                _id: loggedInUser.user._id,
+                email: loggedInUser.user.email,
+                first_name: loggedInUser.user.first_name,
+                last_name: loggedInUser.user.last_name,
+                phone_number: "",
+                password: loggedInUser.user.password,
+                role: loggedInUser.user.role
+            });
+
+            setUserSuccessMsgs(prev => ({
+                ...prev,
+                logInSuccessMsg:  loggedInUser.message
+            }));
+
+            return loggedInUser;
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+            setError(errorMessage);
+            setUserSuccessMsgs(prev => ({
+                ...prev,
+                logInSuccessMsg: ""
+            }));
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const registerUser = async (registeringUser: User) => {
+        setLoading(true);
+        setError("");
+        setUserSuccessMsgs(prev => ({
+            ...prev,
+            registerSuccessMsg: ""
+        }));
         try {
-            const registeredUser = await registerUserApi(registeringUser)
-            const authToken = registeredUser.token.token
+            const registeredUser = await toast.promise(
+                registerUserApi(registeringUser),
 
-            localStorage.setItem("auth_token", authToken)
-
-            setCurrentUser(
                 {
-                    _id: registeredUser.user._id,
-                    email: registeredUser.user.email,
-                    first_name: registeredUser.user.first_name,
-                    last_name: registeredUser.user.last_name,
-                    password: registeredUser.user.password,
-                    role: registeredUser.user.role
+                    loading: 'Creating your account...',
+                    success: data => data.message,
+                    error: (err) => err.message
                 }
-            )
+            );
 
-            setUserSuccessMsgs(
-                (previousSuccessMsgs)=>({
-                    ...previousSuccessMsgs,
-                    registerSuccessMsg: registeredUser.message
-                })
-            )
+            const authToken = registeredUser.token.token;
+            Cookies.set("auth_token", authToken);
+
+            setCurrentUser({
+                _id: registeredUser.user._id,
+                email: registeredUser.user.email,
+                first_name: registeredUser.user.first_name,
+                last_name: registeredUser.user.last_name,
+                phone_number: "",
+                password: registeredUser.user.password,
+                role: registeredUser.user.role
+            });
+
+            setUserSuccessMsgs(prev => ({
+                ...prev,
+                registerSuccessMsg: registeredUser.message
+            }));
+
+            return registeredUser;
         } catch (error) {
-            setError((error as Error).message)
-            setUserSuccessMsgs(
-                (previousSuccessMsgs)=>({
-                    ...previousSuccessMsgs,
-                    registerSuccessMsg: ""
-                })
-            )
-        }finally{
-            setLoading(false)
+            const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+            setError(errorMessage);
+            setUserSuccessMsgs(prev => ({
+                ...prev,
+                registerSuccessMsg: ""
+            }));
+            throw error;
+        } finally {
+            setLoading(false);
         }
-    }
-
+    };
 
     return {
         loginUser,
         registerUser,
         users,
         currentUser,
-        error,
         setError,
+        error,
         loading,
         userSuccessMsgs
-    }
+    };
 }

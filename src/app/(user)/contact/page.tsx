@@ -35,7 +35,8 @@ const Page = () => {
             first_name: "",
             last_name: "",
             subject: "",
-            message: ""
+            message: "",
+            email: ""
         }
     )
     const { error, loading, createContact, contactSuccessMsgs, setError } = useContacts()
@@ -68,38 +69,32 @@ const Page = () => {
         e.preventDefault()
         await createContact(contactInputData)
 
-
+      
     }
     useEffect(() => {
         if (contactSuccessMsgs.createSuccessMsg !== "") {
-            alert(contactSuccessMsgs.createSuccessMsg)
             setContactInputData({
                 first_name: "",
                 last_name: "",
                 subject: "",
-                message: ""
+                message: "",
+                email: ""
             })
+        
         }
     }, [contactSuccessMsgs.createSuccessMsg])
 
+
+
     useEffect(() => {
-        if (error) {
-            alert(error)
-
-        }
-
-
-    }, [error])
-
-    useEffect(()=>{
-        if(
-            contactInputData.first_name && 
+        if (
+            contactInputData.first_name &&
             contactInputData.last_name &&
-            contactInputData.message && 
+            contactInputData.message &&
             contactInputData.subject
-        ){
+        ) {
             setDisableSubmitBtn(false)
-        }else{
+        } else {
             setDisableSubmitBtn(true)
         }
     }, [contactInputData])
@@ -180,7 +175,7 @@ const Page = () => {
                             <input disabled type="text" placeholder='Subject' className='p-3 text-[1.1em] outline-none rounded-[5px]' />
                             <textarea disabled name="message" id="message" placeholder='Message' className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'></textarea>
 
-                            <button disabled={disableSubmitBtn || loading} className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Submit</button>
+                            <button disabled={disableSubmitBtn || loading} className={`${loading || disableSubmitBtn ? "bg-red-400" : "bg-headerInfoBgColor"} text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>{loading ? "loading" : "Submit"}</button>
                         </form>
 
                     </div>
@@ -206,57 +201,67 @@ const Page = () => {
             <div className='flex h-[500px] bg-headerBgColor'>
 
                 <div className='flex flex-col gap-3 pt-2 w-[50%] h-full px-4 justify-center'>
-                
-                   
-                            <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
-                            <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
-                                <div className='flex justify-between'>
-                                    <input
-                                        className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
-                                        type="text"
-                                        name='first_name'
-                                        placeholder='First Name'
-                                        value={contactInputData.first_name}
-                                        onChange={handleInputChange}
-                                        required
 
-                                    />
-                                    <input
-                                        className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
-                                        type="text"
-                                        name="last_name"
-                                        placeholder='Last Name'
-                                        value={contactInputData.last_name}
-                                        onChange={handleInputChange}
-                                        required
 
-                                    />
-                                </div>
+                    <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
+                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                        <div className='flex justify-between'>
+                            <input
+                                className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
+                                type="text"
+                                name='first_name'
+                                placeholder='First Name'
+                                value={contactInputData.first_name}
+                                onChange={handleInputChange}
+                                required
 
-                                <input
-                                    type="text"
-                                    name='subject'
-                                    placeholder='Subject'
-                                    className='p-3 text-[1.1em] outline-none rounded-[5px]'
-                                    value={contactInputData.subject}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                                <textarea
-                                    name="message"
-                                    id="message"
-                                    placeholder='Message'
-                                    className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'
-                                    value={contactInputData.message}
-                                    onChange={handleInputChange}
-                                    required
-                                ></textarea>
+                            />
+                            <input
+                                className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
+                                type="text"
+                                name="last_name"
+                                placeholder='Last Name'
+                                value={contactInputData.last_name}
+                                onChange={handleInputChange}
+                                required
 
-                                <button disabled={disableSubmitBtn || loading} className={`${loading || disableSubmitBtn ? "bg-red-400": "bg-headerInfoBgColor"} text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>Submit</button>
-                            </form>
+                            />
+                        </div>
 
-                       
-                        
+                        <input
+                            type="email"
+                            name='email'
+                            placeholder='Email'
+                            className='p-3  text-[1.1em] outline-none rounded-[5px]'
+                            value={contactInputData.email}
+                            onChange={handleInputChange}
+                            required
+                        />
+
+                        <input
+                            type="text"
+                            name='subject'
+                            placeholder='Subject'
+                            className='p-3 text-[1.1em] outline-none rounded-[5px]'
+                            value={contactInputData.subject}
+                            onChange={handleInputChange}
+                            required
+                        />
+                        <textarea
+                            name="message"
+                            id="message"
+                            placeholder='Message'
+                            className='h-[200px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'
+                            value={contactInputData.message}
+                            onChange={handleInputChange}
+                            required
+                        ></textarea>
+
+                        <button disabled={disableSubmitBtn || loading} className={`${loading || disableSubmitBtn ? "bg-red-400" : "bg-headerInfoBgColor"} text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>{loading ? "loading" : "Submit"}</button>
+                    </form>
+
+
+
 
                 </div>
 

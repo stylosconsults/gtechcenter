@@ -27,7 +27,7 @@ export const loginApi = async (loggingUser:LoggingUser):Promise<ResponseUser>=>{
 
 export const registerUserApi = async(registeringUser: User):Promise<ResponseUser>=>{
     try {
-        const response = await axios.post("/auth/register", registeringUser)
+        const response = await apiClient.post("/auth/register", registeringUser)
 
         console.log('registering response data ', response.data);
         return response.data

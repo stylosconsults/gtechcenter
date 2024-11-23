@@ -155,7 +155,9 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
             // If you want to set initial image
         }
-    }, [singleBlog])
+
+        router.replace("/admin/blogs")
+    }, [singleBlog, router])
 
     useEffect(()=>{
       

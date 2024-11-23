@@ -10,6 +10,10 @@ import PaginationControls from '../../../components/PaginationControls'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
 import { dayExtractor, monthShortener, yearExtractor } from '@/utils/dateDetailsExtractor'
+import BlogCard from '@/components/BlogCard'
+import LatestBlogCard from '@/components/LatestBlogCard'
+import { image } from '@cloudinary/url-gen/qualifiers/source'
+import NoBlogsFound from '@/components/NoBlogsFound'
 
 type blogTypes = {
     image: StaticImageData,
@@ -133,17 +137,19 @@ type SearchParamsType = {
 
 const page = ({ searchParams }: SearchParamsType) => {
 
-    const page = searchParams?.page ? searchParams?.page : 1
-    const per_page = searchParams?.per_page ? searchParams?.per_page : 5
-    const startIndex = (Number(page) - 1) * Number(per_page)
-    const endIndex = startIndex + Number(per_page)
+    const page = searchParams?.page ? Number(searchParams?.page) : 1
+    const per_page = searchParams?.per_page ? Number(searchParams?.per_page) : 5
+    const startIndex = (page - 1) * per_page
+    const endIndex = startIndex + per_page
 
-    const { blogs, error, loading } = useBlogs()
+    const { blogs, loading } = useBlogs()
 
     console.log('blog ', blogs);
     const slicedBlogs = blogs.slice(startIndex, endIndex)
-    if (loading) return <p>Loading blogs...</p>;
-    if (error) return <p>Error: {error}</p>;
+    const latestBlogs = blogs.slice(0,5)
+    const loadingBlogCards = new Array(per_page || 5).fill(null)
+
+
 
 
     return (
@@ -152,33 +158,21 @@ const page = ({ searchParams }: SearchParamsType) => {
             <div className='flex justify-center p-4'>
 
                 <div className='flex flex-wrap gap-8 h-[10%]  w-[65%] ps-12'>
-                    {slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
-                        <Link href={`blogs/${_id}`} key={index} className='flex flex-col h-[450px] bg-headerBgColor w-[40%]'>
-                            <CldImage
-                                src={imagePublicId}
-                                width={100}
-                                height={100}
-                                alt='img'
-                                crop="fill"
-                                gravity='auto'
-                                className='h-[75%] w-[100%]'
-                            />
-                            <div className='flex h-[25%]'>
-                                <div className='w-[20%] bg-headerInfoBgColor h-full flex flex-col justify-center items-center'>
-                                    <p className='text-white'>{dayExtractor(lastlyUpdatedDate)}</p>
-                                    <p className='text-textColor'>{monthShortener(lastlyUpdatedDate)}</p>
-                                    <p className='text-white'>{yearExtractor(lastlyUpdatedDate)}</p>
-                                </div>
-                                <div className='flex flex-col justify-center w-[90%]'>
-                                    <div className='flex justify-evenly w-full'>
-                                        <p className='text-welcomeBgColor'>{title}</p>
-                                        <p className='text-welcomeBgColor'>{category}</p>
-                                    </div>
-                                    <p className='text-[1.1em] font-semibold text-textColor px-3'>{description}</p>
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
+                    {!loading ?
+                        slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
+                            <BlogCard index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
+                        )) :
+                        loadingBlogCards.map((el, index) => (
+                            <BlogCard loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+                        ))
+
+                    }
+
+                    {
+                        blogs.length===0 && !loading && (
+                          <NoBlogsFound/>
+                        )
+                    }
 
                 </div>
 
@@ -199,41 +193,27 @@ const page = ({ searchParams }: SearchParamsType) => {
                         <PinkCircle className="absolute top-[14.1em] left-[19.6em]" />
                     </div>
 
-                    <div className='flex flex-col  h-[30%] justify-center'>
-                        <div className='flex h-[20%] items-center'>
-                            <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                            <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                adipis elit</p>
-                        </div>
+                    <div className='flex flex-col  h-[350px]  justify-center'>
 
-                        <div className='flex h-[20%] items-center'>
-                            <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                            <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                adipis elit</p>
-                        </div>
+                        {!loading ?
+                            latestBlogs.map(({ description, imagePublicId , _id}, index) => (
+                                <LatestBlogCard _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
+                                )) :
 
-                        <div className='flex h-[20%] items-center'>
-                            <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                            <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                adipis elit</p>
-                        </div>
+                            loadingBlogCards.map((el, index) => (
+                                <div className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
+                                    loading...
+                                </div>))
 
-                        <div className='flex h-[20%] items-center'>
-                            <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                            <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                adipis elit</p>
-                        </div>
+                        }
 
-                        <div className='flex h-[20%] items-center'>
-                            <Image className='w-[30%] h-[60%]' src={Blog} alt='image' />
-                            <p className='bg-headerBgColor h-[87%] flex items-center ps-3 text-textColor font-semibold'>Lorem ipsum dolor sit amet
-                                adipis elit</p>
-                        </div>
+                       
+                    {
+                        blogs.length===0 && !loading && (
+                          <NoBlogsFound/>
+                        )
+                    }
 
-                    </div>
-
-                    <div>
-                        <Image src={Blog} alt='image' />
                     </div>
 
                     <div className='flex flex-wrap gap-2'>
@@ -251,7 +231,7 @@ const page = ({ searchParams }: SearchParamsType) => {
                         <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
                     </div>
 
-                    <div className='flex flex-col bg-headerBgColor text-welcomeBgColor h-[10%] justify-center px-5 gap-5 items-center'>
+                    <div className='flex flex-col bg-headerBgColor text-welcomeBgColor h-[200px] justify-center px-5 gap-5 items-center'>
                         <p className='text-center'>Vero sea et accusam justo dolor accusam
                             lorem consetetur, dolores sit amet sit dolor
                             clita kasd justo, diam accusam no sea ut

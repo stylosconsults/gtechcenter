@@ -11,6 +11,7 @@ import {
 import { Contact, SavedContact } from "@/types/Contact";
 import { all } from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface ContactSuccessMsgs {
   createSuccessMsg: string;
@@ -36,8 +37,19 @@ export function useContacts() {
     });
 
   const createContact = async (newContact: Contact) => {
+    setLoading(true);
+    setError("");
+    setContactSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      createSuccessMsg: "",
+    }));
+
     try {
-      const savedContact = await createContactApi(newContact);
+      const savedContact = await toast.promise(createContactApi(newContact), {
+        loading: "Wait !! Contacting for inquiry",
+        success: data => data.message,
+        error: (err) => err.message || "Failed to contact",
+      });
       setContacts((previousContacts) => [
         ...previousContacts,
         savedContact.contact,
@@ -59,8 +71,21 @@ export function useContacts() {
   };
 
   const updateContact = async (contactId: string, newContact: Contact) => {
+    setLoading(true);
+    setError("");
+    setContactSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      updateSuccessMsg: "",
+    }));
+
     try {
-      const savedContact = await updateContactApi(contactId, newContact);
+      const savedContact = await toast.promise(updateContactApi(contactId, newContact),
+      {
+        loading: "Wait !! updating for inquiry contacted",
+        success: data => data.message,
+        error: (err) => err.message || "Failed to update contacted information",
+      }
+    )
       setContacts((previousContacts) =>
         previousContacts.map((contact) =>
           contact._id === savedContact.contact._id
@@ -85,81 +110,88 @@ export function useContacts() {
   };
 
   const fetchAllContact = async () => {
-    try {
+    setLoading(true);
+    setError("");
+    setContactSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      getAllSuccessMsg: "",
+    }));
 
+    try {
       const allContacts = await fetchAllContactsApi();
       setContacts((previousContacts) => [...allContacts.contacts]);
       setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getAllSuccessMsg: allContacts.message,
       }));
-
     } catch (error) {
-
       setError((error as Error).message);
       setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getAllSuccessMsg: "",
       }));
-
     } finally {
       setLoading(false);
     }
   };
 
   const fetchSingleContact = async (contactId: string) => {
-    try {
+    setLoading(true);
+    setError("");
+    setContactSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      getSingleSuccessMsg: "",
+    }));
 
+    try {
       const contact = await fetchSingleContactApi(contactId);
       setSingleContact({ ...contact.contact });
       setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getSingleSuccessMsg: contact.message,
       }));
-
     } catch (error) {
-
       setError((error as Error).message);
       setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         getSingleSuccessMsg: "",
       }));
-
     } finally {
-
       setLoading(false);
-
     }
   };
 
   const deleteContact = async (contactId: string) => {
-    try {
+    setLoading(true);
+    setError("");
+    setContactSuccessMsgs((previousSuccessMsgs) => ({
+      ...previousSuccessMsgs,
+      deleteSuccessMsg: "",
+    }));
 
-      const result = await deleteContactApi(contactId);
+    try {
+      const result = await toast.promise(deleteContactApi(contactId), 
+      {
+        loading: "Wait !! Contacting for inquiry",
+        success: data => `Contact deleted successfully`,
+        error: (err) => err.message || "Failed to contact",
+      }
+    )
       console.log("result after contact_delete", result);
       setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         deleteSuccessMsg: "deleted successfully",
       }));
-
     } catch (error) {
-
       setError((error as Error).message);
       setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         deleteSuccessMsg: "",
       }));
-
     } finally {
-
       setLoading(false);
-
     }
   };
-
-  useEffect(() => {
-    fetchAllContact();
-  }, []);
 
   return {
     contacts,

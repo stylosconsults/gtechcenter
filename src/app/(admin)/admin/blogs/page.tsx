@@ -10,6 +10,9 @@ import PaginationControls from '../../../../components/PaginationControls'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
 import DeleteModal from '../../../../components/DeleteModal'
+import AdminBlogCard from '@/components/AdminBlogCard'
+import toast from 'react-hot-toast'
+import NoBlogsFound from '@/components/NoBlogsFound'
 
 
 const barlow = Barlow({
@@ -125,30 +128,25 @@ type SearchParamsType = {
 }
 
 const page = ({ searchParams }: SearchParamsType) => {
-    const { blogs, blogSuccessMsgs, error, setError, loading, fetchBlogs } = useBlogs()
+    const { blogs, error, setError, loading } = useBlogs()
     const showDeleteModal = searchParams?.show_delete
     const blogId = searchParams?.id
-    const page = searchParams?.page ? searchParams?.page : 1
-    const per_page = searchParams?.per_page ? searchParams?.per_page : 5
+    const page = searchParams?.page ? Number(searchParams?.page) : 1
+    const per_page = searchParams?.per_page ? Number(searchParams?.per_page) : 5
+    const startIndex = ((page) - 1) * per_page
+    const endIndex = startIndex + per_page
 
-
-    const startIndex = (Number(page) - 1) * Number(per_page)
-    const endIndex = startIndex + Number(per_page)
-
+    const loadingBlogCards = new Array(5).fill(null)
     const slicedBlogs = blogs.slice(startIndex, endIndex)
 
     useEffect(() => {
-        fetchBlogs()
-    }, [blogs])
-
-    useEffect(() => {
         if (error) {
-            alert(error)
+            toast.error(error)
             setError("")
         }
     }, [error])
 
-    console.log('blogId ', blogId);
+    console.log('blogs ', blogs);
 
     return (
         <div className={`flex flex-col w-[95%] ${barlow.className} gap-5 p-3 overflow-auto`}>
@@ -161,44 +159,23 @@ const page = ({ searchParams }: SearchParamsType) => {
                 <p className='text-[1.5em] h-[2%]'>All blogs</p>
                 <div className='flex flex-wrap gap-3 h-[98%] min-h-[300px]  overflow-auto p-1'>
 
-                    {slicedBlogs.map(({ category, description, title, imagePublicId, _id }, index) => (
-
-
-
-                        <div key={index} className='bg-headerBgColor  flex flex-col justify-between h-[420px] w-[420px]'>
-                            <CldImage
-                                src={imagePublicId}
-                                width={100}
-                                height={100}
-                                alt='img'
-                                crop="fill"
-                                gravity='auto'
-                                className='h-[75%] w-[100%]'
-                            />
-                            {/* <Image className='w-full' src={image} alt='Image' /> */}
-                            <div className='flex justify-around items-center h-[30%] '>
-                                <div className='flex flex-col w-[80%] justify-between  gap-3' >
-                                    <div className={`flex  text-welcomeBgColor justify-evenly ${open_sans.className}`}>
-                                        <p>{title}</p>
-                                        <p>{category}
-                                        </p>
-                                    </div>
-
-                                    <p className={`text-[1.4em] w-[95%] mx-auto text-textColor font-semibold leading-[1.2em]  ${inter.className}`}>{description}</p>
-                                </div>
-
-                                <div className='flex flex-col gap-3'>
-                                    <Link href={`/admin/blogs?show_delete=true&id=${_id}`}><DeleteIcon /></Link>
-                                    <Link href={`/admin/blogs/${_id}`}><EditIcon /></Link>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    ))
-
+                    {!loading ?
+                        slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
+                            <AdminBlogCard index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
+                        )) :
+                        loadingBlogCards.map((el, index) => (
+                            <AdminBlogCard loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+                        ))
 
                     }
+
+                    {
+                        blogs.length === 0 && !loading && (
+                           <NoBlogsFound/>
+                        )
+                    }
+
+
                     {showDeleteModal && <DeleteModal blogId={blogId!} />}
 
 
