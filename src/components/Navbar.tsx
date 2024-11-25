@@ -39,7 +39,7 @@ const navLinks: NavLink[] = [
     },
     {
         name: 'SERVICE',
-        href: ''
+        href: '/services'
     },
 
     {
@@ -71,13 +71,6 @@ const Navbar = () => {
                         }</Link>
 
                     ))}
-                    {/* <Link className={` font-semibold`} href={"/app"}>HOME</Link>
-                <Link className='font-semibold text-navBarLinksColor' href={"/app/about"}>ABOUT</Link>
-                <Link className='font-semibold text-navBarLinksColor' href={""}>SERVICE</Link>
-                <Link className=' font-semibold text-navBarLinksColor ' href={"/app/blogs"}>PAGES
-                    <div className='w-[6px] h-[4px] bg-black'></div>
-                </Link>
-                <Link className='font-semibold text-navBarLinksColor' href={"/app/contact"}>CONTACT</Link> */}
                 </div>
             </div>
 
