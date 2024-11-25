@@ -17,9 +17,6 @@ import teamMember2 from "../../../public/images/teamMember2.png"
 import teamMember3 from "../../../public/images/teamMember3.png"
 import RedCircle from "../../../public/icons/redCircle.svg"
 import Quote from "../../../public/icons/quote.svg"
-import LatestBlog1 from "../../../public/images/latestBlog1.png"
-import LatestBlog2 from "../../../public/images/latestBlog2.png"
-import LatestBlog3 from "../../../public/images/latestBlog3.png"
 import WelcomeToGTech from "../../../public/images/welcomeToGtech.svg"
 import bgImg1 from "../../../public/images/bgImg2.png"
 import bgImg2 from "../../../public/images/bgImg3.jpeg"
@@ -110,7 +107,7 @@ const page = () => {
     <div className='flex flex-col mb-[4em] w-full'>
       <div className={`relative  h-[80vh] w-full text-white flex flex-col justify-center items-center  ${barlow.variable}`}>
 
-        <div className='0 w-full h-[600px] flex relative'>
+        <div className=' w-full h-[660px]  flex relative'>
           {bgImgs.map(({ image, imgIndex }, index) => (
             <Image className={`w-[100%] h-full absolute transition-opacity duration-[3000ms] ease-in-out ${currentIndex === imgIndex ? 'opacity-1' : 'opacity-[.5]'}`} src={currentIndex === imgIndex ? image : transparentPicture} key={index} alt='image' />
           ))}
