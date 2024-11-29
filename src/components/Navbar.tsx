@@ -62,7 +62,7 @@ const Navbar = () => {
             <div className={`${barlow.className} sticky top-0 z-40 flex items-center justify-between px-[40px] h-[60%]`}>
                 <Link href={"/"} className='flex items-center gap-4 ' >
                     <NavIcon width="40px" />
-                    <p className={`text-[40px] font-extrabold text-headerInfoBgColor`}>GTECH CENTER LTD</p>
+                    <p className={`text-[40px] font-extrabold text-headerInfoBgColor`}>G-WISSEN Consults LTD</p>
                 </Link>
 
                 <div className='flex gap-[40px]'>

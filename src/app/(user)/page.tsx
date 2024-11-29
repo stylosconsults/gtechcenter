@@ -118,8 +118,10 @@ const page = () => {
             IT CONSULTANCY
           </p>
 
-          <p className='text-[4em] w-[60%] text-center font-bold leading-[1.3em]'>
-            Your Trusted Partner for Innovative Solutions
+          <p className='text-[4em] w-[70%] text-center font-bold leading-[1.3em]'>
+          Innovating for Sustainable Future 
+Delivering Results-Driven Consulting Services.
+
           </p>
 
           <div className='flex gap-3'>
@@ -137,8 +139,11 @@ const page = () => {
 
       <div className='flex '>
         <div className='flex flex-col items-center justify-center bg-headerBgColor w-[50%] px-6 gap-7 '>
-          <p className='font-bold text-[2.5em]'>Welcome to <span className='text-headerInfoBgColor'>GTech Center Ltd</span></p>
-          <p className='text-welcomeBgColor'>where innovation meets expertise! As a forward-thinking technology consultancy firm, we deliver cutting-edge solutions that drive growth and efficiency for businesses across various industries. Whether you are looking to scale your operations, improve data management, or integrate new technology into your workflow, Gtech Center is here to guide you every step of the way.</p>
+          <p className='font-bold text-[2.5em]'>Welcome to <span className='text-headerInfoBgColor'>GG-WISSEN Consults Ltd</span> !</p>
+          <p className='text-welcomeBgColor'>We are thrilled to have you here! At G-WISSEN Consults, we’re more than just a consultancy firm – we’re your trusted partner in innovation, growth, and success. Whether you're exploring cutting-edge technology, optimizing operations, or embarking on a transformative project, we’re here to guide you every step of the way.
+Let’s collaborate to turn your ambitions into achievements. Together, we’ll shape a sustainable and innovative future.
+Feel free to explore our services and reach out to us – we’re excited to start this journey with you! 🚀
+</p>
           <div className='w-full flex '>
             <Link href={"/auth/register"} className='bg-headerInfoBgColor text-white font-semibold text-center  rounded-[30px] p-3 w-[200px] '>Get started</Link>
           </div>
@@ -155,20 +160,22 @@ const page = () => {
         <div className='flex flex-wrap justify-center gap-[1.6em]'>
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <CallCenter width={80} height={80} />
-                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Call Center optimisation services</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Enhance the efficiency and customer satisfaction of your call center with GTechCenter's Optimization Services.</p>
+                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Call Center Optimization Services</p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'>We offer comprehensive solutions to improve call center operations, leveraging advanced technology and analytics to enhance customer interactions, boost agent productivity, and streamline workflows for maximum efficiency.
+                        </p>
                     </div>
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <ProjectManage width={80} height={80} />
                         <p className='text-textColor  font-semibold text-[1.3em] w-[90%] text-center'>Project Management</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Drive your projects to success with GTechCenter's Project Management Solutions. Our expert team ensures efficient planning, execution, and delivery.</p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'> Our end-to-end project management services ensure the successful delivery of your initiatives. We focus on managing resources, timelines, and risk, while ensuring that each project meets its objectives on time and within budget.
+                        </p>
                     </div>
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <ItSolutions width={80} height={80} />
                         <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>IT Solutions</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Empower your business with GTechCenter's innovative IT solutions, offering seamless integrations, secure systems, and scalable technologies. </p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'>We specialize in integrating cutting-edge technology to optimize your IT infrastructure. From system upgrades to cloud integration, we provide tailored solutions that support your business goals and drive efficiency.</p>
                     </div>
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
@@ -185,8 +192,8 @@ const page = () => {
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <CyberSecurity width={80} height={80} />
-                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Cyber security services</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Protect your business with GTechCenter's advanced cybersecurity services, ensuring data integrity and security.</p>
+                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Cybersecurity Services</p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'>Our cybersecurity solutions protect your business from digital threats. We provide continuous monitoring, threat detection, and robust security frameworks to safeguard your data and ensure business continuity.</p>
                     </div>
 
                 </div>

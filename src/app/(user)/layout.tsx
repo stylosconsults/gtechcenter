@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
-  title: "user/",
+  title: "G-WISSEN Consults LTD",
   description: "User portal"
 }
 
