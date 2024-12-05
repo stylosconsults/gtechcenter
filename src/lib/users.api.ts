@@ -1,9 +1,9 @@
 import { LoggingUser, ResponseUser, User } from "@/types/User"
 import axios, { AxiosError } from "axios"
 
-
+const BASEURL = "http://localhost:3001/api"
 const apiClient = axios.create({
-    baseURL: "/api",
+    baseURL: BASEURL,
     headers: {
         "Content-Type": "application/json"
     }
@@ -12,7 +12,6 @@ export const loginApi = async (loggingUser:LoggingUser):Promise<ResponseUser>=>{
     try {
         const response = await apiClient.post("/auth/login", loggingUser)
 
-        console.log('logging response data ',response.data)   ;
         return response.data
         // localStorage.setItem("authToken", response.data.)
     } catch (error) {
@@ -33,7 +32,6 @@ export const registerUserApi = async(registeringUser: User):Promise<ResponseUser
         return response.data
     } catch (error) {
         if(error instanceof AxiosError){
-            console.log('axios error ', error);
             throw new Error(error.response?.data.message)
         }
 

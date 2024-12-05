@@ -177,7 +177,6 @@ export function useContacts() {
         error: (err) => err.message || "Failed to contact",
       }
     )
-      console.log("result after contact_delete", result);
       setContactSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         deleteSuccessMsg: "deleted successfully",

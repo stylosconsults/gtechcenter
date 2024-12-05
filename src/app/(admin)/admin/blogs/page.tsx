@@ -13,6 +13,7 @@ import DeleteModal from '../../../../components/DeleteModal'
 import AdminBlogCard from '@/components/AdminBlogCard'
 import toast from 'react-hot-toast'
 import NoBlogsFound from '@/components/NoBlogsFound'
+import { useRouter } from 'next/navigation'
 
 
 const barlow = Barlow({
@@ -36,99 +37,13 @@ const inter = Inter({
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], // All available weights
 });
 
-// type BlogType = {
-//     image: StaticImageData,
-//     param1: string,
-//     param2: string,
-//     param3: string
-// }
-
-// const blogs: BlogType[] = [
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     },
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     }, 
-
-//     {
-//         image: Blog,
-//         param1: "ADMIN",
-//         param2: "WEB DESIGN",
-//         param3: "Magna sea dolor ipsum amet lorem eos"
-//     }
-// ]
-
 type SearchParamsType = {
     searchParams: Record<string, string> | null | undefined;
 }
 
 const page = ({ searchParams }: SearchParamsType) => {
-    const { blogs, error, setError, loading } = useBlogs()
+    const { blogs, error, setError, loading, fetchBlogs } = useBlogs()
+    const router = useRouter()
     const showDeleteModal = searchParams?.show_delete
     const blogId = searchParams?.id
     const page = searchParams?.page ? Number(searchParams?.page) : 1
@@ -138,15 +53,6 @@ const page = ({ searchParams }: SearchParamsType) => {
 
     const loadingBlogCards = new Array(5).fill(null)
     const slicedBlogs = blogs.slice(startIndex, endIndex)
-
-    useEffect(() => {
-        if (error) {
-            toast.error(error)
-            setError("")
-        }
-    }, [error])
-
-    console.log('blogs ', blogs);
 
     return (
         <div className={`flex flex-col w-[95%] ${barlow.className} gap-5 p-3 overflow-auto`}>
@@ -176,7 +82,7 @@ const page = ({ searchParams }: SearchParamsType) => {
                     }
 
 
-                    {showDeleteModal && <DeleteModal blogId={blogId!} />}
+                    {/* {showDeleteModal && <DeleteModal blogId={blogId!} />} */}
 
 
                 </div>

@@ -9,6 +9,7 @@ import {
   updateBlogApi,
 } from "../lib/blogs.api";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface BlogSuccessMsgs {
   createSuccessMsg: string;
@@ -30,14 +31,19 @@ export function useBlogs() {
     getSingleSuccessMsg: "",
     deleteSuccessMsg: "",
   });
-
+  const fetchData: any = async () => {
+    await fetchBlogs();
+  };
+  
   const fetchBlogs = async () => {
+    
     setLoading(true);
     setError("");
     setBlogSuccessMsgs((previousSuccessMsgs) => ({
       ...previousSuccessMsgs,
       getAllSuccessMsg: "",
     }));
+
     try {
       const fetchedBlogs = await fetchBlogsApi();
       setBlogs([...fetchedBlogs.blogs]);
@@ -163,25 +169,26 @@ export function useBlogs() {
       ...previousSuccessMsgs,
       deleteSuccessMsg: "",
     }));
-
+  
     try {
-      const deleteStatus = await toast.promise(deleteBlogApi(blogId),
-      {
+      await toast.promise(deleteBlogApi(blogId), {
         loading: "Wait !! Deleting blog ...",
         success: "Blog deleted successfully",
-        error: err => err.message
-      }
-    );
+        error: (err) => err.message,
+      });
+  
+      // Directly update the blogs state
       setBlogs((previousBlogs) =>
         previousBlogs.filter((blog) => blog._id !== blogId)
       );
 
-      if (deleteStatus === 204) {
-        setBlogSuccessMsgs((previousSuccessMsgs) => ({
-          ...previousSuccessMsgs,
-          deleteSuccessMsg: "Blog deleted successfully",
-        }));
-      }
+      // await fetchBlogs()
+
+  
+      setBlogSuccessMsgs((previousSuccessMsgs) => ({
+        ...previousSuccessMsgs,
+        deleteSuccessMsg: "Blog deleted successfully",
+      }));
     } catch (error) {
       setError((error as Error).message);
       setBlogSuccessMsgs((previousSuccessMsgs) => ({
@@ -192,10 +199,13 @@ export function useBlogs() {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
-    fetchBlogs();
+    fetchData();
   }, []);
+ 
+
 
   return {
     blogs,

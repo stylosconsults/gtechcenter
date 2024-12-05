@@ -137,8 +137,8 @@ const page = () => {
 
       <div className='flex '>
         <div className='flex flex-col items-center justify-center bg-headerBgColor w-[50%] px-6 gap-7 '>
-          <p className='font-bold text-[2.5em]'>Welcome to <span className='text-headerInfoBgColor'>GTech Center Ltd</span></p>
-          <p className='text-welcomeBgColor'>where innovation meets expertise! As a forward-thinking technology consultancy firm, we deliver cutting-edge solutions that drive growth and efficiency for businesses across various industries. Whether you are looking to scale your operations, improve data management, or integrate new technology into your workflow, Gtech Center is here to guide you every step of the way.</p>
+          <p className='font-bold text-[2.5em]'>Welcome to <span className='text-headerInfoBgColor'>G-WISSEN Ltd</span></p>
+          <p className='text-welcomeBgColor'>Where innovation meets expertise! As a forward-thinking technology consultancy firm, we deliver cutting-edge solutions that drive growth and efficiency for businesses across various industries. Whether you are looking to scale your operations, improve data management, or integrate new technology into your workflow, G-WISSEN Ltd is here to guide you every step of the way.</p>
           <div className='w-full flex '>
             <Link href={"/auth/register"} className='bg-headerInfoBgColor text-white font-semibold text-center  rounded-[30px] p-3 w-[200px] '>Get started</Link>
           </div>
@@ -156,25 +156,25 @@ const page = () => {
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <CallCenter width={80} height={80} />
                         <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Call Center optimisation services</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Enhance the efficiency and customer satisfaction of your call center with GTechCenter's Optimization Services.</p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'> We offer comprehensive solutions to improve call center operations, leveraging advanced technology and analytics to enhance customer interactions, boost agent productivity, and streamline workflows for maximum efficiency.</p>
                     </div>
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <ProjectManage width={80} height={80} />
                         <p className='text-textColor  font-semibold text-[1.3em] w-[90%] text-center'>Project Management</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Drive your projects to success with GTechCenter's Project Management Solutions. Our expert team ensures efficient planning, execution, and delivery.</p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'>Our end-to-end project management services ensure the successful delivery of your initiatives. We focus on managing resources, timelines, and risk, while ensuring that each project meets its objectives on time and within budget.</p>
                     </div>
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <ItSolutions width={80} height={80} />
                         <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>IT Solutions</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Empower your business with GTechCenter's innovative IT solutions, offering seamless integrations, secure systems, and scalable technologies. </p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'>We specialize in integrating cutting-edge technology to optimize your IT infrastructure. From system upgrades to cloud integration, we provide tailored solutions that support your business goals and drive efficiency.</p>
                     </div>
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <WebDev width={80} height={80} />
                         <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Web design & development</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>GTechCenter delivers visually appealing, responsive websites that combine sleek design with innovative technology.</p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'>We create responsive, intuitive, and engaging websites and mobile applications tailored to your specific needs, ensuring a seamless user experience across platforms.</p>
                     </div>
 
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
@@ -186,7 +186,7 @@ const page = () => {
                     <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
                         <CyberSecurity width={80} height={80} />
                         <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Cyber security services</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Protect your business with GTechCenter's advanced cybersecurity services, ensuring data integrity and security.</p>
+                        <p className='text-center w-[90%] text-welcomeBgColor'>Our cybersecurity solutions protect your business from digital threats. We provide continuous monitoring, threat detection, and robust security frameworks to safeguard your data and ensure business continuity.</p>
                     </div>
 
                 </div>
@@ -200,7 +200,7 @@ const page = () => {
             <div className='flex flex-col gap-3 px-7'>
               <ExpertTeam />
               <p className='text-textColor font-semibold text-[1.3em]'>Expert team</p>
-              <p className='text-welcomeBgColor'>With a diverse team of skilled professionals, Gtech Center offers unmatched expertise in tech consulting.</p>
+              <p className='text-welcomeBgColor'>With a diverse team of skilled professionals, G-WISSEN Consults offers unmatched expertise in tech consulting.</p>
             </div>
             <div className='flex flex-col gap-3 px-7'>
               <ClientApproach />
@@ -210,12 +210,8 @@ const page = () => {
           </div>
 
           <div className='flex flex-col items-center justify-center gap-7 bg-headerInfoBgColor w-[33.3%]'>
-            <p className='text-white text-center w-[90%]'>Clita nonumy sanctus nonumy et clita tempor, et
-              sea amet ut et sadipscing rebum amet takimata
-              amet, sed accusam eos eos dolores dolore et. Et
-              ea ea dolor rebum invidunt clita eos. Sea
-              accusam stet stet ipsum, sit ipsum et ipsum
-              kasd</p>
+          <p className='text-white text-center w-[90%]'>At G-WISSEN Ltd Consultancy Solutions, we are committed to delivering tailored, innovative, and results-driven solutions that empower businesses to thrive in today's competitive environment. With a team of skilled professionals and a client-first approach, we are your trusted partner for achieving your goals.</p>
+
 
             <Link href={"/about"} className='text-black w-[9em] rounded-[1.6em] text-center p-3 bg-white ' >Learn More</Link>
           </div>
@@ -285,12 +281,9 @@ const page = () => {
 
         <div className='w-[50%] flex flex-col gap-7 justify-center px-6 ps-8' >
           <p className='text-textColor font-semibold text-[2.5em]'>What Say Our Client!!!</p>
-          <p className='text-welcomeBgColor flex gap-2'><Quote width="30" height="30" />Dolores sed duo clita tempor justo dolor et stet
-            lorem kasd labore dolore lorem ipsum. At lorem lorem
-            magna ut et, nonumy et labore et tempor diam tempor
-            erat dolor rebum sit ipsum.</p>
+          <p className='text-welcomeBgColor flex items-start'><Quote className= "w-[300px]" />Our clients consistently praise us for our dedication, expertise, and tailored solutions. They’ve trusted us to handle every aspect of their projects, from strategic planning to seamless execution, and we’ve exceeded their expectations time and again. Whether it's providing innovative solutions, ensuring timely delivery, or being a reliable partner in growth, we’re proud to have helped businesses achieve success across various industries. Our commitment to excellence has made us a trusted partner for organizations looking to unlock their full potential..</p>
 
-          <div className='flex gap-3 relative'>
+          {/* <div className='flex gap-3 relative'>
             <Image className='w-[60px] h-[60px] rounded-[100%]' src={teamMember2} alt='image' />
             <div className='flex flex-col'>
               <p className='text-textColor font-semibold text-[1.2em]'>Client Name</p>
@@ -300,7 +293,8 @@ const page = () => {
               <RedCircle width="37" height="37" />
               <RedCircle width="37" height="37" />
             </div>
-          </div>
+          </div> */}
+
         </div>
       </div>
       {/* to be changed` */}

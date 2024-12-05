@@ -24,12 +24,13 @@ export function useUsers() {
         getSingleUserMsg: "",
         updateUserMsg: ""
     });
+
     const [users, setUsers] = useState<SavedUser[]>([]);
     const [currentUser, setCurrentUser] = useState<SavedUser>({
         _id: "",
         email: "",
         first_name: "",
-        phone_number: "",
+        phone_number: null,
         last_name: "",
         password: "",
         role: ROLES.USER,
@@ -61,7 +62,7 @@ export function useUsers() {
                 email: loggedInUser.user.email,
                 first_name: loggedInUser.user.first_name,
                 last_name: loggedInUser.user.last_name,
-                phone_number: "",
+                phone_number: loggedInUser.user.phone_number,
                 password: loggedInUser.user.password,
                 role: loggedInUser.user.role
             });
@@ -111,7 +112,7 @@ export function useUsers() {
                 email: registeredUser.user.email,
                 first_name: registeredUser.user.first_name,
                 last_name: registeredUser.user.last_name,
-                phone_number: "",
+                phone_number: registeredUser.user.phone_number,
                 password: registeredUser.user.password,
                 role: registeredUser.user.role
             });

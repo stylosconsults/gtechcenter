@@ -38,12 +38,12 @@ const navLinks: NavLink[] = [
         href: '/about'
     },
     {
-        name: 'SERVICE',
+        name: 'SERVICES',
         href: '/services'
     },
 
     {
-        name: 'PAGES',
+        name: 'BLOGS',
         href: '/blogs'
     },
 
@@ -55,14 +55,13 @@ const navLinks: NavLink[] = [
 
 const Navbar = () => {
     const currentPath = usePathname()
-    console.log(currentPath);
     return (
         <nav className='flex flex-col h-[18vh] gap-2 '>
             <Header />
             <div className={`${barlow.className} sticky top-0 z-40 flex items-center justify-between px-[40px] h-[60%]`}>
                 <Link href={"/"} className='flex items-center gap-4 ' >
                     <NavIcon width="40px" />
-                    <p className={`text-[40px] font-extrabold text-headerInfoBgColor`}>GTECH CENTER LTD</p>
+                    <p className={`text-[40px] font-extrabold text-headerInfoBgColor`}>G-WISSEN LTD</p>
                 </Link>
 
                 <div className='flex gap-[40px]'>

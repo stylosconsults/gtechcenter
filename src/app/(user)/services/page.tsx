@@ -67,7 +67,7 @@ const Services = () => {
                         <div className='flex flex-col gap-3 px-7'>
                             <ExpertTeam />
                             <p className='text-textColor font-semibold text-[1.3em]'>Expert team</p>
-                            <p className='text-welcomeBgColor'>With a diverse team of skilled professionals, Gtech Center offers unmatched expertise in tech consulting.</p>
+                            <p className='text-welcomeBgColor'>With a diverse team of skilled professionals, G-WISSEN Consults offers unmatched expertise in tech consulting.</p>
                         </div>
                         <div className='flex flex-col gap-3 px-7'>
                             <ClientApproach />
@@ -77,7 +77,7 @@ const Services = () => {
                     </div>
 
                     <div className='flex flex-col items-center justify-center gap-7 bg-headerInfoBgColor w-[33.3%]'>
-                        <p className='text-white text-center w-[90%]'>At GTechCenter Consultancy Solutions, we are committed to delivering tailored, innovative, and results-driven solutions that empower businesses to thrive in today's competitive environment. With a team of skilled professionals and a client-first approach, we are your trusted partner for achieving your goals.</p>
+                        <p className='text-white text-center w-[90%]'>At G-WISSEN Ltd Consultancy Solutions, we are committed to delivering tailored, innovative, and results-driven solutions that empower businesses to thrive in today's competitive environment. With a team of skilled professionals and a client-first approach, we are your trusted partner for achieving your goals.</p>
 
                         <Link href={"/about"} className='text-black w-[9em] rounded-[1.6em] text-center p-3 bg-white ' >Learn More</Link>
                     </div>

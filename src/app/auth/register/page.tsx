@@ -8,16 +8,18 @@ import { User } from '@/types/User'
 import { register } from 'module'
 import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
-    const { error, loading, registerUser, setError, userSuccessMsgs } = useUsers()
+    const { error, loading, registerUser, setError,currentUser, userSuccessMsgs } = useUsers()
+    const router = useRouter()
     const [disableRegisterBtn, setDisableRegisterBtn] = useState<boolean>(false)
     const [registeringData, setRegisteringData] = useState<User>({
         email: "",
         password: "",
         first_name: "",
         last_name: "",
-        phone_number: "",
+        phone_number: null,
         role: ROLES.USER
     })
 
@@ -33,27 +35,20 @@ const page = () => {
 
     const handleOnSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log('registering data ', registeringData);
         await registerUser(registeringData)
     }
 
-    useEffect(() => {
-        if (error) {
-            alert(error)
-            setError("")
-        }
-    }, [error])
+
 
     useEffect(() => {
         if (userSuccessMsgs.registerSuccessMsg) {
-            alert(userSuccessMsgs.registerSuccessMsg)
             setRegisteringData(
                 {
                     email: "",
                     password: "",
                     first_name: "",
                     last_name: "",
-                    phone_number: "",
+                    phone_number: 0,
                     role: ROLES.USER
                 }
             )
@@ -74,6 +69,21 @@ const page = () => {
             setDisableRegisterBtn(true)
         }
     }, [registeringData])
+
+    useEffect(() => {
+        let redirectTimeout: NodeJS.Timeout
+        if (userSuccessMsgs.registerSuccessMsg && currentUser) {
+            redirectTimeout = setTimeout(() => {
+                const redirectPath = currentUser.role === ROLES.ADMIN ? "/admin/blogs" : currentUser.role === ROLES.USER ? "/" : null
+                if (redirectPath) router.replace(redirectPath)
+            }, 2000);
+        }
+
+        return () => {
+            if (redirectTimeout) clearTimeout(redirectTimeout)
+        }
+    }, [currentUser, router, userSuccessMsgs])
+
 
     return (
         <div className='flex flex-col'>
@@ -110,7 +120,7 @@ const page = () => {
                             placeholder='Phone number'
                             className='p-3 text-[1.1em] outline-none rounded-[5px]'
                             name='phone_number'
-                            value={registeringData.phone_number}
+                            value={registeringData.phone_number!}
                             onChange={handleRegisteringDataChange}
                             required
                         />

@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { image } from '@cloudinary/url-gen/qualifiers/source'
 import { useBlogs } from '@/hooks/useBlogs'
+import toast from 'react-hot-toast'
 
 const barlow = Barlow({
     display: 'swap',
@@ -44,9 +45,9 @@ const AddBlog = () => {
 
             setImgObj(uploadedImg)
 
-            const blogUrl = URL.createObjectURL(uploadedImg)
+            const blobUrl = URL.createObjectURL(uploadedImg)
 
-            setImgBlobUrl(blogUrl)
+            setImgBlobUrl(blobUrl)
         }
 
     }
@@ -61,9 +62,9 @@ const AddBlog = () => {
 
             setImgObj(uploadedImg)
 
-            const blogUrl = URL.createObjectURL(uploadedImg)
+            const blobUrl = URL.createObjectURL(uploadedImg)
 
-            setImgBlobUrl(blogUrl)
+            setImgBlobUrl(blobUrl)
         }
     }
 
@@ -92,7 +93,7 @@ const AddBlog = () => {
     const handleOnSubmit = async (e: FormEvent) => {
         e.preventDefault()
         if (!imageObj) {
-            alert("Please upload an image")
+            toast.error("Please upload a file")
             return
         }
 
@@ -103,7 +104,6 @@ const AddBlog = () => {
         data.append("category", addBlogFormData.category)
         data.append("description", addBlogFormData.description)
 
-        console.log('image object', imageObj);
 
         await createBlog(data)
 
@@ -114,7 +114,6 @@ const AddBlog = () => {
     useEffect(() => {
 
         if (blogSuccessMsgs.createSuccessMsg !== "") {
-            alert(blogSuccessMsgs.createSuccessMsg)
             setAddBlogFormData({
                 title: "",
                 category: "",
@@ -124,18 +123,14 @@ const AddBlog = () => {
             setImgBlobUrl("")
             setImgObj(null)
 
-            router.push("/admin/blogs")
+            router.replace("/admin/blogs")
 
         }
 
     }, [blogSuccessMsgs.createSuccessMsg, router])
 
 
-    useEffect(() => {
-        if (error)
-            alert(error)
-        setError("")
-    }, [error])
+   
     useEffect(() => {
 
         if (
@@ -214,13 +209,13 @@ const AddBlog = () => {
                                 onDragOver={(e) => handleDragOver(e)}
                                 // onDragLeave={(e)=>handleDragLeave(e)}
                                 id='blog_image'
-                                className={`cursor-pointer flex relative bg-headerInfoBgColor bg-opacity-[6%] flex-col  justify-center items-center border-[1px] border-dashed  border-headerInfoBgColor w-full h-[95%] rounded-[25px]`}>
+                                className={`cursor-pointer flex relative bg-headerInfoBgColor bg-opacity-[6%] flex-col  justify-center items-center border-[1px] border-dashed  border-headerInfoBgColor w-full h-[97%] rounded-[25px]`}>
                                 <input onChange={(e) => getImagePreview(e)} id='blog_image' name='file' type="file" accept='image/*' className='hidden' />
 
                                 {imgBlobUrl &&
                                     <div className='w-full h-full rounded-[25px] '>
-                                        <Image className=' w-full h-[405px]  rounded-[25px] ' width={300} height={500} src={imgBlobUrl} alt={'uploadedImage'} />
-                                    </div>
+                                        <Image className='object-cover rounded-[25px] ' fill  src={imgBlobUrl} alt={'uploadedImage'} />
+                                 </div>
                                 }
 
                                 <div className={`${imgBlobUrl ? "absolute rounded-[25px] w-[638px] h-[400px] bg-white bg-opacity-[.8]" : ""} w-full h-full flex flex-col justify-center items-center gap-3 `}>

@@ -2,8 +2,10 @@ import { Contact, ResponseContact, ResponseContacts, SavedContact } from "@/type
 import axios,{ AxiosError } from "axios"
 import Cookies from "js-cookie"
 
+const BASEURL = "http://localhost:3001/api"
+
 const apiClient= axios.create({
-    baseURL:"/api",
+    baseURL:BASEURL,
     headers: {
         "Content-Type": "application/json"
     }
@@ -14,7 +16,6 @@ const token = Cookies.get("auth_token")
 export const createContactApi = async(newContact: Contact):Promise<ResponseContact>=>{
     try {
         const response = await apiClient.post('/contacts', newContact)
-        console.log('response data ', response.data);
         return response.data
 
     } catch (error) {
@@ -28,7 +29,7 @@ export const createContactApi = async(newContact: Contact):Promise<ResponseConta
 
 export const updateContactApi = async(contactId: string,updatedContactData: Contact):Promise<ResponseContact>=>{
     try {
-        const response = await axios.put(`/api/contacts/${contactId}`, updatedContactData,{
+        const response = await axios.put(`${BASEURL}/contacts/${contactId}`, updatedContactData,{
             headers: {
                 Authorization: `Bearer ${token}`,
             }
@@ -47,7 +48,7 @@ export const updateContactApi = async(contactId: string,updatedContactData: Cont
 export const fetchAllContactsApi = async():Promise<ResponseContacts >=>{
     try {
 
-        const response = await axios.get(`/api/contacts/`, {
+        const response = await axios.get(`${BASEURL}/contacts/`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
@@ -64,7 +65,7 @@ export const fetchAllContactsApi = async():Promise<ResponseContacts >=>{
 
 export const fetchSingleContactApi = async(contactId: string):Promise<ResponseContact> => {
     try {
-        const response = await axios.get(`/api/contacts/${contactId}`, {
+        const response = await axios.get(`${BASEURL}/contacts/${contactId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
@@ -81,7 +82,7 @@ export const fetchSingleContactApi = async(contactId: string):Promise<ResponseCo
 
 export const deleteContactApi = async(contactId: string):Promise<void>=>{
     try {
-        const response = await axios.delete(`/api/contacts/${contactId}`, {
+        const response = await axios.delete(`${BASEURL}/contacts/${contactId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }

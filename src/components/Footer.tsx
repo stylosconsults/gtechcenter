@@ -6,6 +6,7 @@ import Instagram from "../../public/icons/instagram.svg"
 import Twitter from "../../public/icons/twitter.svg"
 import LinkedIn from "../../public/icons/linkedIn.svg"
 import { useSubscription } from '@/hooks/useSubscription'
+import toast from 'react-hot-toast'
 
 const Footer = () => {
     const { error, loading, createSubscription, setError, subscribeSuccessMsgs } = useSubscription()
@@ -26,7 +27,6 @@ const Footer = () => {
 
     useEffect(()=>{
         if(subscribeSuccessMsgs.createSuccessMsg !==""){
-            alert(subscribeSuccessMsgs.createSuccessMsg)
             setSubscribingEmail("")
         }
     }, [subscribeSuccessMsgs.createSuccessMsg])
@@ -34,7 +34,7 @@ const Footer = () => {
 
     useEffect(() => {
         if (error) {
-            alert(error)
+            toast.error(error)
             setError("")
         }
 
@@ -76,9 +76,9 @@ const Footer = () => {
                 <div className='flex flex-col gap-3'>
                     <p className='text-white font-semibold text-[1.1em]'>Quick Links</p>
                     <div className='flex flex-col gap-1 ps-4 text-headerLinkBorderColor'>
-                        <Link href={""}>Home</Link>
+                        <Link href={"/"}>Home</Link>
                         <Link href={"/about"}>About Us</Link>
-                        <Link href={""}>Our Services</Link>
+                        <Link href={"/services"}>Our Services</Link>
                         <Link href={"blogs"}>Latest Blog Post</Link>
                         <Link href={"/contact"}>Contact Us</Link>
                     </div>
@@ -86,9 +86,9 @@ const Footer = () => {
                 <div className='flex flex-col gap-3'>
                     <p className='text-white font-semibold text-[1.1em]'>Popular Links</p>
                     <div className='flex flex-col gap-1 ps-4 text-headerLinkBorderColor'>
-                        <Link href={""}>Home</Link>
+                        <Link href={"/"}>Home</Link>
                         <Link href={"/about"}>About Us</Link>
-                        <Link href={""}>Our Services</Link>
+                        <Link href={"/services"}>Our Services</Link>
                         <Link href={"/blogs"}>Latest Blog Post</Link>
                         <Link href={"/contact"}>Contact Us</Link>
                     </div>
@@ -96,9 +96,9 @@ const Footer = () => {
                 <div className='flex flex-col gap-3'>
                     <p className='text-white font-semibold text-[1.1em]'>Get In Touch</p>
                     <div className='flex flex-col gap-1 ps-4 text-headerLinkBorderColor'>
-                        <Link href={""}>123 Street, New York, USA</Link>
+                        <Link href={""}>Kk 345 st., Kicukiro Saint Joseph</Link>
                         <Link href={""}>info@example.com</Link>
-                        <Link href={""}>+012 345 67890</Link>
+                        <Link href={""}>+250788647871</Link>
                     </div>
                 </div>
                 <div className='flex flex-col gap-3'>

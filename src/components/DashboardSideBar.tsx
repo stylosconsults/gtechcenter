@@ -6,7 +6,7 @@ import Link from 'next/link'
 const DashboardSideBar = () => {
   return (
     <div className='bg-headerInfoBgColor flex flex-col p-2 gap-6 w-[5%]'>
-      <Link href={""}>
+      <Link href={"/admin/blogs"}>
         <GTechIcon className="mb-2" />
       </Link>
       <Link href={""}><StoreDashboard /></Link>

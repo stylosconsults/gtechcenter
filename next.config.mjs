@@ -12,14 +12,14 @@ const nextConfig = {
     return config; // Return the updated config
   },
 
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "http://localhost:3001/api/:path*"
-      }
-    ]
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: "http://localhost:3001/api/:path*"
+  //     }
+  //   ]
+  // },
 
   images: {
     domains: ['res.cloudinary.com'], // Add your Cloudinary domain

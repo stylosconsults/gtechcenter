@@ -36,19 +36,6 @@ const LoginPage = () => {
     }
 
 
-    // useEffect(() => {
-    //     const forbidden = searchParams.get('forbidden')
-    //     const jwtExpired = searchParams.get('jwt_expired')
-    //     const certainError = searchParams.get('certain_error')
-
-    //     if (forbidden || jwtExpired || certainError) {
-    //         setTimeout(() => {
-    //             router.replace("/auth/login")
-    //         }, 4000);
-    //     }
-    // }, [searchParams, router])
-
-    // Handle URL parameters and errors
     useEffect(() => {
         const forbidden = searchParams.get('forbidden')
         const jwtExpired = searchParams.get('jwt_expired')
@@ -61,9 +48,9 @@ const LoginPage = () => {
             if (forbidden || jwtExpired || certainError) {
                 const message = forbidden || jwtExpired || certainError
                 toast.error(message)
-                // redirectTimeout = setTimeout(() => {
-                //     router.replace("/auth/login")
-                // }, 3000);
+                redirectTimeout = setTimeout(() => {
+                    router.replace("/auth/login")
+                }, 3000);
                 router.replace(pathname)
             }
 

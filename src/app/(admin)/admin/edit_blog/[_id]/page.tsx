@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
 import { edit } from '@cloudinary/url-gen/actions/animated'
+import toast from 'react-hot-toast'
 
 const barlow = Barlow({
     display: 'swap',
@@ -26,17 +27,15 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
     const [imgBlobUrl, setImgBlobUrl] = useState<string>("")
     const [imageObj, setImgObj] = useState<File | null>(null)
-    const [disableEditBtn , setDisableEditBtn] = useState<boolean>(false)
-
+    const [disableEditBtn, setDisableEditBtn] = useState<boolean>(false)
+    const { updateBlog, blogSuccessMsgs, error, setError, loading, fetchSingleBlog, singleBlog, } = useBlogs()
+    const router = useRouter()
     const [editBlogFormData, setEditBlogFormData] = useState<EditBlogFormData>({
         title: "",
         category: "",
         description: "",
 
     })
-
-    const { updateBlog, blogSuccessMsgs, error, setError, loading, fetchSingleBlog, singleBlog, } = useBlogs()
-    const router = useRouter()
 
     const getImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
@@ -102,7 +101,6 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
         data.append("category", editBlogFormData.category)
         data.append("description", editBlogFormData.description)
 
-        console.log('image object', imageObj);
 
         updateBlog(params._id, data)
 
@@ -111,8 +109,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
     useEffect(() => {
 
         if (blogSuccessMsgs.updateSuccessMsg) {
-           
-            alert(blogSuccessMsgs.updateSuccessMsg)
+
 
             setEditBlogFormData({
                 title: "",
@@ -123,18 +120,11 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
             setImgBlobUrl("")
             setImgObj(null)
 
-            router.push("/admin/blogs")
+            router.replace("/admin/blogs")
 
         }
 
     }, [blogSuccessMsgs.updateSuccessMsg, router])
-
-
-    useEffect(() => {
-        if (error)
-            alert(error)
-        setError("")
-    }, [error])
 
 
     useEffect(() => {
@@ -146,7 +136,6 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
     useEffect(() => {
         if (singleBlog) {
-            console.log('single blog at edit', singleBlog.imagePublicId);
             setEditBlogFormData({
                 title: singleBlog.title,
                 category: singleBlog.category,
@@ -156,26 +145,24 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
             // If you want to set initial image
         }
 
-        router.replace("/admin/blogs")
-    }, [singleBlog, router])
+    }, [singleBlog])
 
-    useEffect(()=>{
-      
-            if (
-                singleBlog?.title === editBlogFormData.title &&
-                singleBlog?.description === editBlogFormData.description &&
-                singleBlog?.category === editBlogFormData.category &&
-                !imageObj
-            ) {
-                setDisableEditBtn(true);
-            }else{
-                setDisableEditBtn(false)
-            }
-        
-        
-    },[editBlogFormData, singleBlog, imageObj])
+    useEffect(() => {
 
-    console.log('imageObj ', imageObj);
+        if (
+            singleBlog?.title === editBlogFormData.title &&
+            singleBlog?.description === editBlogFormData.description &&
+            singleBlog?.category === editBlogFormData.category &&
+            !imageObj
+        ) {
+            setDisableEditBtn(true);
+        } else {
+            setDisableEditBtn(false)
+        }
+
+
+    }, [editBlogFormData, singleBlog, imageObj])
+
     return (
         <div className={`flex flex-col gap-4 w-[94%] h-[96%] mt-2  ${barlow.className}`}>
             <div className='flex justify-between h-[7%]'>
@@ -277,7 +264,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
                     </div>
 
-                    <button disabled={disableEditBtn} className={`${disableEditBtn? "bg-red-400": "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loading ? "loading" : "Edit Blog "}</button>
+                    <button disabled={disableEditBtn} className={`${disableEditBtn ? "bg-red-400" : "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loading ? "loading" : "Edit Blog "}</button>
                 </form>
             </div>
         </div>

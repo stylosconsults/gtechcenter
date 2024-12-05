@@ -6,8 +6,11 @@ import {
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 
+
+const BASEURL = "http://localhost:3001/api"
+
 const apiClient = axios.create({
-  baseURL: "/api",
+  baseURL: BASEURL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -22,7 +25,6 @@ export const createSubscriptionApi = async (
     const response = await apiClient.post("/subscribe", {
       email: newSubscription,
     });
-    console.log("new subscription ", response.data);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -35,16 +37,14 @@ export const createSubscriptionApi = async (
 export const fetchAllSubscriptionsApi =
   async (): Promise<ResponseSubscriptions> => {
     try {
-      const response = await axios.get("/api/subscribe", {
+      const response = await axios.get(`${BASEURL}/subscribe`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("all subscriptions", response.data);
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log("axios error", error.message);
         throw new Error(error.response?.data.message);
       }
       throw error;
@@ -55,7 +55,7 @@ export const fetchSingleSubscriptionApi = async (
   subscriptionId: string
 ): Promise<ResponseSubscription> => {
   try {
-    const response = await axios.get(`/api/subscribe/${subscriptionId}`, {
+    const response = await axios.get(`${BASEURL}/subscribe/${subscriptionId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -63,7 +63,6 @@ export const fetchSingleSubscriptionApi = async (
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log("axios error", error.message);
       throw new Error(error.response?.data.message);
     }
     throw error;
@@ -76,7 +75,7 @@ export const updateSubscriptionApi = async (
 ): Promise<ResponseSubscription> => {
   try {
     const response = await axios.put(
-      `/api/subscribe/${subscriptionId}`,
+      `${BASEURL}/subscribe/${subscriptionId}`,
       updatedSubData,
       {
         headers: {
@@ -87,7 +86,6 @@ export const updateSubscriptionApi = async (
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log("axios error", error.message);
       throw new Error(error.response?.data.message);
     }
     throw error;
@@ -99,7 +97,7 @@ export const deleteSubscriptionApi = async (
 ): Promise<void> => {
   try {
     const response = await axios.delete(
-      `/api/subscribe/${subscriptionId}`,
+      `${BASEURL}/subscribe/${subscriptionId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -108,7 +106,6 @@ export const deleteSubscriptionApi = async (
     );
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log("axios error", error.message);
       throw new Error(error.response?.data.message);
     }
     throw error;

@@ -59,7 +59,6 @@ const Page = () => {
             )
         )
 
-        console.log('contact ', contactInputData);
 
     }
 
@@ -125,7 +124,6 @@ const Page = () => {
                 // const route = response.routes[0].legs[0]
                 // settravelTime(route.duration?.text || 'N/A')
             } else {
-                console.error('Directions request  failed as no routes found');
             }
         }
     }

@@ -1,6 +1,6 @@
 "use client"
 import PagesTopDiv from '../../../components/PagesTopDiv'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Blog from "../../../../public/images/latestBlog1.png"
 import Image from 'next/image'
 import { StaticImageData } from 'next/image'
@@ -14,6 +14,7 @@ import BlogCard from '@/components/BlogCard'
 import LatestBlogCard from '@/components/LatestBlogCard'
 import { image } from '@cloudinary/url-gen/qualifiers/source'
 import NoBlogsFound from '@/components/NoBlogsFound'
+import { useRouter } from 'next/navigation'
 
 type blogTypes = {
     image: StaticImageData,
@@ -26,109 +27,6 @@ type blogTypes = {
 
 }
 
-
-const blogss: blogTypes[] = [
-    {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    }, {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-    }, {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    },
-
-    {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    },
-    {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    },
-    {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    },
-    {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    }
-    , {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    }
-
-    , {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    },
-    {
-        image: Blog,
-        day: "01",
-        month: "JAN",
-        year: "2025",
-        param1: "ADMIN",
-        param2: "WEB DESIGN",
-        param3: "Magna sea dolor ipsum amet lorem eos"
-
-    }
-
-]
 
 
 type SearchParamsType = {
@@ -144,12 +42,10 @@ const page = ({ searchParams }: SearchParamsType) => {
 
     const { blogs, loading } = useBlogs()
 
-    console.log('blog ', blogs);
+
     const slicedBlogs = blogs.slice(startIndex, endIndex)
-    const latestBlogs = blogs.slice(0,5)
+    const latestBlogs = blogs.slice(0, 5)
     const loadingBlogCards = new Array(per_page || 5).fill(null)
-
-
 
 
     return (
@@ -169,8 +65,8 @@ const page = ({ searchParams }: SearchParamsType) => {
                     }
 
                     {
-                        blogs.length===0 && !loading && (
-                          <NoBlogsFound/>
+                        blogs.length === 0 && !loading && (
+                            <NoBlogsFound />
                         )
                     }
 
@@ -179,26 +75,29 @@ const page = ({ searchParams }: SearchParamsType) => {
 
 
                 <div className='flex flex-col gap-[6em] p-1 w-[28%]'>
-                    <form action="" className='flex border border-headerLinkBorderColor rounded-md overflow-hidden'>
+                    {/* <form action="" className='flex border border-headerLinkBorderColor rounded-md overflow-hidden'>
                         <input type="text" placeholder='Keyword' className='p-3 outline-none w-[80%] h-full' />
                         <button className='bg-headerInfoBgColor w-[20%] h-full'></button>
-                    </form>
+                    </form> */}
 
-                    <div className='bg-headerBgColor flex text-textColor font-semibold flex-col gap-3 p-7 relative'>
-                        <p>Web Design</p>
-                        <p>Web Development</p>
-                        <p>Web Development</p>
-                        <p>Keyword Research</p>
-                        <p>Email Marketing</p>
-                        <PinkCircle className="absolute top-[14.1em] left-[19.6em]" />
-                    </div>
+                    {blogs.length !== 0 && (
+
+                        <div className='bg-headerBgColor flex text-textColor font-semibold flex-col gap-3 p-7 relative'>
+                            <p>Web Design</p>
+                            <p>Web Development</p>
+                            <p>Web Development</p>
+                            <p>Keyword Research</p>
+                            <p>Email Marketing</p>
+                            <PinkCircle className="absolute top-[14.1em] left-[19.6em]" />
+                        </div>
+                    )}
 
                     <div className='flex flex-col  h-[350px]  justify-center'>
 
                         {!loading ?
-                            latestBlogs.map(({ description, imagePublicId , _id}, index) => (
+                            latestBlogs.map(({ description, imagePublicId, _id }, index) => (
                                 <LatestBlogCard _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
-                                )) :
+                            )) :
 
                             loadingBlogCards.map((el, index) => (
                                 <div className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
@@ -207,31 +106,34 @@ const page = ({ searchParams }: SearchParamsType) => {
 
                         }
 
-                       
-                    {
-                        blogs.length===0 && !loading && (
-                          <NoBlogsFound/>
-                        )
-                    }
+
+                        {
+                            blogs.length === 0 && !loading && (
+                                <NoBlogsFound />
+                            )
+                        }
 
                     </div>
 
-                    <div className='flex flex-wrap gap-2'>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
-                        <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
-                    </div>
+                    {blogs.length !== 0 && (
 
-                    <div className='flex flex-col bg-headerBgColor text-welcomeBgColor h-[200px] justify-center px-5 gap-5 items-center'>
+                        <div className='flex flex-wrap gap-2'>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
+                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
+                        </div>
+
+                    )}
+                    {/* <div className='flex flex-col bg-headerBgColor text-welcomeBgColor h-[200px] justify-center px-5 gap-5 items-center'>
                         <p className='text-center'>Vero sea et accusam justo dolor accusam
                             lorem consetetur, dolores sit amet sit dolor
                             clita kasd justo, diam accusam no sea ut
@@ -239,7 +141,7 @@ const page = ({ searchParams }: SearchParamsType) => {
                             dolor ipsum amet diamu</p>
 
                         <button className='bg-headerInfoBgColor text-white w-[37%] p-2 rounded-[1.5em]'>Read More</button>
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
