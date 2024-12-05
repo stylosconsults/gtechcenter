@@ -1,7 +1,6 @@
 import {
   ResponseSubscription,
   ResponseSubscriptions,
-  SavedSubscription,
 } from "@/types/Subscription";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
@@ -96,7 +95,7 @@ export const deleteSubscriptionApi = async (
   subscriptionId: string
 ): Promise<void> => {
   try {
-    const response = await axios.delete(
+     await axios.delete(
       `${BASEURL}/subscribe/${subscriptionId}`,
       {
         headers: {

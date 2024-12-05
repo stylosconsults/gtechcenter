@@ -7,8 +7,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
-import { edit } from '@cloudinary/url-gen/actions/animated'
-import toast from 'react-hot-toast'
 
 const barlow = Barlow({
     display: 'swap',
@@ -28,7 +26,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
     const [imgBlobUrl, setImgBlobUrl] = useState<string>("")
     const [imageObj, setImgObj] = useState<File | null>(null)
     const [disableEditBtn, setDisableEditBtn] = useState<boolean>(false)
-    const { updateBlog, blogSuccessMsgs, error, setError, loading, fetchSingleBlog, singleBlog, } = useBlogs()
+    const { updateBlog, blogSuccessMsgs, loading, fetchSingleBlog, singleBlog, } = useBlogs()
     const router = useRouter()
     const [editBlogFormData, setEditBlogFormData] = useState<EditBlogFormData>({
         title: "",
@@ -132,7 +130,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
             await fetchSingleBlog(params._id)
         }
         loadBlog()
-    }, [params._id])
+    }, [params._id, fetchSingleBlog])
 
     useEffect(() => {
         if (singleBlog) {

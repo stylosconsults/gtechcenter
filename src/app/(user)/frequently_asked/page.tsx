@@ -1,8 +1,7 @@
 "use client"
 import PagesTopDiv from '@/components/PagesTopDiv'
 import React, { useState } from 'react'
-import Page from '../contact/page';
-interface Stringss {
+interface SpanDescriptionType {
     span?: string;
     desc: string
 }
@@ -10,7 +9,7 @@ interface Stringss {
 interface FrequentlyAskedType {
     question: string;
     answer: string;
-    list_options?: Stringss[]
+    list_options?: SpanDescriptionType[]
 }
 
 const frequentlyAsked: FrequentlyAskedType[] = [

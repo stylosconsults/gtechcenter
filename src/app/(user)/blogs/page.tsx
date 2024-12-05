@@ -1,31 +1,13 @@
 "use client"
 import PagesTopDiv from '../../../components/PagesTopDiv'
-import React, { useEffect } from 'react'
-import Blog from "../../../../public/images/latestBlog1.png"
-import Image from 'next/image'
-import { StaticImageData } from 'next/image'
+import React from 'react'
 import PinkCircle from "../../../../public/icons/pinkCirlcle.svg"
 import Link from 'next/link'
 import PaginationControls from '../../../components/PaginationControls'
 import { useBlogs } from '@/hooks/useBlogs'
-import { CldImage } from 'next-cloudinary'
-import { dayExtractor, monthShortener, yearExtractor } from '@/utils/dateDetailsExtractor'
 import BlogCard from '@/components/BlogCard'
 import LatestBlogCard from '@/components/LatestBlogCard'
-import { image } from '@cloudinary/url-gen/qualifiers/source'
 import NoBlogsFound from '@/components/NoBlogsFound'
-import { useRouter } from 'next/navigation'
-
-type blogTypes = {
-    image: StaticImageData,
-    day: string,
-    month: string,
-    year: string,
-    param1: string,
-    param2: string,
-    param3: string
-
-}
 
 
 
@@ -33,7 +15,7 @@ type SearchParamsType = {
     searchParams: Record<string, string> | null | undefined;
 }
 
-const page = ({ searchParams }: SearchParamsType) => {
+const BlogsPage = ({ searchParams }: SearchParamsType) => {
 
     const page = searchParams?.page ? Number(searchParams?.page) : 1
     const per_page = searchParams?.per_page ? Number(searchParams?.per_page) : 5
@@ -56,10 +38,10 @@ const page = ({ searchParams }: SearchParamsType) => {
                 <div className='flex flex-wrap gap-8 h-[10%]  w-[65%] ps-12'>
                     {!loading ?
                         slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
-                            <BlogCard index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
+                            <BlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
                         )) :
                         loadingBlogCards.map((el, index) => (
-                            <BlogCard loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+                            <BlogCard key={index} loading={true} _id={''} imagePublicId={''} index={index} lastlyUpdatedDate={''} title={''} category={''} description={''} />
                         ))
 
                     }
@@ -96,11 +78,12 @@ const page = ({ searchParams }: SearchParamsType) => {
 
                         {!loading ?
                             latestBlogs.map(({ description, imagePublicId, _id }, index) => (
-                                <LatestBlogCard _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
+                                <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
                             )) :
 
-                            loadingBlogCards.map((el, index) => (
-                                <div className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
+                            loadingBlogCards.map((index) => (
+                            
+                                <div key={index} className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
                                     loading...
                                 </div>))
 
@@ -151,4 +134,4 @@ const page = ({ searchParams }: SearchParamsType) => {
     )
 }
 
-export default page
+export default BlogsPage

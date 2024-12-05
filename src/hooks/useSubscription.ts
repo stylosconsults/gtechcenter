@@ -3,14 +3,12 @@
 import {
   createSubscriptionApi,
   deleteSubscriptionApi,
-  fetchAllSubscriptionsApi,
+  // fetchAllSubscriptionsApi,
   fetchSingleSubscriptionApi,
   updateSubscriptionApi,
 } from "@/lib/subscribe.api";
 import { SavedSubscription } from "@/types/Subscription";
-import { all } from "axios";
-import { create } from "domain";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import toast from "react-hot-toast";
 
 interface SubscribeSuccessMsgs {
@@ -37,31 +35,31 @@ export const useSubscription = () => {
       deleteSuccessMsg: "",
     });
 
-  const fetchSubscriptions = async () => {
-    setLoading(true);
-    setError("");
-    setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
-      ...previousSuccessMsgs,
-      getAllSuccessMsg: "",
-    }));
-    try {
-      const allSubscriptions = await fetchAllSubscriptionsApi();
+  // const fetchSubscriptions = async () => {
+  //   setLoading(true);
+  //   setError("");
+  //   setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+  //     ...previousSuccessMsgs,
+  //     getAllSuccessMsg: "",
+  //   }));
+  //   try {
+  //     const allSubscriptions = await fetchAllSubscriptionsApi();
 
-      setSubscriptions([...allSubscriptions.subscriptions]);
-      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
-        ...previousSuccessMsgs,
-        getAllSuccessMsg: allSubscriptions.message,
-      }));
-    } catch (error) {
-      setError((error as Error).message);
-      setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
-        ...previousSuccessMsgs,
-        getAllSuccessMsg: "",
-      }));
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setSubscriptions([...allSubscriptions.subscriptions]);
+  //     setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+  //       ...previousSuccessMsgs,
+  //       getAllSuccessMsg: allSubscriptions.message,
+  //     }));
+  //   } catch (error) {
+  //     setError((error as Error).message);
+  //     setSubscribeSuccessMsgs((previousSuccessMsgs) => ({
+  //       ...previousSuccessMsgs,
+  //       getAllSuccessMsg: "",
+  //     }));
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const createSubscription = async (newSubscription: string) => {
     setLoading(true);
@@ -180,11 +178,11 @@ export const useSubscription = () => {
       deleteSuccessMsg: "",
     }));
     try {
-      const result = await toast.promise(deleteSubscriptionApi(subscriptionId),
+      await toast.promise(deleteSubscriptionApi(subscriptionId),
     
       {
         loading: "Wait !! Subscribing...",
-        success: (data) => "Subscription deleted successfully",
+        success: "Subscription deleted successfully",
         error: (err) => err.message,
       }
     );

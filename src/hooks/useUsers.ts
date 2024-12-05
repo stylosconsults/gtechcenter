@@ -1,5 +1,5 @@
 // hooks/useUsers.ts
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 import { ROLES } from "@/constants/userRoles";
@@ -25,7 +25,7 @@ export function useUsers() {
         updateUserMsg: ""
     });
 
-    const [users, setUsers] = useState<SavedUser[]>([]);
+    // const [users, setUsers] = useState<SavedUser[]>([]);
     const [currentUser, setCurrentUser] = useState<SavedUser>({
         _id: "",
         email: "",
@@ -139,7 +139,7 @@ export function useUsers() {
     return {
         loginUser,
         registerUser,
-        users,
+        // users,
         currentUser,
         setError,
         error,

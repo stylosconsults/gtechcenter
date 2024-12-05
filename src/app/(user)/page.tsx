@@ -15,7 +15,6 @@ import requestNote from "../../../public/images/requestNote.png"
 import teamMember1 from "../../../public/images/teamMember1.png"
 import teamMember2 from "../../../public/images/teamMember2.png"
 import teamMember3 from "../../../public/images/teamMember3.png"
-import RedCircle from "../../../public/icons/redCircle.svg"
 import Quote from "../../../public/icons/quote.svg"
 import WelcomeToGTech from "../../../public/images/welcomeToGtech.svg"
 import bgImg1 from "../../../public/images/bgImg2.png"
@@ -27,7 +26,6 @@ import { Barlow } from 'next/font/google'
 import Link from 'next/link'
 import transparentPicture from "../../../public/images/transparentPicture.png"
 import { useBlogs } from '@/hooks/useBlogs'
-import toast from 'react-hot-toast'
 import BlogCard from '@/components/BlogCard'
 import NoBlogsFound from '@/components/NoBlogsFound'
 
@@ -74,21 +72,15 @@ const bgImgs: BgImg[] = [
 
 ]
 
-const page = () => {
+const MainUserPage = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(1)
-  const { blogs, error, setError, loading } = useBlogs()
+  const { blogs, loading } = useBlogs()
   const latest3Blogs = blogs.slice(0, 3)
   const loadingBlogCards = new Array(3).fill(null)
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error)
-      setError("")
-    }
-  }, [error])
 
   useEffect(() => {
-    let n = 4
+    const n = 4
     const intervalId = setInterval(() => {
       setCurrentIndex(currentIndex + 1)
       if (currentIndex === n) {
@@ -303,10 +295,10 @@ const page = () => {
         <div className='flex h-[420px] w-[80%] gap-[40px]'>
           {!loading ?
             latest3Blogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
-              <BlogCard index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
+              <BlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
             )) :
             loadingBlogCards.map((el, index) => (
-              <BlogCard loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+              <BlogCard key={index} loading={true} _id={''} imagePublicId={''} index={index} lastlyUpdatedDate={''} title={''} category={''} description={''} />
             ))
 
           }
@@ -324,4 +316,4 @@ const page = () => {
   )
 }
 
-export default page
+export default MainUserPage

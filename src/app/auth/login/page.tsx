@@ -1,6 +1,6 @@
 "use client"
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 import { useUsers } from '@/hooks/useUsers'
 import { LoggingUser } from '@/types/User'
@@ -12,7 +12,6 @@ import Link from 'next/link'
 
 const LoginPage = () => {
     const router = useRouter()
-    const pathname =usePathname()
     const searchParams = useSearchParams()
     const { error, setError, loading, userSuccessMsgs, currentUser, loginUser } = useUsers()
     const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(true)
@@ -51,7 +50,6 @@ const LoginPage = () => {
                 redirectTimeout = setTimeout(() => {
                     router.replace("/auth/login")
                 }, 3000);
-                router.replace(pathname)
             }
 
 

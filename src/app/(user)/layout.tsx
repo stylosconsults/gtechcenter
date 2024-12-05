@@ -4,7 +4,6 @@ import "../globals.css"
 import { Barlow } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   title: "user/",

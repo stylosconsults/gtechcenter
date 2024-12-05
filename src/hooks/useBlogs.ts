@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Blog, SavedBlog } from "../types/Blog";
+import {  SavedBlog } from "../types/Blog";
 import {
   createBlogApi,
   deleteBlogApi,
@@ -9,7 +9,6 @@ import {
   updateBlogApi,
 } from "../lib/blogs.api";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 interface BlogSuccessMsgs {
   createSuccessMsg: string;
@@ -31,9 +30,6 @@ export function useBlogs() {
     getSingleSuccessMsg: "",
     deleteSuccessMsg: "",
   });
-  const fetchData: any = async () => {
-    await fetchBlogs();
-  };
   
   const fetchBlogs = async () => {
     
@@ -202,7 +198,7 @@ export function useBlogs() {
   
 
   useEffect(() => {
-    fetchData();
+    fetchBlogs();
   }, []);
  
 

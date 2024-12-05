@@ -39,7 +39,7 @@ const Page = () => {
             email: ""
         }
     )
-    const { error, loading, createContact, contactSuccessMsgs, setError } = useContacts()
+    const { loading, createContact, contactSuccessMsgs } = useContacts()
 
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API as string,

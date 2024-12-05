@@ -6,15 +6,8 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import DeleteIcon from "../../public/icons/dashboard/deleteIconDashboard.svg"
 import EditIcon from "../../public/icons/dashboard/editDashboard.svg"
-import { Barlow, Inter, Open_Sans } from 'next/font/google';
+import {  Inter, Open_Sans } from 'next/font/google';
 
-
-const barlow = Barlow({
-    display: 'swap',
-    subsets: ['latin'],
-    variable: "--font-barlow",
-    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
-})
 
 const open_sans = Open_Sans({
     display: "swap",

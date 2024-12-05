@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import DeleteDashBlogSvg from "../../public/icons/dashboard/deleteIllustrationDashboard.svg"
-import Link from 'next/link'
 import { Barlow, Inter } from 'next/font/google';
 import { useRouter } from 'next/navigation';
 import { useBlogs } from '@/hooks/useBlogs';
@@ -25,7 +24,7 @@ const barlow = Barlow({
 
 const DeleteModal = ({ blogId }: { blogId: string }) => {
     const [disableDeleteBtn, setDisableDeleteBtn] = useState<boolean>(false)
-    const { loading, error, blogSuccessMsgs, setError, fetchBlogs, deleteBlog } = useBlogs()
+    const { loading, blogSuccessMsgs, deleteBlog } = useBlogs()
     const router = useRouter()
 
     const handleBlogDelete = async () => {

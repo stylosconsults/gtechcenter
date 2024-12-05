@@ -3,7 +3,6 @@ import { Metadata } from 'next'
 import React from 'react'
 import "../../globals.css"
 import { Barlow } from 'next/font/google'
-import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
     title: "Dashboard blogs",

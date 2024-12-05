@@ -5,7 +5,6 @@ import React, { ChangeEvent, DragEvent, FormEvent, useEffect, useState } from 'r
 import UploadImageSvg from "../../../../../public/icons/dashboard/uploadImageDashboard.svg"
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { image } from '@cloudinary/url-gen/qualifiers/source'
 import { useBlogs } from '@/hooks/useBlogs'
 import toast from 'react-hot-toast'
 
@@ -35,7 +34,7 @@ const AddBlog = () => {
 
     })
 
-    const { createBlog, loading, error, setError, blogSuccessMsgs } = useBlogs()
+    const { createBlog, loading, blogSuccessMsgs } = useBlogs()
     const router = useRouter()
 
     const getImagePreview = (e: ChangeEvent<HTMLInputElement>) => {

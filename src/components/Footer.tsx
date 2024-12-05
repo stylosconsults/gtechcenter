@@ -6,10 +6,9 @@ import Instagram from "../../public/icons/instagram.svg"
 import Twitter from "../../public/icons/twitter.svg"
 import LinkedIn from "../../public/icons/linkedIn.svg"
 import { useSubscription } from '@/hooks/useSubscription'
-import toast from 'react-hot-toast'
 
 const Footer = () => {
-    const { error, loading, createSubscription, setError, subscribeSuccessMsgs } = useSubscription()
+    const {  loading, createSubscription, subscribeSuccessMsgs } = useSubscription()
     const [subscribingEmail, setSubscribingEmail] = useState<string>("")
     const [disableSubscribeBtn, setDisableSubscribeBtn] = useState<boolean>(false)
     
@@ -33,17 +32,13 @@ const Footer = () => {
 
 
     useEffect(() => {
-        if (error) {
-            toast.error(error)
-            setError("")
-        }
 
         if(loading){
             setDisableSubscribeBtn(true)
         }else{
             setDisableSubscribeBtn(false)
         }
-    }, [error, loading])
+    }, [loading])
 
 
 

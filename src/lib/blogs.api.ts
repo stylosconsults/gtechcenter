@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { Blog, ResponseBlog, ResponseBlogs, SavedBlog } from "../types/Blog";
+import {  ResponseBlog, ResponseBlogs } from "../types/Blog";
 import Cookies from "js-cookie";
 
 const BASEURL = "http://localhost:3001/api"

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { useBlogs } from "@/hooks/useBlogs";
 import DeleteDashBlogSvg from "../../../../../../public/icons/dashboard/deleteIllustrationDashboard.svg";
 import { Barlow, Inter } from "next/font/google";
@@ -21,7 +21,6 @@ const barlow = Barlow({
 });
 
 const DeletePage = ({ params }: { params: { _id: string } }) => {
-    const { id } = useParams();
     const [disableDeleteBtn, setDisableDeleteBtn] = useState<boolean>(false);
     const { loading, blogSuccessMsgs, deleteBlog } = useBlogs();
     const router = useRouter();

@@ -1,4 +1,4 @@
-import { Contact, ResponseContact, ResponseContacts, SavedContact } from "@/types/Contact"
+import { Contact, ResponseContact, ResponseContacts } from "@/types/Contact"
 import axios,{ AxiosError } from "axios"
 import Cookies from "js-cookie"
 
@@ -82,7 +82,7 @@ export const fetchSingleContactApi = async(contactId: string):Promise<ResponseCo
 
 export const deleteContactApi = async(contactId: string):Promise<void>=>{
     try {
-        const response = await axios.delete(`${BASEURL}/contacts/${contactId}`, {
+        await axios.delete(`${BASEURL}/contacts/${contactId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }

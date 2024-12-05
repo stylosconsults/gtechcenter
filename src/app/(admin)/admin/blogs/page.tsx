@@ -1,19 +1,12 @@
 "use client"
 
-import React, { useEffect } from 'react'
-import DeleteIcon from "../../../../../public/icons/dashboard/deleteIconDashboard.svg"
-import EditIcon from "../../../../../public/icons/dashboard/editDashboard.svg"
-import { Barlow, Inter, Open_Sans } from 'next/font/google'
+import React from 'react'
+import { Barlow} from 'next/font/google'
 import Link from 'next/link'
-import Modal from '../../../../components/DeleteModal'
 import PaginationControls from '../../../../components/PaginationControls'
 import { useBlogs } from '@/hooks/useBlogs'
-import { CldImage } from 'next-cloudinary'
-import DeleteModal from '../../../../components/DeleteModal'
 import AdminBlogCard from '@/components/AdminBlogCard'
-import toast from 'react-hot-toast'
 import NoBlogsFound from '@/components/NoBlogsFound'
-import { useRouter } from 'next/navigation'
 
 
 const barlow = Barlow({
@@ -23,29 +16,13 @@ const barlow = Barlow({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 })
 
-const open_sans = Open_Sans({
-    display: "swap",
-    subsets: ['latin'],
-    variable: "--font-open-sans",
-    weight: ['300', '400', '500', '600', '700', '800'],
-});
-
-const inter = Inter({
-    display: "swap",
-    subsets: ['latin'],
-    variable: "--font-inter",
-    weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], // All available weights
-});
 
 type SearchParamsType = {
     searchParams: Record<string, string> | null | undefined;
 }
 
-const page = ({ searchParams }: SearchParamsType) => {
-    const { blogs, error, setError, loading, fetchBlogs } = useBlogs()
-    const router = useRouter()
-    const showDeleteModal = searchParams?.show_delete
-    const blogId = searchParams?.id
+const AdminBlogsPage = ({ searchParams }: SearchParamsType) => {
+    const { blogs, loading } = useBlogs()
     const page = searchParams?.page ? Number(searchParams?.page) : 1
     const per_page = searchParams?.per_page ? Number(searchParams?.per_page) : 5
     const startIndex = ((page) - 1) * per_page
@@ -67,10 +44,10 @@ const page = ({ searchParams }: SearchParamsType) => {
 
                     {!loading ?
                         slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
-                            <AdminBlogCard index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
+                            <AdminBlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
                         )) :
-                        loadingBlogCards.map((el, index) => (
-                            <AdminBlogCard loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+                        loadingBlogCards.map((index) => (
+                            <AdminBlogCard key={index} loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
                         ))
 
                     }
@@ -82,7 +59,6 @@ const page = ({ searchParams }: SearchParamsType) => {
                     }
 
 
-                    {/* {showDeleteModal && <DeleteModal blogId={blogId!} />} */}
 
 
                 </div>
@@ -94,4 +70,4 @@ const page = ({ searchParams }: SearchParamsType) => {
     )
 }
 
-export default page
+export default AdminBlogsPage

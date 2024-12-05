@@ -1,27 +1,13 @@
 "use client"
 import PagesTopDiv from '../../../../components/PagesTopDiv'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import RedCircle from "../../../../../public/icons/redCircle.svg"
-import Image from 'next/image'
-import Blog from "../../../../../public/images/latestBlog1.png"
-import LatestBlog3 from "../../../../../public/images/latestBlog2.png"
 import Link from 'next/link'
-import { Barlow, Open_Sans } from 'next/font/google'
-import { useRouter } from 'next/navigation'
+import { Barlow } from 'next/font/google'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
-import { SavedBlog } from '@/types/Blog'
 import LatestBlogCard from '@/components/LatestBlogCard'
 
-
-
-
-const open_sans = Open_Sans({
-    display: "swap",
-    subsets: ['latin'],
-    variable: "--font-open-sans",
-    weight: "300",
-});
 
 const barlow = Barlow({
     display: "swap",
@@ -36,9 +22,9 @@ interface BlogParams {
         _id: string
     }
 }
-const page = ({ params }: BlogParams) => {
+const BlogPage = ({ params }: BlogParams) => {
     const blogId = params._id
-    const { error, loading, fetchSingleBlog, singleBlog, blogs } = useBlogs()
+    const {  loading, fetchSingleBlog, singleBlog, blogs } = useBlogs()
     const latestBlogs = blogs.slice(0, 5)
     const loadingBlogCards = new Array(5).fill(null)
 
@@ -46,7 +32,7 @@ const page = ({ params }: BlogParams) => {
 
     useEffect(() => {
         fetchSingleBlog(blogId)
-    }, [blogId])
+    }, [blogId, fetchSingleBlog])
     return (
         <div className={`${barlow.variable} flex flex-col mb-[4em]`}>
             <PagesTopDiv heading='Blog Detail' paragraph='Home Blog_Detail' />
@@ -169,11 +155,11 @@ const page = ({ params }: BlogParams) => {
 
                             {!loading ?
                                 latestBlogs.map(({ description, imagePublicId, _id }, index) => (
-                                    <LatestBlogCard _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
+                                    <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
                                 )) :
 
                                 loadingBlogCards.map((el, index) => (
-                                    <div className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
+                                    <div key={index} className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
                                         loading...
                                     </div>))
 
@@ -226,4 +212,4 @@ const page = ({ params }: BlogParams) => {
     )
 }
 
-export default page
+export default BlogPage

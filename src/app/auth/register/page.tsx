@@ -5,13 +5,12 @@ import LoginImage from "../../../../public/images/bgImg2.png"
 import Image from 'next/image'
 import { useUsers } from '@/hooks/useUsers'
 import { User } from '@/types/User'
-import { register } from 'module'
 import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-const page = () => {
-    const { error, loading, registerUser, setError,currentUser, userSuccessMsgs } = useUsers()
+const RegisterPage = () => {
+    const {  loading, registerUser,currentUser, userSuccessMsgs } = useUsers()
     const router = useRouter()
     const [disableRegisterBtn, setDisableRegisterBtn] = useState<boolean>(false)
     const [registeringData, setRegisteringData] = useState<User>({
@@ -53,7 +52,7 @@ const page = () => {
                 }
             )
         }
-    }, [userSuccessMsgs.logInSuccessMsg])
+    }, [userSuccessMsgs.registerSuccessMsg])
 
     useEffect(() => {
         if (
@@ -161,4 +160,4 @@ const page = () => {
     )
 }
 
-export default page
+export default RegisterPage
