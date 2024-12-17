@@ -1,3 +1,4 @@
+"use client"
 // hooks/useUsers.ts
 import { useState } from "react";
 import Cookies from "js-cookie";

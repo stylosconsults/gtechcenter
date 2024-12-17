@@ -1,5 +1,6 @@
-"use client"
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+'use client'
+
+import { ChangeEvent, FormEvent, Suspense, useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 import { useUsers } from '@/hooks/useUsers'
@@ -10,7 +11,7 @@ import LoginImage from "../../../../public/images/bgImg2.png"
 import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
 
-const LoginPage = () => {
+function LoginPageContent(){
     const router = useRouter()
     const searchParams = useSearchParams()
     const { error, setError, loading, userSuccessMsgs, currentUser, loginUser } = useUsers()
@@ -34,16 +35,13 @@ const LoginPage = () => {
         await loginUser(loggingUserData)
     }
 
-
     useEffect(() => {
         const forbidden = searchParams.get('forbidden')
         const jwtExpired = searchParams.get('jwt_expired')
         const certainError = searchParams.get('certain_error')
         let redirectTimeout: NodeJS.Timeout
 
-
         if (!error) {
-
             if (forbidden || jwtExpired || certainError) {
                 const message = forbidden || jwtExpired || certainError
                 toast.error(message)
@@ -51,20 +49,15 @@ const LoginPage = () => {
                     router.replace("/auth/login")
                 }, 3000);
             }
-
-
         } else {
             toast.error(error)
             setError("")
         }
 
-
         return () => {
             if (redirectTimeout) clearTimeout(redirectTimeout);
         }
     }, [error, searchParams, router, setError])
-
-    // Handle redirection after successful login
 
     useEffect(() => {
         let redirectTimeout: NodeJS.Timeout
@@ -80,7 +73,6 @@ const LoginPage = () => {
         }
     }, [currentUser, router, userSuccessMsgs])
 
-    // Form validation
     useEffect(() => {
         setDisableLoginBtn(!loggingUserData.email || !loggingUserData.password)
     }, [loggingUserData])
@@ -143,4 +135,12 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+
+
+export default function LoginPage(){
+    return (
+        <Suspense fallback={<div className='flex justify-center items-center'>Loading ...</div>} >
+            <LoginPageContent/>
+        </Suspense>
+    )
+}

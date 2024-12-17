@@ -3,7 +3,7 @@ import React from 'react'
 import "./globals.css"
 import { Barlow } from 'next/font/google'
 
-import { Toaster } from 'react-hot-toast'
+import ToasterProvider from './ToastProvider'
 
 export const metadata: Metadata = {
     title: "user/",
@@ -21,26 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en">
             <body className={`h-[100vh]  ${barlow.className}`}>
-                <Toaster
-                    position="top-center"
-                    toastOptions={{
-                        duration: 3000,
-                        style: {
-                            background: '#333',
-                            color: '#fff',
-                        },
-                        success: {
-                            style: {
-                                background: 'green',
-                            },
-                        },
-                        error: {
-                            style: {
-                                background: 'red',
-                            },
-                        },
-                    }}
-                />
+                <ToasterProvider />
                 {children}
 
             </body>
