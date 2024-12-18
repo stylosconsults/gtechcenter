@@ -75,7 +75,7 @@ const bgImgs: BgImg[] = [
 
 const MainUserPage = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(1)
-  const { blogs, loading } = useBlogs()
+  const { blogs, loadingStates } = useBlogs()
   const latest3Blogs = blogs.slice(0, 3)
   const loadingBlogCards = new Array(3).fill(null)
 
@@ -294,7 +294,7 @@ const MainUserPage = () => {
       <div className='flex flex-col items-center gap-[20px] mt-[3em]'>
         <p className='text-textColor font-semibold text-[2.5em]'>Latest Blog Post</p>
         <div className='flex h-[420px] w-[80%] gap-[40px]'>
-          {!loading ?
+          {!loadingStates.loadingAllBlogs ?
             latest3Blogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
               <BlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
             )) :
@@ -305,7 +305,7 @@ const MainUserPage = () => {
           }
 
           {
-            blogs.length === 0 && !loading && (
+            blogs.length === 0 && !loadingStates.loadingAllBlogs && (
               <NoBlogsFound />
             )
           }

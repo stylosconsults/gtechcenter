@@ -34,7 +34,7 @@ const AddBlog = () => {
 
     })
 
-    const { createBlog, loading, blogSuccessMsgs } = useBlogs()
+    const { createBlog, loadingStates, blogSuccessMsgs } = useBlogs()
     const router = useRouter()
 
     const getImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
@@ -129,7 +129,7 @@ const AddBlog = () => {
     }, [blogSuccessMsgs.createSuccessMsg, router])
 
 
-   
+
     useEffect(() => {
 
         if (
@@ -213,8 +213,8 @@ const AddBlog = () => {
 
                                 {imgBlobUrl &&
                                     <div className='w-full h-full rounded-[25px] '>
-                                        <Image className='object-cover rounded-[25px] ' fill  src={imgBlobUrl} alt={'uploadedImage'} />
-                                 </div>
+                                        <Image className='object-cover rounded-[25px] ' fill src={imgBlobUrl} alt={'uploadedImage'} />
+                                    </div>
                                 }
 
                                 <div className={`${imgBlobUrl ? "absolute rounded-[25px] w-[638px] h-[400px] bg-white bg-opacity-[.8]" : ""} w-full h-full flex flex-col justify-center items-center gap-3 `}>
@@ -228,7 +228,7 @@ const AddBlog = () => {
 
                     </div>
 
-                    <button disabled={disableAddBtn || loading} className={`${disableAddBtn || loading ? "bg-red-400" : "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loading ? "loading" : "Add Blog "}</button>
+                    <button disabled={disableAddBtn || loadingStates.loadingCreateBlog} className={`${disableAddBtn || loadingStates.loadingCreateBlog ? "bg-red-400" : "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loadingStates.loadingCreateBlog ? "loading" : "Add Blog "}</button>
                 </form>
             </div>
         </div>

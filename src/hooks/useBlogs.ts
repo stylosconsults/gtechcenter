@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import {  SavedBlog } from "../types/Blog";
+import { SavedBlog } from "../types/Blog";
 import {
   createBlogApi,
   deleteBlogApi,
@@ -21,7 +21,6 @@ interface BlogSuccessMsgs {
 export function useBlogs() {
   const [blogs, setBlogs] = useState<SavedBlog[]>([]);
   const [singleBlog, setSingleBlog] = useState<SavedBlog | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [blogSuccessMsgs, setBlogSuccessMsgs] = useState<BlogSuccessMsgs>({
     createSuccessMsg: "",
@@ -30,10 +29,20 @@ export function useBlogs() {
     getSingleSuccessMsg: "",
     deleteSuccessMsg: "",
   });
-  
+
+  const [loadingStates, setLoadingStates] = useState({
+    loadingAllBlogs: false,
+    loadingSingleBlog: false,
+    loadingCreateBlog: false,
+    loadingUpdateBlog: false,
+    loadingDeleteBlog: false,
+  });
+
   const fetchBlogs = async () => {
-    
-    setLoading(true);
+    setLoadingStates((prev) => ({
+      ...prev,
+      loadingAllBlogs: true,
+    }));
     setError("");
     setBlogSuccessMsgs((previousSuccessMsgs) => ({
       ...previousSuccessMsgs,
@@ -56,12 +65,18 @@ export function useBlogs() {
         getAllSuccessMsg: "",
       }));
     } finally {
-      setLoading(false);
+      setLoadingStates((prev) => ({
+        ...prev,
+        loadingAllBlogs: false,
+      }));
     }
   };
 
   const fetchSingleBlog = async (blogId: string) => {
-    setLoading(true);
+    setLoadingStates((prev) => ({
+      ...prev,
+      loadingSingleBlog: true,
+    }));
     setError("");
     setBlogSuccessMsgs((previousSuccessMsgs) => ({
       ...previousSuccessMsgs,
@@ -84,12 +99,18 @@ export function useBlogs() {
         getSingleSuccessMsg: "",
       }));
     } finally {
-      setLoading(false);
+      setLoadingStates((prev) => ({
+        ...prev,
+        loadingSingleBlog: false,
+      }));
     }
   };
 
   const createBlog = async (newBlog: FormData) => {
-    setLoading(true);
+    setLoadingStates((prev) => ({
+      ...prev,
+      loadingCreateBlog: true,
+    }));
     setError("");
     setBlogSuccessMsgs((previousSuccessMsgs) => ({
       ...previousSuccessMsgs,
@@ -116,63 +137,133 @@ export function useBlogs() {
         getSingleSuccessMsg: "",
       }));
     } finally {
-      setLoading(false);
+      setLoadingStates((prev) => ({
+        ...prev,
+        loadingCreateBlog: false,
+      }));
     }
   };
 
-  const updateBlog = async (blogId: string, updatedBlogData: FormData) => {
-    setLoading(true);
-    setError("");
-    setBlogSuccessMsgs((previousSuccessMsgs) => ({
+  // const updateBlog = async (blogId: string, updatedBlogData: FormData) => {
+  //   setLoadingStates((prev) => ({
+  //     ...prev,
+  //     loadingUpdateBlog: true,
+  //   }));
+  //   setError("");
+  //   setBlogSuccessMsgs((previousSuccessMsgs) => ({
+  //     ...previousSuccessMsgs,
+  //     updateSuccessMsg: "",
+  //   }));
+
+  //   try {
+  //     const updatedBlog = await toast.promise(
+  //       updateBlogApi(blogId, updatedBlogData),
+  //       {
+  //         loading: "Wait !! Updating blog ...",
+  //         success: (data) => data.message,
+  //         error: (err) => err.message,
+  //       }
+  //     );
+  //     setBlogs((previousBlogs) =>
+  //       previousBlogs.map((blog) =>
+  //         blog._id === updatedBlog.blog._id ? updatedBlog.blog : blog
+  //       )
+  //     );
+
+  //     setBlogSuccessMsgs((previousSuccessMsgs) => ({
+  //       ...previousSuccessMsgs,
+  //       updateSuccessMsg: updatedBlog.message,
+  //     }));
+  //   } catch (error) {
+  //     setError((error as Error).message);
+  //     setBlogSuccessMsgs((previousSuccessMsgs) => ({
+  //       ...previousSuccessMsgs,
+  //       updateSuccessMsg: "",
+  //     }));
+  //   } finally {
+  //     setLoadingStates((prev) => ({
+  //       ...prev,
+  //       loadingUpdateBlog: false,
+  //     }));
+  //   }
+  // };
+
+  // In useBlogs hook, modify the updateBlog function:
+const updateBlog = async (blogId: string, updatedBlogData: FormData) => {
+  // Only update loading state if not already loading
+  if (!loadingStates.loadingUpdateBlog) {
+      setLoadingStates((prev) => ({
+          ...prev,
+          loadingUpdateBlog: true,
+      }));
+  }
+  setError("");
+  setBlogSuccessMsgs((previousSuccessMsgs) => ({
       ...previousSuccessMsgs,
       updateSuccessMsg: "",
-    }));
+  }));
 
-    try {
+  try {
       const updatedBlog = await toast.promise(
-        updateBlogApi(blogId, updatedBlogData),
-        {
-          loading: "Wait !! Updating blog ...",
-          success: (data) => data.message,
-          error: (err) => err.message,
-        }
+          updateBlogApi(blogId, updatedBlogData),
+          {
+              loading: "Wait !! Updating blog ...",
+              success: (data) => data.message,
+              error: (err) => err.message,
+          }
       );
+      
+      // Update blogs state only after successful update
       setBlogs((previousBlogs) =>
-        previousBlogs.map((blog) =>
-          blog._id === updatedBlog.blog._id ? updatedBlog.blog : blog
-        )
+          previousBlogs.map((blog) =>
+              blog._id === updatedBlog.blog._id ? updatedBlog.blog : blog
+          )
       );
 
       setBlogSuccessMsgs((previousSuccessMsgs) => ({
-        ...previousSuccessMsgs,
-        updateSuccessMsg: updatedBlog.message,
+          ...previousSuccessMsgs,
+          updateSuccessMsg: updatedBlog.message,
       }));
-    } catch (error) {
+      
+      // Reset loading state only after everything is done
+      setLoadingStates((prev) => ({
+          ...prev,
+          loadingUpdateBlog: false,
+      }));
+      
+      return updatedBlog; // Return the updated blog data
+  } catch (error) {
       setError((error as Error).message);
       setBlogSuccessMsgs((previousSuccessMsgs) => ({
-        ...previousSuccessMsgs,
-        updateSuccessMsg: "",
+          ...previousSuccessMsgs,
+          updateSuccessMsg: "",
       }));
-    } finally {
-      setLoading(false);
-    }
-  };
-
+      // Reset loading state in case of error
+      setLoadingStates((prev) => ({
+          ...prev,
+          loadingUpdateBlog: false,
+      }));
+      throw error;
+  }
+};
   const deleteBlog = async (blogId: string) => {
-    setLoading(true);
+    setLoadingStates((prev) => ({
+      ...prev,
+      loadingDeleteBlog: true,
+    }));
     setError("");
     setBlogSuccessMsgs((previousSuccessMsgs) => ({
       ...previousSuccessMsgs,
       deleteSuccessMsg: "",
     }));
-  
+
     try {
       await toast.promise(deleteBlogApi(blogId), {
         loading: "Wait !! Deleting blog ...",
         success: "Blog deleted successfully",
         error: (err) => err.message,
       });
-  
+
       // Directly update the blogs state
       setBlogs((previousBlogs) =>
         previousBlogs.filter((blog) => blog._id !== blogId)
@@ -180,7 +271,6 @@ export function useBlogs() {
 
       // await fetchBlogs()
 
-  
       setBlogSuccessMsgs((previousSuccessMsgs) => ({
         ...previousSuccessMsgs,
         deleteSuccessMsg: "Blog deleted successfully",
@@ -192,21 +282,21 @@ export function useBlogs() {
         deleteSuccessMsg: "",
       }));
     } finally {
-      setLoading(false);
+      setLoadingStates((prev) => ({
+        ...prev,
+        loadingDeleteBlog: false,
+      }));
     }
   };
-  
 
   useEffect(() => {
     fetchBlogs();
   }, []);
- 
-
 
   return {
     blogs,
     singleBlog,
-    loading,
+    loadingStates,
     error,
     setError,
     blogSuccessMsgs,

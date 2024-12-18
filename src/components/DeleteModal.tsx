@@ -24,7 +24,7 @@ const barlow = Barlow({
 
 const DeleteModal = ({ blogId }: { blogId: string }) => {
     const [disableDeleteBtn, setDisableDeleteBtn] = useState<boolean>(false)
-    const { loading, blogSuccessMsgs, deleteBlog } = useBlogs()
+    const { loadingStates, blogSuccessMsgs, deleteBlog } = useBlogs()
     const router = useRouter()
 
     const handleBlogDelete = async () => {
@@ -35,12 +35,12 @@ const DeleteModal = ({ blogId }: { blogId: string }) => {
 
     useEffect(() => {
 
-        if (loading) {
+        if (loadingStates.loadingDeleteBlog || loadingStates.loadingSingleBlog) {
             setDisableDeleteBtn(true)
         } else {
             setDisableDeleteBtn(false)
         }
-    }, [loading])
+    }, [loadingStates])
 
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const DeleteModal = ({ blogId }: { blogId: string }) => {
                 <p className={`${inter.className} text-[1.1em]`}>Are you sure you want to delete this blog post?</p>
                 <div className={`${barlow.className} flex w-[100%] justify-center gap-5 `}>
                     <button className='bg-welcomeBgColor text-white w-[10em] p-[10px] text-[1.2em] text-center rounded-[14px]' onClick={router.back}>Remove</button>
-                    <button disabled={disableDeleteBtn} onClick={handleBlogDelete} className={`${loading ? "bg-red-400" : "bg-headerInfoBgColor"}  text-white w-[10em] p-[10px] text-[1.2em] text-center rounded-[14px]`}>{loading ? "loading" : "Delete"}</button>
+                    <button disabled={disableDeleteBtn} onClick={handleBlogDelete} className={`${loadingStates.loadingDeleteBlog || loadingStates.loadingSingleBlog ? "bg-red-400" : "bg-headerInfoBgColor"}  text-white w-[10em] p-[10px] text-[1.2em] text-center rounded-[14px]`}>{loadingStates.loadingDeleteBlog || loadingStates.loadingSingleBlog ? "loading" : "Delete"}</button>
                 </div>
             </div>
 

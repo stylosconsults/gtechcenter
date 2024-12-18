@@ -22,7 +22,7 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
     const startIndex = (page - 1) * per_page
     const endIndex = startIndex + per_page
 
-    const { blogs, loading } = useBlogs()
+    const { blogs, loadingStates } = useBlogs()
 
 
     const slicedBlogs = blogs.slice(startIndex, endIndex)
@@ -36,7 +36,7 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
             <div className='flex justify-center p-4'>
 
                 <div className='flex flex-wrap gap-8 h-[10%]  w-[65%] ps-12'>
-                    {!loading ?
+                    {!loadingStates.loadingAllBlogs ?
                         slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
                             <BlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
                         )) :
@@ -47,7 +47,7 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
                     }
 
                     {
-                        blogs.length === 0 && !loading && (
+                        blogs.length === 0 && !loadingStates.loadingAllBlogs && (
                             <NoBlogsFound />
                         )
                     }
@@ -76,7 +76,7 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
 
                     <div className='flex flex-col  h-[350px]  justify-center'>
 
-                        {!loading ?
+                        {!loadingStates.loadingAllBlogs ?
                             latestBlogs.map(({ description, imagePublicId, _id }, index) => (
                                 <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
                             )) :
@@ -91,7 +91,7 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
 
 
                         {
-                            blogs.length === 0 && !loading && (
+                            blogs.length === 0 && !loadingStates.loadingAllBlogs && (
                                 <NoBlogsFound />
                             )
                         }

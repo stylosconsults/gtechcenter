@@ -22,7 +22,7 @@ const barlow = Barlow({
 
 const DeletePage = ({ params }: { params: { _id: string } }) => {
     const [disableDeleteBtn, setDisableDeleteBtn] = useState<boolean>(false);
-    const { loading, blogSuccessMsgs, deleteBlog } = useBlogs();
+    const { loadingStates, blogSuccessMsgs, deleteBlog } = useBlogs();
     const router = useRouter();
 
     const handleBlogDelete = async () => {
@@ -31,8 +31,8 @@ const DeletePage = ({ params }: { params: { _id: string } }) => {
     };
 
     useEffect(() => {
-        setDisableDeleteBtn(loading);
-    }, [loading]);
+        setDisableDeleteBtn(loadingStates.loadingSingleBlog || loadingStates.loadingDeleteBlog);
+    }, [loadingStates.loadingSingleBlog, loadingStates.loadingDeleteBlog]);
 
     useEffect(() => {
         if (blogSuccessMsgs.deleteSuccessMsg) {
@@ -57,10 +57,10 @@ const DeletePage = ({ params }: { params: { _id: string } }) => {
                     <button
                         disabled={disableDeleteBtn}
                         onClick={handleBlogDelete}
-                        className={`${loading ? "bg-red-400" : "bg-headerInfoBgColor"
+                        className={`${loadingStates.loadingDeleteBlog || loadingStates.loadingSingleBlog ? "bg-red-400" : "bg-headerInfoBgColor"
                             } text-white w-[10em] p-[10px] text-[1.2em] text-center rounded-[14px]`}
                     >
-                        {loading ? "loading" : "Delete"}
+                        {loadingStates.loadingDeleteBlog || loadingStates.loadingSingleBlog ? "loading" : "Delete"}
                     </button>
                 </div>
             </div>

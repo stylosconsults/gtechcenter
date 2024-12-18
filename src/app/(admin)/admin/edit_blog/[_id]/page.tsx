@@ -26,7 +26,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
     const [imgBlobUrl, setImgBlobUrl] = useState<string>("")
     const [imageObj, setImgObj] = useState<File | null>(null)
     const [disableEditBtn, setDisableEditBtn] = useState<boolean>(false)
-    const { updateBlog, blogSuccessMsgs, loading, fetchSingleBlog, singleBlog, } = useBlogs()
+    const { updateBlog, blogSuccessMsgs, loadingStates, fetchSingleBlog, singleBlog, } = useBlogs()
     const router = useRouter()
     const [editBlogFormData, setEditBlogFormData] = useState<EditBlogFormData>({
         title: "",
@@ -34,6 +34,9 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
         description: "",
 
     })
+
+    const [localLoadingState, setLocalLoadingState] = useState(false);
+
 
     const getImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
@@ -88,22 +91,42 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
         )
     }
 
-    const handleOnSubmit = (e: FormEvent) => {
-        e.preventDefault()
+    // const handleOnSubmit = (e: FormEvent) => {
+    //     e.preventDefault()
 
-        const data = new FormData()
+    //     const data = new FormData()
 
-        if (imageObj) data.append("file", imageObj)
+    //     if (imageObj) data.append("file", imageObj)
 
-        data.append("title", editBlogFormData.title)
-        data.append("category", editBlogFormData.category)
-        data.append("description", editBlogFormData.description)
+    //     data.append("title", editBlogFormData.title)
+    //     data.append("category", editBlogFormData.category)
+    //     data.append("description", editBlogFormData.description)
 
 
-        updateBlog(params._id, data)
+    //     updateBlog(params._id, data)
 
-    }
+    // }
 
+    const handleOnSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        if (localLoadingState) return; // Prevent multiple submissions
+
+        setLocalLoadingState(true);
+        try {
+            const data = new FormData();
+            if (imageObj) data.append("file", imageObj);
+            data.append("title", editBlogFormData.title);
+            data.append("category", editBlogFormData.category);
+            data.append("description", editBlogFormData.description);
+
+            await updateBlog(params._id, data);
+            router.replace("/admin/blogs");
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLocalLoadingState(false);
+        }
+    };
     useEffect(() => {
 
         if (blogSuccessMsgs.updateSuccessMsg) {
@@ -126,10 +149,9 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
 
     useEffect(() => {
-        const loadBlog = async () => {
-            await fetchSingleBlog(params._id)
-        }
-        loadBlog()
+
+        fetchSingleBlog(params._id)
+
     }, [params._id, fetchSingleBlog])
 
     useEffect(() => {
@@ -233,18 +255,17 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
                                         {imgBlobUrl ? (
 
                                             <div className='w-full h-full rounded-[25px] '>
-                                                <Image className=' w-full h-[405px]  rounded-[25px] ' width={300} height={500} src={imgBlobUrl} alt={'uploadedImage'} />
+                                                <Image className=' w-full h-full  rounded-[25px] object-cover ' fill src={imgBlobUrl} alt={'uploadedImage'} />
                                             </div>
                                         ) :
                                             (
                                                 <CldImage
                                                     src={singleBlog?.imagePublicId || "blogs/Name"}
-                                                    width={200}
-                                                    height={200}
+                                                    fill
                                                     alt='img'
                                                     crop="fill"
                                                     gravity='auto'
-                                                    className='w-full h-[405px]  rounded-[25px]'
+                                                    className='w-full h-full object-cover  rounded-[25px]'
                                                 />
                                             )
                                         }
@@ -262,7 +283,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
                     </div>
 
-                    <button disabled={disableEditBtn} className={`${disableEditBtn ? "bg-red-400" : "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loading ? "loading" : "Edit Blog "}</button>
+                    <button disabled={disableEditBtn} className={`${disableEditBtn ? "bg-red-400" : "bg-headerInfoBgColor"} text-[1.2em] p-3 rounded-[14px] text-white font-semibold`}>{loadingStates.loadingUpdateBlog ? "loading" : "Edit Blog "}</button>
                 </form>
             </div>
         </div>

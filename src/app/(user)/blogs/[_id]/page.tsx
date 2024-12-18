@@ -24,7 +24,7 @@ interface BlogParams {
 }
 const BlogPage = ({ params }: BlogParams) => {
     const blogId = params._id
-    const {  loading, fetchSingleBlog, singleBlog, blogs } = useBlogs()
+    const {  loadingStates, fetchSingleBlog, singleBlog, blogs } = useBlogs()
     const latestBlogs = blogs.slice(0, 5)
     const loadingBlogCards = new Array(5).fill(null)
 
@@ -42,7 +42,7 @@ const BlogPage = ({ params }: BlogParams) => {
 
 
                     {/* target */}
-                    {!singleBlog ?
+                    {loadingStates.loadingSingleBlog ?
                         (
 
                             <div className='flex items-center justify-center h-[400px]'>
@@ -54,7 +54,7 @@ const BlogPage = ({ params }: BlogParams) => {
                             <div className='flex flex-col gap-7'>
 
                                 <CldImage
-                                    src={singleBlog.imagePublicId || "/images/latestBlog1.png"}
+                                    src={singleBlog?.imagePublicId || "/images/latestBlog1.png"}
                                     width={100}
                                     height={100}
                                     alt='img'
@@ -153,7 +153,7 @@ const BlogPage = ({ params }: BlogParams) => {
                         <p className='text-textColor text-[2em] font-semibold'>Recent Post</p>
                         <div className='flex flex-col   h-[350px] justify-center'>
 
-                            {!loading ?
+                            {!loadingStates.loadingAllBlogs ?
                                 latestBlogs.map(({ description, imagePublicId, _id }, index) => (
                                     <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
                                 )) :
