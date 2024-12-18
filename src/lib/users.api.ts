@@ -1,7 +1,7 @@
 import { LoggingUser, ResponseUser, User } from "@/types/User"
 import axios, { AxiosError } from "axios"
 
-const BASEURL = "http://localhost:3001/api"
+const BASEURL = "https://gtechcenter-backend.onrender.com/api"
 const apiClient = axios.create({
     baseURL: BASEURL,
     headers: {

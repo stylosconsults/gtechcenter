@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import {  ResponseBlog, ResponseBlogs } from "../types/Blog";
 import Cookies from "js-cookie";
 
-const BASEURL = "http://localhost:3001/api"
+const BASEURL = "https://gtechcenter-backend.onrender.com/api"
 const apiClient = axios.create({
   baseURL: BASEURL,
   headers: {
