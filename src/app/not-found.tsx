@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-const not_found = () => {
+const NotFound = () => {
     const router = useRouter()
     return (
         <div className=' mb-[10em] border border-red-500 h-[100vh] w-[100vw] flex items-center justify-center'>
@@ -17,4 +17,4 @@ const not_found = () => {
     )
 }
 
-export default not_found
+export default NotFound
