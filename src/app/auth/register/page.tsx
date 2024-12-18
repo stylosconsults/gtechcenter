@@ -89,7 +89,7 @@ const RegisterPage = () => {
 
     return (
         <div className='flex flex-col'>
-            <PagesTopDiv heading='Sign Up To GTECH' paragraph='Home Sign_Up' />
+            <PagesTopDiv heading='Sign Up To G-WISSEN' paragraph='Home Sign_Up' />
 
             <div className='flex '>
 
