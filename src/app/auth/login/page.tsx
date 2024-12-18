@@ -79,12 +79,12 @@ function LoginPageContent(){
 
     return (
         <div className='flex flex-col'>
-            <PagesTopDiv heading='Login To GTECH' paragraph='Home Login' />
+            <PagesTopDiv heading='Login To G-WISSEN' paragraph='Home Login' />
 
             <div className='flex h-[440px]'>
                 {/* Form Section */}
                 <div className='bg-headerBgColor flex flex-col gap-3 pt-2 w-[50%] h-full border border-green-500 px-4 justify-center'>
-                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                GTECH   <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
                         <p className='text-textColor text-[2.4em] font-semibold text-center'>Login</p>
 
                         <input
