@@ -8,6 +8,7 @@ import { User } from '@/types/User'
 import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 const RegisterPage = () => {
     const {  loading, registerUser,currentUser, userSuccessMsgs } = useUsers()
@@ -51,6 +52,8 @@ const RegisterPage = () => {
                     role: ROLES.USER
                 }
             )
+
+            toast.success("Created successfully")
         }
     }, [userSuccessMsgs.registerSuccessMsg])
 
@@ -142,7 +145,7 @@ const RegisterPage = () => {
                             required
                         />
 
-                        <button disabled={disableRegisterBtn || loading} className={` ${disableRegisterBtn || loading ? "bg-red-400" : "bg-headerInfoBgColor"}  text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>Submit</button>
+                        <button disabled={disableRegisterBtn || loading} className={` ${disableRegisterBtn || loading ? "bg-red-400" : "bg-headerInfoBgColor"}  text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>{loading ? "Loading": "Submit"}</button>
                     </form>
                     <div className='flex items-center justify-center gap-3 text-[1.2em]'>
 
