@@ -1,12 +1,13 @@
 "use client"
 
 import React from 'react'
-import { Barlow} from 'next/font/google'
+import { Barlow } from 'next/font/google'
 import Link from 'next/link'
 import PaginationControls from '../../../../components/PaginationControls'
 import { useBlogs } from '@/hooks/useBlogs'
 import AdminBlogCard from '@/components/AdminBlogCard'
 import NoBlogsFound from '@/components/NoBlogsFound'
+import LoadingBlogCard from '@/components/LoadingBlogCard'
 
 
 const barlow = Barlow({
@@ -42,19 +43,19 @@ const AdminBlogsPage = ({ searchParams }: SearchParamsType) => {
                 <p className='text-[1.5em] h-[2%]'>All blogs</p>
                 <div className='flex flex-wrap gap-3 h-[98%] min-h-[300px]  overflow-auto p-1'>
 
-                    {!loading ?
-                        slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
-                            <AdminBlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
-                        )) :
-                        loadingBlogCards.map((index) => (
-                            <AdminBlogCard key={index} loading={true} _id={''} imagePublicId={''} index={0} lastlyUpdatedDate={''} title={''} category={''} description={''} />
-                        ))
 
+
+                    {!loading ? slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
+                        <AdminBlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
+                    ))
+                        : loadingBlogCards.map((index) => (
+                            <LoadingBlogCard key={index} />
+                        ))
                     }
 
                     {
                         blogs.length === 0 && !loading && (
-                           <NoBlogsFound/>
+                            <NoBlogsFound />
                         )
                     }
 

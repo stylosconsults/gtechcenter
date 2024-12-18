@@ -28,6 +28,7 @@ import transparentPicture from "../../../public/images/transparentPicture.png"
 import { useBlogs } from '@/hooks/useBlogs'
 import BlogCard from '@/components/BlogCard'
 import NoBlogsFound from '@/components/NoBlogsFound'
+import LoadingBlogCard from '@/components/LoadingBlogCard'
 
 const barlow = Barlow({
   display: "swap",
@@ -145,43 +146,43 @@ const MainUserPage = () => {
       <div className='flex flex-col justify-center items-center relative gap-7 mt-[5em]'>
         <p className="text-textColor font-semibold text-[2.5em] before:absolute before:h-[1px] before:bg-headerInfoBgColor before:w-[10%] before:top-[1.6em] before:mx-auto before:left-[17em] before:content-['']">What We Offer</p>
         <div className='flex flex-wrap justify-center gap-[1.6em]'>
-                    <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
-                        <CallCenter width={80} height={80} />
-                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Call Center optimisation services</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'> We offer comprehensive solutions to improve call center operations, leveraging advanced technology and analytics to enhance customer interactions, boost agent productivity, and streamline workflows for maximum efficiency.</p>
-                    </div>
+          <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
+            <CallCenter width={80} height={80} />
+            <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Call Center optimisation services</p>
+            <p className='text-center w-[90%] text-welcomeBgColor'> We offer comprehensive solutions to improve call center operations, leveraging advanced technology and analytics to enhance customer interactions, boost agent productivity, and streamline workflows for maximum efficiency.</p>
+          </div>
 
-                    <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
-                        <ProjectManage width={80} height={80} />
-                        <p className='text-textColor  font-semibold text-[1.3em] w-[90%] text-center'>Project Management</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Our end-to-end project management services ensure the successful delivery of your initiatives. We focus on managing resources, timelines, and risk, while ensuring that each project meets its objectives on time and within budget.</p>
-                    </div>
+          <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
+            <ProjectManage width={80} height={80} />
+            <p className='text-textColor  font-semibold text-[1.3em] w-[90%] text-center'>Project Management</p>
+            <p className='text-center w-[90%] text-welcomeBgColor'>Our end-to-end project management services ensure the successful delivery of your initiatives. We focus on managing resources, timelines, and risk, while ensuring that each project meets its objectives on time and within budget.</p>
+          </div>
 
-                    <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
-                        <ItSolutions width={80} height={80} />
-                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>IT Solutions</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>We specialize in integrating cutting-edge technology to optimize your IT infrastructure. From system upgrades to cloud integration, we provide tailored solutions that support your business goals and drive efficiency.</p>
-                    </div>
+          <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
+            <ItSolutions width={80} height={80} />
+            <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>IT Solutions</p>
+            <p className='text-center w-[90%] text-welcomeBgColor'>We specialize in integrating cutting-edge technology to optimize your IT infrastructure. From system upgrades to cloud integration, we provide tailored solutions that support your business goals and drive efficiency.</p>
+          </div>
 
-                    <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
-                        <WebDev width={80} height={80} />
-                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Web design & development</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>We create responsive, intuitive, and engaging websites and mobile applications tailored to your specific needs, ensuring a seamless user experience across platforms.</p>
-                    </div>
+          <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
+            <WebDev width={80} height={80} />
+            <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Web design & development</p>
+            <p className='text-center w-[90%] text-welcomeBgColor'>We create responsive, intuitive, and engaging websites and mobile applications tailored to your specific needs, ensuring a seamless user experience across platforms.</p>
+          </div>
 
-                    <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
-                        <MobileDeve width={80} height={80} />
-                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Mobile app development</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Expert mobile app development creating intuitive, high-performance, and scalable solutions for seamless user experiences.</p>
-                    </div>
+          <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
+            <MobileDeve width={80} height={80} />
+            <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Mobile app development</p>
+            <p className='text-center w-[90%] text-welcomeBgColor'>Expert mobile app development creating intuitive, high-performance, and scalable solutions for seamless user experiences.</p>
+          </div>
 
-                    <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
-                        <CyberSecurity width={80} height={80} />
-                        <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Cyber security services</p>
-                        <p className='text-center w-[90%] text-welcomeBgColor'>Our cybersecurity solutions protect your business from digital threats. We provide continuous monitoring, threat detection, and robust security frameworks to safeguard your data and ensure business continuity.</p>
-                    </div>
+          <div className=" w-[25%] flex flex-col items-center justify-center gap-5 h-[20em] bg-headerBgColor rounded-[4px] ">
+            <CyberSecurity width={80} height={80} />
+            <p className='text-textColor font-semibold text-[1.3em] w-[90%] text-center'>Cyber security services</p>
+            <p className='text-center w-[90%] text-welcomeBgColor'>Our cybersecurity solutions protect your business from digital threats. We provide continuous monitoring, threat detection, and robust security frameworks to safeguard your data and ensure business continuity.</p>
+          </div>
 
-                </div>
+        </div>
       </div>
 
 
@@ -202,7 +203,7 @@ const MainUserPage = () => {
           </div>
 
           <div className='flex flex-col items-center justify-center gap-7 bg-headerInfoBgColor w-[33.3%]'>
-          <p className='text-white text-center w-[90%]'>At G-WISSEN Ltd Consultancy Solutions, we are committed to delivering tailored, innovative, and results-driven solutions that empower businesses to thrive in today's competitive environment. With a team of skilled professionals and a client-first approach, we are your trusted partner for achieving your goals.</p>
+            <p className='text-white text-center w-[90%]'>At G-WISSEN Ltd Consultancy Solutions, we are committed to delivering tailored, innovative, and results-driven solutions that empower businesses to thrive in today's competitive environment. With a team of skilled professionals and a client-first approach, we are your trusted partner for achieving your goals.</p>
 
 
             <Link href={"/about"} className='text-black w-[9em] rounded-[1.6em] text-center p-3 bg-white ' >Learn More</Link>
@@ -273,7 +274,7 @@ const MainUserPage = () => {
 
         <div className='w-[50%] flex flex-col gap-7 justify-center px-6 ps-8' >
           <p className='text-textColor font-semibold text-[2.5em]'>What Say Our Client!!!</p>
-          <p className='text-welcomeBgColor flex items-start'><Quote className= "w-[300px]" />Our clients consistently praise us for our dedication, expertise, and tailored solutions. They’ve trusted us to handle every aspect of their projects, from strategic planning to seamless execution, and we’ve exceeded their expectations time and again. Whether it's providing innovative solutions, ensuring timely delivery, or being a reliable partner in growth, we’re proud to have helped businesses achieve success across various industries. Our commitment to excellence has made us a trusted partner for organizations looking to unlock their full potential..</p>
+          <p className='text-welcomeBgColor flex items-start'><Quote className="w-[300px]" />Our clients consistently praise us for our dedication, expertise, and tailored solutions. They’ve trusted us to handle every aspect of their projects, from strategic planning to seamless execution, and we’ve exceeded their expectations time and again. Whether it's providing innovative solutions, ensuring timely delivery, or being a reliable partner in growth, we’re proud to have helped businesses achieve success across various industries. Our commitment to excellence has made us a trusted partner for organizations looking to unlock their full potential..</p>
 
           {/* <div className='flex gap-3 relative'>
             <Image className='w-[60px] h-[60px] rounded-[100%]' src={teamMember2} alt='image' />
@@ -297,15 +298,15 @@ const MainUserPage = () => {
             latest3Blogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
               <BlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
             )) :
-            loadingBlogCards.map((el, index) => (
-              <BlogCard key={index} loading={true} _id={''} imagePublicId={''} index={index} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+            loadingBlogCards.map(( index) => (
+              <LoadingBlogCard key={index} />
             ))
 
           }
 
           {
             blogs.length === 0 && !loading && (
-              <NoBlogsFound/>
+              <NoBlogsFound />
             )
           }
         </div>
