@@ -64,7 +64,7 @@ const AdminBlogCard = ({ _id, imagePublicId, index, lastlyUpdatedDate, title, ca
                 (
                  
 
-                    <div ref={parentRef} key={index} className='bg-headerBgColor  flex flex-col justify-between h-[490px] w-[420px]'>
+                    <div ref={parentRef} key={index} className='bg-headerBgColor  flex flex-col justify-between h-[400px] w-[30vw]'>
                         <CldImage
                             src={imagePublicId}
                             width={100}

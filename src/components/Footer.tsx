@@ -108,7 +108,7 @@ const Footer = () => {
             </div>
 
             <div className='my-3 '>
-                <p className='text-center  text-headerLinkBorderColor'>© <span className='underline underline-offset-[5px] inline-block'>GTech Center</span>. All Rights Reserved. Designed by <span className='underline underline-offset-[5px] inline-block'>Stylos tech</span></p>
+                <p className='text-center  text-headerLinkBorderColor'>© <span className='underline underline-offset-[5px] inline-block'>G-Wissen</span>. All Rights Reserved. Designed by <span className='underline underline-offset-[5px] inline-block'>g-wissen</span></p>
             </div>
         </div>
 

@@ -11,7 +11,7 @@ import LoginImage from "../../../../public/images/bgImg2.png"
 import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
 
-function LoginPageContent(){
+function LoginPageContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const { error, setError, loading, userSuccessMsgs, currentUser, loginUser } = useUsers()
@@ -84,7 +84,7 @@ function LoginPageContent(){
             <div className='flex h-[440px]'>
                 {/* Form Section */}
                 <div className='bg-headerBgColor flex flex-col gap-3 pt-2 w-[50%] h-full border border-green-500 px-4 justify-center'>
-                GTECH   <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
                         <p className='text-textColor text-[2.4em] font-semibold text-center'>Login</p>
 
                         <input
@@ -137,10 +137,10 @@ function LoginPageContent(){
 
 
 
-export default function LoginPage(){
+export default function LoginPage() {
     return (
         <Suspense fallback={<div className='flex justify-center items-center'>Loading ...</div>} >
-            <LoginPageContent/>
+            <LoginPageContent />
         </Suspense>
     )
 }

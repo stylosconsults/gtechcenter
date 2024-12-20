@@ -91,42 +91,23 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
         )
     }
 
-    // const handleOnSubmit = (e: FormEvent) => {
-    //     e.preventDefault()
+    const handleOnSubmit = (e: FormEvent) => {
+        e.preventDefault()
 
-    //     const data = new FormData()
+        const data = new FormData()
 
-    //     if (imageObj) data.append("file", imageObj)
+        if (imageObj) data.append("file", imageObj)
 
-    //     data.append("title", editBlogFormData.title)
-    //     data.append("category", editBlogFormData.category)
-    //     data.append("description", editBlogFormData.description)
+        data.append("title", editBlogFormData.title)
+        data.append("category", editBlogFormData.category)
+        data.append("description", editBlogFormData.description)
 
 
-    //     updateBlog(params._id, data)
+        updateBlog(params._id, data)
 
-    // }
+    }
 
-    const handleOnSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        if (localLoadingState) return; // Prevent multiple submissions
-
-        setLocalLoadingState(true);
-        try {
-            const data = new FormData();
-            if (imageObj) data.append("file", imageObj);
-            data.append("title", editBlogFormData.title);
-            data.append("category", editBlogFormData.category);
-            data.append("description", editBlogFormData.description);
-
-            await updateBlog(params._id, data);
-            router.replace("/admin/blogs");
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLocalLoadingState(false);
-        }
-    };
+  
     useEffect(() => {
 
         if (blogSuccessMsgs.updateSuccessMsg) {
@@ -149,10 +130,8 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
 
     useEffect(() => {
-
         fetchSingleBlog(params._id)
-
-    }, [params._id, fetchSingleBlog])
+    }, [params._id])
 
     useEffect(() => {
         if (singleBlog) {
