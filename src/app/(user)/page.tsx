@@ -294,21 +294,29 @@ const MainUserPage = () => {
       <div className='flex flex-col items-center gap-[20px] mt-[3em]'>
         <p className='text-textColor font-semibold text-[2.5em]'>Latest Blog Post</p>
         <div className='flex h-[420px] w-[80%] gap-[40px]'>
-          {!loadingStates.loadingAllBlogs ?
-            latest3Blogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
-              <BlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
-            )) :
-            loadingBlogCards.map(( index) => (
+          {loadingStates.loadingAllBlogs ? (
+            // Show loading cards when loading is true
+            loadingBlogCards.map((_, index) => (
               <LoadingBlogCard key={index} />
             ))
-
-          }
-
-          {
-            blogs.length === 0 && !loadingStates.loadingAllBlogs && (
-              <NoBlogsFound />
-            )
-          }
+          ) : blogs.length === 0 ? (
+            // Show no blogs found when blogs array is empty
+            <NoBlogsFound />
+          ) : (
+            // Show actual blog cards when data is loaded
+            latest3Blogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
+              <BlogCard
+                key={_id} // Better to use _id instead of index
+                index={index}
+                _id={_id}
+                category={category}
+                description={description}
+                imagePublicId={imagePublicId}
+                lastlyUpdatedDate={lastlyUpdatedDate}
+                title={title}
+              />
+            ))
+          )}
         </div>
       </div>
 

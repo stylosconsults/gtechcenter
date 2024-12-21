@@ -35,7 +35,6 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
     })
 
-    const [localLoadingState, setLocalLoadingState] = useState(false);
 
 
     const getImagePreview = (e: ChangeEvent<HTMLInputElement>) => {

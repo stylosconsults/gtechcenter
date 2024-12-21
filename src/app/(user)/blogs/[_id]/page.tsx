@@ -7,6 +7,7 @@ import { Barlow } from 'next/font/google'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
 import LatestBlogCard from '@/components/LatestBlogCard'
+import LoadingSingleBlogCard from '@/components/LoadingSingleBlogCard'
 
 
 const barlow = Barlow({
@@ -24,7 +25,7 @@ interface BlogParams {
 }
 const BlogPage = ({ params }: BlogParams) => {
     const blogId = params._id
-    const {  loadingStates, fetchSingleBlog, singleBlog, blogs } = useBlogs()
+    const { loadingStates, fetchSingleBlog, singleBlog, blogs } = useBlogs()
     const latestBlogs = blogs.slice(0, 5)
     const loadingBlogCards = new Array(5).fill(null)
 
@@ -32,24 +33,22 @@ const BlogPage = ({ params }: BlogParams) => {
 
     useEffect(() => {
         fetchSingleBlog(blogId)
-    }, [blogId, fetchSingleBlog])
+    }, [blogId])
     return (
         <div className={`${barlow.variable} flex flex-col mb-[4em]`}>
             <PagesTopDiv heading='Blog Detail' paragraph='Home Blog_Detail' />
 
-            <div className='flex justify-evenly'>
-                <div className='w-[60%] flex flex-col  justify-between gap-[2em]'>
+            {loadingStates.loadingSingleBlog ?
+                loadingBlogCards.map((_, index) => (
+                    <LoadingSingleBlogCard key={index} />
+                )
+                ) : (
+                    <div className='flex justify-evenly'>
+                        <div className='w-[60%] flex flex-col  justify-between gap-[2em]'>
 
 
-                    {/* target */}
-                    {loadingStates.loadingSingleBlog ?
-                        (
+                            {/* target */}
 
-                            <div className='flex items-center justify-center h-[400px]'>
-                                loading
-                            </div>
-
-                        ) : (
 
                             <div className='flex flex-col gap-7'>
 
@@ -60,22 +59,22 @@ const BlogPage = ({ params }: BlogParams) => {
                                     alt='img'
                                     crop="fill"
                                     gravity='auto'
-                                    className=' w-full h-[650px]'
+                                    className=' w-full h-[550px]'
                                 />
-                                <p className='text-textColor text-[2em] font-bold leading-10'>{singleBlog?.title}</p>
+                                <p className='text-textColor text-[2em] font-bold leading-10 overflow-hidden whitespace-nowrap text-ellipsis' title={singleBlog?.title}>{singleBlog?.title}</p>
 
                                 <div className='flex flex-col gap-3 text-[1.1em] text-welcomeBgColor'>
 
-                                    <p>{singleBlog?.description}</p>
+                                    <p className='text-ellipsis overflow-hidden whitespace-nowrap' title={singleBlog?.description}>{singleBlog?.description}</p>
 
                                 </div>
                             </div>
 
-                        )}
-                    {/* target */}
 
-                    {/* Comments */}
-                    {/* <div className='flex flex-col gap-5'>
+                            {/* target */}
+
+                            {/* Comments */}
+                            {/* <div className='flex flex-col gap-5'>
                         <p className={`${open_sans.variable} text-textColor text-[1.6em] font-semibold`}>3 Comments</p>
                         <div className='flex flex-col gap-7'>
                             <div className='flex gap-4 '>
@@ -110,10 +109,10 @@ const BlogPage = ({ params }: BlogParams) => {
                         </div>
 
                     </div> */}
-                    {/* Comments */}
+                            {/* Comments */}
 
-                    {/* Leave comment */}
-                    {/* <div className='h-[23%] flex flex-col p-7 gap-8 bg-headerBgColor'>
+                            {/* Leave comment */}
+                            {/* <div className='h-[23%] flex flex-col p-7 gap-8 bg-headerBgColor'>
                         <p className='text-textColor text-[2em] font-semibold h-[10%]'>Leave a comment</p>
                         <form action="" className=' h-[90%] flex flex-col gap-4 bg-headerBgColor'>
                             <div className='flex justify-between'>
@@ -127,87 +126,90 @@ const BlogPage = ({ params }: BlogParams) => {
                             <button className='bg-headerInfoBgColor text-white p-2 text-[1.1em] font-semibold rounded-[5px]'>Leave Your Comment</button>
                         </form>
                     </div> */}
-                    {/* leave comment */}
-                </div>
+                            {/* leave comment */}
+                        </div>
 
-                <div className='flex flex-col gap-[6em] p-1 w-[28%]'>
-                    <form action="" className='flex border border-headerLinkBorderColor rounded-md overflow-hidden'>
-                        <input type="text" placeholder='Keyword' className='p-3 py-4 outline-none w-[80%] h-full' />
-                        <button className='bg-headerInfoBgColor w-[20%] h-full'></button>
-                    </form>
+                        <div className='flex flex-col gap-[6em] p-1 w-[28%]'>
+                            {/* <form action="" className='flex border border-headerLinkBorderColor rounded-md overflow-hidden'>
+                                <input type="text" placeholder='Keyword' className='p-3 py-4 outline-none w-[80%] h-full' />
+                                <button className='bg-headerInfoBgColor w-[20%] h-full'></button>
+                            </form> */}
 
-                    <div className='relative flexflex-col gap-3'>
-                        <p className='text-textColor text-[2em] font-semibold'>Category</p>
-                        <div className='bg-headerBgColor flex text-textColor font-semibold flex-col gap-3 p-7 '>
+                            <div className='relative flexflex-col gap-3'>
+                                <p className='text-textColor text-[2em] font-semibold'>Category</p>
+                                <div className='bg-headerBgColor flex text-textColor font-semibold flex-col gap-3 p-7 '>
 
-                            {/* <p>Web Design</p>
+                                    {/* <p>Web Design</p>
                             <p>Web Development</p>
                             <p>Web Development</p>
                             <p>Keyword Research</p> */}
-                            <p>{singleBlog?.category}</p>
+                                    <p className='text-ellipsis whitespace-nowrap overflow-hidden'>{singleBlog?.category}</p>
+                                </div>
+                                <RedCircle className="absolute top-[9em] left-[23em]" />
+                            </div>
+
+                            {/* Recent post */}
+                            <div className=''>
+                                <p className='text-textColor text-[2em] font-semibold'>Recent Post</p>
+                                <div className='flex flex-col justify-center'>
+
+                                    {
+                                        latestBlogs.map(({ description, imagePublicId, _id }, index) => (
+                                            <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
+                                        ))
+                                    }
+
+
+
+
+                                    {
+                                        !blogs && (
+                                            <p>No blogs found</p>
+                                        )
+                                    }
+                                </div>
+
+                            </div>
+
+                            {/* Tag cloud */}
+
+                            <div className='flex flex-col gap-3'>
+                                <p className='text-textColor text-[2em] font-semibold'>Tag Cloud</p>
+                                <div className='flex flex-wrap gap-2'>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
+                                    <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
+                                </div>
+                            </div>
+
+                            {/* <div className='h-[20%] flex flex-col gap-3'>
+                                <p className='text-textColor text-[2em] font-semibold h-[10%]'>Plain Text</p>
+                                <div className='flex flex-col bg-headerBgColor text-welcomeBgColor h-[90%] justify-center px-5 gap-5 items-center'>
+                                    <p className='text-center'>Vero sea et accusam justo dolor accusam
+                                        lorem consetetur, dolores sit amet sit dolor
+                                        clita kasd justo, diam accusam no sea ut
+                                        tempor magna takimata, amet sit et diam
+                                        dolor ipsum amet diamu</p>
+
+                                    <button className='bg-headerInfoBgColor text-white w-[37%] p-2 rounded-[1.5em]'>Read More</button>
+                                </div>
+                            </div> */}
+
                         </div>
-                        <RedCircle className="absolute top-[9em] left-[23em]" />
-                    </div>
-
-                    <div className='h-[400px]'>
-                        <p className='text-textColor text-[2em] font-semibold'>Recent Post</p>
-                        <div className='flex flex-col   h-[350px] justify-center'>
-
-                            {!loadingStates.loadingAllBlogs ?
-                                latestBlogs.map(({ description, imagePublicId, _id }, index) => (
-                                    <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
-                                )) :
-
-                                loadingBlogCards.map((el, index) => (
-                                    <div key={index} className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
-                                        loading...
-                                    </div>))
-
-                            }
-
-                            {
-                                !blogs && (
-                                    <p>No blogs found</p>
-                                )
-                            }
-                        </div>
 
                     </div>
+                )
+            }
 
-                    <div className='flex flex-col gap-3'>
-                        <p className='text-textColor text-[2em] font-semibold'>Tag Cloud</p>
-                        <div className='flex flex-wrap gap-2'>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Design</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Development</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Marketing</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>SEO</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Writing</Link>
-                            <Link className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3' href={""}>Consulting</Link>
-                        </div>
-                    </div>
-
-                    <div className='h-[20%] flex flex-col gap-3'>
-                        <p className='text-textColor text-[2em] font-semibold h-[10%]'>Plain Text</p>
-                        <div className='flex flex-col bg-headerBgColor text-welcomeBgColor h-[90%] justify-center px-5 gap-5 items-center'>
-                            <p className='text-center'>Vero sea et accusam justo dolor accusam
-                                lorem consetetur, dolores sit amet sit dolor
-                                clita kasd justo, diam accusam no sea ut
-                                tempor magna takimata, amet sit et diam
-                                dolor ipsum amet diamu</p>
-
-                            <button className='bg-headerInfoBgColor text-white w-[37%] p-2 rounded-[1.5em]'>Read More</button>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
         </div>
     )
 }
