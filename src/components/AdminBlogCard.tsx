@@ -40,7 +40,7 @@ const AdminBlogCard = ({ _id, imagePublicId, index, lastlyUpdatedDate, title, ca
         <>
            
 
-                    <div key={index} className='bg-headerBgColor rounded-[15px] flex flex-col justify-between h-[400px] w-[30vw]'>
+                    <div key={index} className='bg-headerBgColor rounded-[15px] flex flex-col col-span-1 justify-between h-[400px]'>
                         <CldImage
                             src={imagePublicId}
                             width={100}

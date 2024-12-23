@@ -6,12 +6,11 @@ interface LatestBlogCardProps {
     description: string;
     imagePublicId: string;
     _id: string;
-    index: number
 }
-const LatestBlogCard = ({ description, imagePublicId, _id, index }: LatestBlogCardProps) => {
+const LatestBlogCard = ({ description, imagePublicId, _id }: LatestBlogCardProps) => {
 
     return (
-        <Link href={`/blogs/${_id}`} key={index} className='flex h-[80px]  items-center'>
+        <Link href={`/blogs/${_id}`} className='flex h-[80px]  items-center'>
             <CldImage
                 src={imagePublicId}
                 width={100}

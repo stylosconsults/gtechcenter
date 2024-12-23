@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useBlogs } from '@/hooks/useBlogs'
 import { CldImage } from 'next-cloudinary'
+import AdminHeader from '@/components/AdminHeader'
 
 const barlow = Barlow({
     display: 'swap',
@@ -106,7 +107,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
     }
 
-  
+
     useEffect(() => {
 
         if (blogSuccessMsgs.updateSuccessMsg) {
@@ -162,17 +163,21 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
     }, [editBlogFormData, singleBlog, imageObj])
 
     return (
-        <div className={`flex flex-col gap-4 w-[94%] h-[96%] mt-2  ${barlow.className}`}>
-            <div className='flex justify-between h-[7%]'>
-                <p className='text-[2em]'><span className='font-bold'>Dashboard / </span>Blogs / Edit Blog: <span className='text-headerInfoBgColor font-semibold'>{singleBlog?.title}</span></p>
-                <button onClick={() => router.back()} className='text-[1.4em] bg-welcomeBgColor text-white w-[6em] rounded-[8px] text-center p-2'>Back</button>
+        <div className={`flex flex-col  w-[91%] h-[96%] mt-2  ${barlow.className}`}>
+            <AdminHeader backBtnRequired={true} />
+            <div className='h-[4%] w-full flex items-center gap-2'>
+                <span className=' sm:text-[10vw] md:text-[1.7em]'>Edit Blog:</span>
+                <span className='text-headerInfoBgColor text-[1.2em] w-[40%] font-semibold truncate'>
+                    {singleBlog?.title}
+                </span>
             </div>
 
-            <div className='flex flex-col gap-3 h-[92%] p-3'>
+            <div className='flex flex-col gap-3 h-[91%] p-3'>
                 <p className='text-[1.5em] h-[7%] '>All blogs</p>
                 <form onSubmit={handleOnSubmit} className='flex flex-col gap-5 h-[97%]'>
-                    <div className='flex h-[95%] justify-evenly items-center'>
-                        <div className='flex flex-col gap-3 w-[45%]'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 h-auto justify-evenly items-center'>
+                        {/* Other input fields */}
+                        <div className='flex flex-col col-span-1 gap-3'>
                             <div className='flex flex-col gap-1 text-[1.2em]'>
                                 <label htmlFor="title">Title</label>
                                 <input
@@ -201,7 +206,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
                             <div className='flex flex-col gap-1 text-[1.2em]'>
                                 <label htmlFor="title">Blog Description</label>
                                 <textarea
-                                    className='rounded-[15px] h-[14em] p-3 outline-none resize-none border border-inputBorderColor'
+                                    className='rounded-[15px] h-[13em] md:h-[14em] p-3 outline-none resize-none border border-inputBorderColor'
                                     name="description"
                                     value={editBlogFormData.description}
                                     onChange={handleEditedBlogDataChange}
@@ -210,9 +215,12 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
                                 ></textarea>
                             </div>
                         </div>
+                        {/* Other input fields */}
 
-                        <div className='flex flex-col justify-center gap-5 h-[85%] w-[45%] '>
-                            <p className='text-[1.2em] h-[5%]'>Upload cover image</p>
+
+                        {/* Upload image */}
+                        <div className='flex flex-col col-span-1 md:mt-0 mt-6 justify-center ]gap-5 h-[50vh] md:h-[85%]'>
+                            <p className='text-[1.2em] h-[5%] mb-3'>Upload cover image</p>
                             <label
                                 onDrop={(e) => handleDropEvent(e)}
                                 onDragEnter={(e) => handleDragEnter(e)}
@@ -258,6 +266,7 @@ const EditBlog = ({ params }: { params: { _id: string } }) => {
 
                             </label>
                         </div>
+                        {/* Upload image */}
 
                     </div>
 

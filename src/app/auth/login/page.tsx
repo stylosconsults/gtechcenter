@@ -81,10 +81,10 @@ function LoginPageContent() {
         <div className='flex flex-col'>
             <PagesTopDiv heading='Login To G-WISSEN' paragraph='Home Login' />
 
-            <div className='flex h-[440px]'>
+            <div className='grid grid-cols-1 md:grid-cols-2 h-[90vh] md:h-[440px]'>
                 {/* Form Section */}
-                <div className='bg-headerBgColor flex flex-col gap-3 pt-2 w-[50%] h-full border border-green-500 px-4 justify-center'>
-                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                <div className='bg-headerBgColor flex flex-col col-span-1 gap-3 pt-2 h-auto md:h-full px-4 justify-center'>
+                    <form onSubmit={handleOnSubmit} className='md:h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor md:p-2'>
                         <p className='text-textColor text-[2.4em] font-semibold text-center'>Login</p>
 
                         <input
@@ -115,6 +115,7 @@ function LoginPageContent() {
                             {loading ? "Loading..." : "Submit"}
                         </button>
                     </form>
+
                     <div className='flex items-center justify-center gap-3 text-[1.2em]'>
                         <p>Create an account</p>
                         <Link className='underline-offset-2 underline' href={"/auth/register"}>here</Link>
@@ -122,12 +123,11 @@ function LoginPageContent() {
                 </div>
 
                 {/* Image Section */}
-                <div className='w-[50%]'>
+                <div className='col-span-1 h-auto '>
                     <Image
                         className='w-full h-full object-cover'
                         src={LoginImage}
                         alt="Login background"
-                        priority
                     />
                 </div>
             </div>

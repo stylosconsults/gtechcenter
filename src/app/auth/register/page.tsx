@@ -4,22 +4,30 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import LoginImage from "../../../../public/images/bgImg2.png"
 import Image from 'next/image'
 import { useUsers } from '@/hooks/useUsers'
-import { User } from '@/types/User'
 import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
+
+type RegisteringUser = {
+    email: string;
+    password: string;
+    first_name: string;
+    last_name: string;
+    phone_number: string;  // Change type from number | null to string
+    role?: (typeof ROLES)[keyof typeof ROLES];
+    
+}
 
 const RegisterPage = () => {
-    const {  loading, registerUser,currentUser, userSuccessMsgs } = useUsers()
+    const { loading, registerUser, currentUser, userSuccessMsgs } = useUsers()
     const router = useRouter()
     const [disableRegisterBtn, setDisableRegisterBtn] = useState<boolean>(false)
-    const [registeringData, setRegisteringData] = useState<User>({
+    const [registeringData, setRegisteringData] = useState<RegisteringUser>({
         email: "",
         password: "",
         first_name: "",
         last_name: "",
-        phone_number: null,
+        phone_number: "",
         role: ROLES.USER
     })
 
@@ -28,19 +36,24 @@ const RegisterPage = () => {
         setRegisteringData(
             (previousData) => ({
                 ...previousData,
-                [name]: value
+                [name]: name === 'phone_number' ? (value === '' ? '' : value) : value
             })
         )
     }
 
     const handleOnSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        await registerUser(registeringData)
+        const dataToSubmit = {
+            ...registeringData,
+            phone_number: registeringData.phone_number ? parseInt(registeringData.phone_number) : null
+        }
+        await registerUser(dataToSubmit)
     }
 
 
 
     useEffect(() => {
+        console.log('success msg: ',userSuccessMsgs.registerSuccessMsg);
         if (userSuccessMsgs.registerSuccessMsg) {
             setRegisteringData(
                 {
@@ -48,12 +61,11 @@ const RegisterPage = () => {
                     password: "",
                     first_name: "",
                     last_name: "",
-                    phone_number: 0,
+                    phone_number: "0",
                     role: ROLES.USER
                 }
             )
 
-            toast.success("Created successfully")
         }
     }, [userSuccessMsgs.registerSuccessMsg])
 
@@ -91,10 +103,10 @@ const RegisterPage = () => {
         <div className='flex flex-col'>
             <PagesTopDiv heading='Sign Up To G-WISSEN' paragraph='Home Sign_Up' />
 
-            <div className='flex '>
+            <div className='grid grid-cols-1 md:grid-cols-2 '>
 
-                <div className='bg-headerBgColor flex flex-col gap-3 pt-2 w-[50%] h-full px-4 justify-center'>
-                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                <div className='bg-headerBgColor col-span-1 flex flex-col pt-2 h-auto px-0 md:px-4 justify-center'>
+                    <form onSubmit={handleOnSubmit} className=' w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
 
                         <p className='text-textColor text-[2.4em] font-semibold text-center'>Sign Up</p>
                         <div className='flex justify-between'>
@@ -145,7 +157,7 @@ const RegisterPage = () => {
                             required
                         />
 
-                        <button disabled={disableRegisterBtn || loading} className={` ${disableRegisterBtn || loading ? "bg-red-400" : "bg-headerInfoBgColor"}  text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>{loading ? "Loading": "Submit"}</button>
+                        <button disabled={disableRegisterBtn || loading} className={` ${disableRegisterBtn || loading ? "bg-red-400" : "bg-headerInfoBgColor"}  text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>{loading ? "Loading" : "Submit"}</button>
                     </form>
                     <div className='flex items-center justify-center gap-3 text-[1.2em]'>
 
@@ -155,7 +167,7 @@ const RegisterPage = () => {
                 </div>
 
 
-                <div className='w-[50%] '>
+                <div className='col-span-1 h-[50vh] md:h-auto '>
                     <Image className='w-full h-full' src={LoginImage} alt="image" />
                 </div>
             </div>

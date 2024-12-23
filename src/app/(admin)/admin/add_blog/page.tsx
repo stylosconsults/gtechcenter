@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useBlogs } from '@/hooks/useBlogs'
 import toast from 'react-hot-toast'
+import AdminHeader from '@/components/AdminHeader'
 
 const barlow = Barlow({
     display: 'swap',
@@ -150,16 +151,17 @@ const AddBlog = () => {
 
     return (
         <div className={`flex flex-col gap-4 w-[94%] h-[96%] mt-2  ${barlow.className}`}>
-            <div className='flex justify-between h-[7%]'>
+            <AdminHeader backBtnRequired={true} />
+            {/* <div className='flex justify-between h-[7%]'>
                 <p className='text-[2em]'><span className='font-bold'>Dashboard / </span>Blogs / Add Blog</p>
-                <button onClick={() => router.back()} className='text-[1.4em] bg-welcomeBgColor text-white w-[6em] rounded-[8px] text-center p-2'>Back</button>
-            </div>
+            </div> */}
 
             <div className='flex flex-col gap-3 h-[92%] p-3'>
                 <p className='text-[1.5em] h-[7%] '>All blogs</p>
-                <form onSubmit={handleOnSubmit} className='flex flex-col gap-5 h-[97%]'>
-                    <div className='flex h-[95%] justify-evenly items-center'>
-                        <div className='flex flex-col gap-3 w-[45%]'>
+                <form onSubmit={handleOnSubmit} className='flex flex-col gap-5 h-auto'>
+                    <div className='grid grid-cols-1 md:grid-cols-2  h-auto md:h-[95%]  justify-evenly items-center'>
+                        {/* Other input fields */}
+                        <div className='flex flex-col col-span-1 gap-3 '>
                             <div className='flex flex-col gap-1 text-[1.2em]'>
                                 <label htmlFor="title">Title</label>
                                 <input
@@ -199,8 +201,11 @@ const AddBlog = () => {
                                 ></textarea>
                             </div>
                         </div>
+                        {/* Other input fields */}
 
-                        <div className='flex flex-col justify-center gap-5 h-[85%] w-[45%] '>
+
+                        {/* Uploading image */}
+                        <div className='flex flex-col col-span-1 justify-center gap-5 h-[85%]'>
                             <p className='text-[1.2em] h-[5%]'>Upload cover image</p>
                             <label
                                 onDrop={(e) => handleDropEvent(e)}
@@ -225,6 +230,7 @@ const AddBlog = () => {
 
                             </label>
                         </div>
+                        {/* Uploading image */}
 
                     </div>
 

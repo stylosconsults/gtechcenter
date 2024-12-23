@@ -20,7 +20,7 @@ const BlogCard = ({ _id, imagePublicId, index, lastlyUpdatedDate, title, categor
     return (
         <>
 
-            <Link href={`blogs/${_id}`} key={index} className='flex flex-col rounded-[15px] h-[420px] bg-headerBgColor md:w-[25vw]'>
+            <Link href={`blogs/${_id}`} key={index} className='flex flex-col rounded-[15px] h-[420px] bg-headerBgColor w-full md:w-[25vw]'>
                 <CldImage
                     src={imagePublicId}
                     width={100}

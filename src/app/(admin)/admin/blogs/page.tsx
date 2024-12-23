@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { Barlow } from 'next/font/google'
-import Link from 'next/link'
 import PaginationControls from '../../../../components/PaginationControls'
 import { useBlogs } from '@/hooks/useBlogs'
 import AdminBlogCard from '@/components/AdminBlogCard'
 import NoBlogsFound from '@/components/NoBlogsFound'
 import LoadingBlogCard from '@/components/LoadingBlogCard'
+import AdminHeader from '@/components/AdminHeader'
 
 
 const barlow = Barlow({
@@ -34,15 +34,11 @@ const AdminBlogsPage = ({ searchParams }: SearchParamsType) => {
 
     return (
         <div className={`flex flex-col w-[95%] ${barlow.className} gap-5 p-3 overflow-auto`}>
-            {/* ... other code ... */}
-            <div className='flex justify-between h-[7%]'>
-                <p className='text-[2em]'><span className='font-bold'>Dashboard / </span>Blogs</p>
-                <Link href={"/admin/add_blog"} className='text-[1.4em] bg-headerInfoBgColor text-white w-[6em] rounded-[8px] text-center p-2'>Add Blog</Link>
-            </div>
+            <AdminHeader backBtnRequired={false}/>
 
             <div className='flex flex-col gap-5 h-[90%] '>
                 <p className='text-[1.5em] h-[2%]'>All blogs</p>
-                <div className='flex flex-wrap gap-3 h-[98%] min-h-[300px] overflow-auto p-1'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-3 h-[98%] min-h-[300px] overflow-auto p-1'>
                     {loadingStates.loadingAllBlogs ? (
                         // Show loading cards when loading is true
                         loadingBlogCards.map((_, index) => (

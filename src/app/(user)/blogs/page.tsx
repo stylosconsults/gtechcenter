@@ -8,6 +8,7 @@ import { useBlogs } from '@/hooks/useBlogs'
 import BlogCard from '@/components/BlogCard'
 import LatestBlogCard from '@/components/LatestBlogCard'
 import NoBlogsFound from '@/components/NoBlogsFound'
+import LoadingBlogCard from '@/components/LoadingBlogCard'
 
 
 
@@ -33,30 +34,42 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
     return (
         <div className='flex flex-col gap-7 mb-[4em]'>
             <PagesTopDiv heading='Blogs' paragraph='Home Blogs' />
-            <div className='flex justify-center p-4'>
+            <div className='md:flex grid grid-cols-1 gap-y-10  justify-center p-4'>
 
-                <div className='flex flex-wrap gap-8 h-[10%]  w-[65%] ps-12'>
-                    {!loadingStates.loadingAllBlogs ?
-                        slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
-                            <BlogCard key={index} index={index} _id={_id} category={category} description={description} imagePublicId={imagePublicId} lastlyUpdatedDate={lastlyUpdatedDate} title={title} />
-                        )) :
-                        loadingBlogCards.map((el, index) => (
-                            <BlogCard key={index} loading={true} _id={''} imagePublicId={''} index={index} lastlyUpdatedDate={''} title={''} category={''} description={''} />
+                {/* Left column */}
+                <div className='col-span-1 flex flex-wrap gap-8 -1 h-[10%]  md:w-[65%] md:ps-12'>
+
+
+                    {loadingStates.loadingAllBlogs ? (
+                        // Show loading cards when loading is true
+                        loadingBlogCards.map((_, index) => (
+                            <LoadingBlogCard key={index} />
                         ))
-
-                    }
-
-                    {
-                        blogs.length === 0 && !loadingStates.loadingAllBlogs && (
-                            <NoBlogsFound />
-                        )
-                    }
+                    ) : blogs.length === 0 ? (
+                        // Show no blogs found when blogs array is empty
+                        <NoBlogsFound />
+                    ) : (
+                        // Show actual blog cards when data is loaded
+                        slicedBlogs.map(({ category, description, title, imagePublicId, lastlyUpdatedDate, _id }, index) => (
+                            <BlogCard
+                                key={_id} // Better to use _id instead of index
+                                index={index}
+                                _id={_id}
+                                category={category}
+                                description={description}
+                                imagePublicId={imagePublicId}
+                                lastlyUpdatedDate={lastlyUpdatedDate}
+                                title={title}
+                            />
+                        ))
+                    )}
 
                 </div>
+                {/* Left column */}
 
 
-
-                <div className='flex flex-col gap-[6em] p-1 w-[28%]'>
+                {/* Right column */}
+                <div className='col-span-1 flex flex-col gap-[6em] p-1 w-full md:w-[28%]'>
                     {/* <form action="" className='flex border border-headerLinkBorderColor rounded-md overflow-hidden'>
                         <input type="text" placeholder='Keyword' className='p-3 outline-none w-[80%] h-full' />
                         <button className='bg-headerInfoBgColor w-[20%] h-full'></button>
@@ -70,31 +83,29 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
                             <p>Web Development</p>
                             <p>Keyword Research</p>
                             <p>Email Marketing</p>
-                            <PinkCircle className="absolute top-[14.1em] left-[19.6em]" />
+                            <PinkCircle className="absolute top-[14.1em] left-[70%]" />
                         </div>
                     )}
 
-                    <div className='flex flex-col  h-[350px]  justify-center'>
+                    <div className='flex flex-col  h-auto  justify-center'>
 
-                        {!loadingStates.loadingAllBlogs ?
-                            latestBlogs.map(({ description, imagePublicId, _id }, index) => (
-                                <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
-                            )) :
-
-                            loadingBlogCards.map((index) => (
-                            
-                                <div key={index} className='bg-headerBgColor my-[3px] flex items-center justify-center h-[20%] '>
+                        {loadingStates.loadingAllBlogs ? (
+                            // Show loading cards when loading is true
+                            loadingBlogCards.map((_, index) => (
+                                <div key={index} className='bg-headerBgColor my-[3px] flex items-center justify-center h-[70px] '>
                                     loading...
                                 </div>))
-
-                        }
-
-
-                        {
-                            blogs.length === 0 && !loadingStates.loadingAllBlogs && (
-                                <NoBlogsFound />
-                            )
-                        }
+                        ) : (
+                            // Show actual blog cards when data is loaded
+                            latestBlogs.map(({ description, imagePublicId, _id }, index) => (
+                                <LatestBlogCard
+                                    key={index}
+                                    _id={_id}
+                                    description={description}
+                                    imagePublicId={imagePublicId}
+                                />
+                            ))
+                        )}
 
                     </div>
 
@@ -116,22 +127,83 @@ const BlogsPage = ({ searchParams }: SearchParamsType) => {
                         </div>
 
                     )}
-                    {/* <div className='flex flex-col bg-headerBgColor text-welcomeBgColor h-[200px] justify-center px-5 gap-5 items-center'>
-                        <p className='text-center'>Vero sea et accusam justo dolor accusam
-                            lorem consetetur, dolores sit amet sit dolor
-                            clita kasd justo, diam accusam no sea ut
-                            tempor magna takimata, amet sit et diam
-                            dolor ipsum amet diamu</p>
-
-                        <button className='bg-headerInfoBgColor text-white w-[37%] p-2 rounded-[1.5em]'>Read More</button>
-                    </div> */}
 
                 </div>
             </div>
+            {/* Right column */}
 
             <PaginationControls baseUrl='/blogs/' numOfBlogs={blogs.length} />
         </div>
     )
+
+    //     return (
+    //     <div className={`${barlow.variable} flex flex-col mb-[4em]`}>
+    //         <PagesTopDiv heading='Blog Detail' paragraph='Home Blog_Detail' />
+
+    //         {loadingStates.loadingSingleBlog ? (
+    //             <div className="grid grid-cols-1 gap-4">
+    //                 {loadingBlogCards.map((_, index) => (
+    //                     <LoadingSingleBlogCard key={index} />
+    //                 ))}
+    //             </div>
+    //         ) : (
+    //             <div className='flex flex-col lg:flex-row justify-evenly gap-8 px-4'>
+    //                 <div className='w-full lg:w-[60%] flex flex-col gap-[2em]'>
+    //                     <div className='flex flex-col gap-7'>
+    //                         <CldImage
+    //                             src={singleBlog?.imagePublicId || "/images/latestBlog1.png"}
+    //                             width={100}
+    //                             height={100}
+    //                             alt='img'
+    //                             crop="fill"
+    //                             gravity='auto'
+    //                             className='w-full h-[300px] md:h-[400px] lg:h-[550px] object-cover'
+    //                         />
+    //                         <p className='text-textColor text-xl md:text-2xl lg:text-[2em] font-bold leading-tight'>{singleBlog?.title}</p>
+    //                         <div className='text-base md:text-lg text-welcomeBgColor'>
+    //                             <p>{singleBlog?.description}</p>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+
+    //                 <div className='w-full lg:w-[28%] flex flex-col gap-8 md:gap-[6em]'>
+    //                     <div className='relative'>
+    //                         <p className='text-textColor text-xl md:text-2xl lg:text-[2em] font-semibold'>Category</p>
+    //                         <div className='bg-headerBgColor p-4 md:p-7'>
+    //                             <p className='text-textColor font-semibold'>{singleBlog?.category}</p>
+    //                         </div>
+    //                         <RedCircle className="hidden lg:block absolute top-[9em] right-4" />
+    //                     </div>
+
+    //                     <div>
+    //                         <p className='text-textColor text-xl md:text-2xl lg:text-[2em] font-semibold mb-4'>Recent Post</p>
+    //                         <div className='grid gap-4'>
+    //                             {latestBlogs.map((blog, index) => (
+    //                                 <LatestBlogCard key={index} {...blog} />
+    //                             ))}
+    //                             {!blogs && <p>No blogs found</p>}
+    //                         </div>
+    //                     </div>
+
+    //                     <div>
+    //                         <p className='text-textColor text-xl md:text-2xl lg:text-[2em] font-semibold mb-4'>Tag Cloud</p>
+    //                         <div className='flex flex-wrap gap-2'>
+    //                             {['Design', 'Development', 'Marketing', 'SEO', 'Writing', 'Consulting'].map((tag) => (
+    //                                 <Link 
+    //                                     key={tag}
+    //                                     className='bg-headerBgColor rounded-md text-textColor font-semibold p-2 px-3 text-sm md:text-base'
+    //                                     href={""}
+    //                                 >
+    //                                     {tag}
+    //                                 </Link>
+    //                             ))}
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         )}
+    //     </div>
+    // 
 }
 
 export default BlogsPage

@@ -4,8 +4,18 @@
 
 @layer utilities {
   .inclined-left {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 9.06% 100%);
+      position: relative;
+      clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
   }
+
+  @keyframes pulse {
+    50% {
+        opacity: .5;
+    }
+}
+.animate-pulsing {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 }
 
 ::-webkit-scrollbar {

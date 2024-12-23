@@ -43,8 +43,9 @@ const BlogPage = ({ params }: BlogParams) => {
                     <LoadingSingleBlogCard key={index} />
                 )
                 ) : (
-                    <div className='flex justify-evenly'>
-                        <div className='w-[60%] flex flex-col  justify-between gap-[2em]'>
+                    <div className='justify-evenly grid grid-cols-1 md:grid-cols-4 gap-x-2 gap-y-10 md:gap-y-0 px-3'>
+                        {/* Left column */}
+                        <div className='col-span-1 md:col-span-3 flex flex-col  justify-between gap-[2em]'>
 
 
                             {/* target */}
@@ -128,8 +129,11 @@ const BlogPage = ({ params }: BlogParams) => {
                     </div> */}
                             {/* leave comment */}
                         </div>
+                        {/* Left column */}
 
-                        <div className='flex flex-col gap-[6em] p-1 w-[28%]'>
+
+                        {/* Right column */}
+                        <div className='col-span-1 md:col-span-1 flex flex-col gap-[6em] p-1'>
                             {/* <form action="" className='flex border border-headerLinkBorderColor rounded-md overflow-hidden'>
                                 <input type="text" placeholder='Keyword' className='p-3 py-4 outline-none w-[80%] h-full' />
                                 <button className='bg-headerInfoBgColor w-[20%] h-full'></button>
@@ -145,7 +149,7 @@ const BlogPage = ({ params }: BlogParams) => {
                             <p>Keyword Research</p> */}
                                     <p className='text-ellipsis whitespace-nowrap overflow-hidden'>{singleBlog?.category}</p>
                                 </div>
-                                <RedCircle className="absolute top-[9em] left-[23em]" />
+                                <RedCircle className="absolute top-[9em] left-[70%]" />
                             </div>
 
                             {/* Recent post */}
@@ -155,7 +159,7 @@ const BlogPage = ({ params }: BlogParams) => {
 
                                     {
                                         latestBlogs.map(({ description, imagePublicId, _id }, index) => (
-                                            <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} index={index} />
+                                            <LatestBlogCard key={index} _id={_id} description={description} imagePublicId={imagePublicId} />
                                         ))
                                     }
 
@@ -205,6 +209,7 @@ const BlogPage = ({ params }: BlogParams) => {
                             </div> */}
 
                         </div>
+                        {/* Right column */}
 
                     </div>
                 )
@@ -212,6 +217,9 @@ const BlogPage = ({ params }: BlogParams) => {
 
         </div>
     )
+
+
+
 }
 
 export default BlogPage

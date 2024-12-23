@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useBlogs } from "@/hooks/useBlogs";
 import DeleteDashBlogSvg from "../../../../../../public/icons/dashboard/deleteIllustrationDashboard.svg";
 import { Barlow, Inter } from "next/font/google";
@@ -42,8 +42,12 @@ const DeletePage = ({ params }: { params: { _id: string } }) => {
 
     return (
         <div className="w-full h-full absolute flex justify-center items-center bg-black bg-opacity-20 top-0 left-0">
-            <div className="flex flex-col justify-evenly items-center w-[35%] h-[50%] bg-white opacity-[10] rounded-[34px]">
-                <DeleteDashBlogSvg />
+            <div className="flex flex-col justify-evenly items-center w-[70%] md:w-[35%] h-auto bg-white opacity-[10] rounded-[15px] p-2">
+
+                <div className='w-full h-auto sm:h-auto md:h-[68%]  mx-auto col-span-1'>
+                    <DeleteDashBlogSvg className="h-[95%] mx-auto w-[90%]" />
+                </div>
+
                 <p className={`${inter.className} text-[1.1em]`}>
                     Are you sure you want to delete this blog post?
                 </p>

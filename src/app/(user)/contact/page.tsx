@@ -4,6 +4,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { GoogleMap, Marker, DirectionsService, Libraries, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api'
 import { useContacts } from '@/hooks/useContacts'
 import { Contact } from '@/types/Contact'
+import LoadingGoogleMap from '@/components/LoadingContactPage'
 
 const containerStyle = {
     width: "100%",
@@ -68,7 +69,7 @@ const Page = () => {
         e.preventDefault()
         await createContact(contactInputData)
 
-      
+
     }
     useEffect(() => {
         if (contactSuccessMsgs.createSuccessMsg !== "") {
@@ -79,7 +80,7 @@ const Page = () => {
                 message: "",
                 email: ""
             })
-        
+
         }
     }, [contactSuccessMsgs.createSuccessMsg])
 
@@ -149,60 +150,17 @@ const Page = () => {
     }, [])
 
 
-
-
-    if (loadError) {
-        return <p>Error loading google maps</p>
-    }
-
-    if (!isLoaded) {
-        return (
-            <div className='flex flex-col'>
-                <PagesTopDiv heading='Contact Us' paragraph='Home Contact' />
-
-                <div className='flex h-[500px] bg-headerBgColor'>
-
-                    <div className='flex flex-col gap-3 pt-2 w-[50%] h-full px-4 justify-center'>
-                        <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
-                        <form action="" className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
-                            <div className='flex justify-between'>
-                                <input disabled className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='First Name' />
-                                <input disabled className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] ' type="text" placeholder='Last Name' />
-                            </div>
-
-                            <input disabled type="text" placeholder='Subject' className='p-3 text-[1.1em] outline-none rounded-[5px]' />
-                            <textarea disabled name="message" id="message" placeholder='Message' className='h-[120px] resize-none rounded-[5px] outline-none p-2 text-[1.1em]'></textarea>
-
-                            <button disabled={disableSubmitBtn || loading} className={`${loading || disableSubmitBtn ? "bg-red-400" : "bg-headerInfoBgColor"} text-white p-2 text-[1.1em] font-semibold rounded-[5px]`}>{loading ? "loading" : "Submit"}</button>
-                        </form>
-
-                    </div>
-
-                    <div className='w-[50%] flex justify-center items-center'>
-                        Google map loading...
-                    </div>
-                </div>
-
-            </div>
-        )
-    }
-
-
-    // Contacting logic
-
-
-
     return (
         <div className='flex flex-col'>
             <PagesTopDiv heading='Contact Us' paragraph='Home Contact' />
 
-            <div className='flex h-[500px] bg-headerBgColor'>
+            <div className='grid grid-cols-1 md:grid-cols-2 md:h-[500px] bg-headerBgColor'>
+                {/* Contact form */}
+                <div className='flex flex-col gap-3 col-span-1 pt-2 h-full px-4 justify-center'>
 
-                <div className='flex flex-col gap-3 pt-2 w-[50%] h-full px-4 justify-center'>
 
-
-                    <p className='text-textColor text-[2em] font-semibold h-[10%]'>Contact For Any Queries</p>
-                    <form onSubmit={handleOnSubmit} className='h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
+                    <p className='text-textColor text-[2em] font-semibold md:h-[10%] text-center md:text-start'>Contact For Any Queries</p>
+                    <form onSubmit={handleOnSubmit} className='md:h-[75%] w-full flex flex-col justify-evenly rounded-[5px] gap-4 bg-headerBgColor p-2'>
                         <div className='flex justify-between'>
                             <input
                                 className='outline-none w-[49%] p-3 text-[1.1em] rounded-[5px] '
@@ -262,50 +220,59 @@ const Page = () => {
 
 
                 </div>
-
-                <div className='w-[50%] flex justify-center items-center'>
-                    <GoogleMap
-                        mapContainerStyle={containerStyle}
-                        center={currentLocation}
-                        zoom={12}
-                    >
-
-                        <Marker
-                            position={currentLocation}
-                        // icon={{
-                        //     url: "/gifs/output-onlinegiftools (1).gif",  // Path to the blinking GIF
-                        //     scaledSize: new window.google.maps.Size(50, 50), // Adjust the size
-                        //     origin: new window.google.maps.Point(0,0),
-                        //     anchor: new window.google.maps.Point(25,25)
-
-                        // }}
+                {/* Contact form */}
 
 
-                        />
-                        <Marker position={destination} />
-                        <DirectionsService
-                            options={{
-                                destination: destination,
-                                origin: currentLocation,
-                                travelMode: google.maps.TravelMode.WALKING
-                            }}
+                {/* Google map section */}
+                <div className='flex justify-center items-center col-span-1'>
+                    {loadError ? (
+                        <p>Error while loading google map</p>
+                    ) : !isLoaded ? (
+                        <LoadingGoogleMap/>
+                    ) : (
 
-                            callback={directionsCallback}
-                        />
+                        <GoogleMap
+                            mapContainerStyle={containerStyle}
+                            center={currentLocation}
+                            zoom={12}
+                        >
 
-                        {
-                            directions && (
-                                <DirectionsRenderer
-                                    options={{
-                                        directions: directions
-                                    }}
-                                />
-                            )
-                        }
-                    </GoogleMap>
+                            <Marker
+                                position={currentLocation}
+                            // icon={{
+                            //     url: "/gifs/output-onlinegiftools (1).gif",  // Path to the blinking GIF
+                            //     scaledSize: new window.google.maps.Size(50, 50), // Adjust the size
+                            //     origin: new window.google.maps.Point(0,0),
+                            //     anchor: new window.google.maps.Point(25,25)
+
+                            // }}
 
 
+                            />
+                            <Marker position={destination} />
+                            <DirectionsService
+                                options={{
+                                    destination: destination,
+                                    origin: currentLocation,
+                                    travelMode: google.maps.TravelMode.WALKING
+                                }}
+
+                                callback={directionsCallback}
+                            />
+
+                            {
+                                directions && (
+                                    <DirectionsRenderer
+                                        options={{
+                                            directions: directions
+                                        }}
+                                    />
+                                )
+                            }
+                        </GoogleMap>
+                    )}
                 </div>
+                {/* Google map section */}
             </div>
 
         </div>
