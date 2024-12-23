@@ -39,7 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <title>{pageTitle}</title>
                 <meta name='description' content={pageDescription} />
             </head>
-            <body className={`h-[1020px] sm:h-[1000px] md:h-[100vh] ${barlow.className}`}>
+            <body className={`h-[1040px] sm:h-[1000px] md:h-[100vh] ${barlow.className}`}>
                 <main className='flex gap-2 h-full'>
                     <DashboardSideBar />
                     {children}

@@ -205,7 +205,7 @@ const AddBlog = () => {
 
 
                         {/* Uploading image */}
-                        <div className='flex flex-col col-span-1 justify-center gap-5 h-[85%]'>
+                        <div className='flex flex-col col-span-1 justify-center gap-5 h-[50vh] md:h-[85%]'>
                             <p className='text-[1.2em] h-[5%]'>Upload cover image</p>
                             <label
                                 onDrop={(e) => handleDropEvent(e)}
@@ -218,7 +218,7 @@ const AddBlog = () => {
 
                                 {imgBlobUrl &&
                                     <div className='w-full h-full rounded-[25px] '>
-                                        <Image className='object-cover rounded-[25px] ' fill src={imgBlobUrl} alt={'uploadedImage'} />
+                                        <Image className='object-cover rounded-[25px] h-full w-full ' fill src={imgBlobUrl} alt={'uploadedImage'} />
                                     </div>
                                 }
 

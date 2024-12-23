@@ -135,7 +135,7 @@ const FrequentlyAsked = () => {
     return (
         <div className=' gap-10'>
             <PagesTopDiv heading='Frequently Asked Questions' paragraph='FAQs' />
-            <div className='w-[60%] text-[1.2em] flex flex-col mx-auto my-[4em] gap-2 '>
+            <div className='md:w-[60%] w-[90%] text-[1.2em] flex flex-col mx-auto my-[4em] gap-2 '>
 
                 <p className='text-center font-semibold text-[1.3em] mb-[2em]'>Common Questions</p>
 
