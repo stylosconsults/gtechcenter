@@ -13,9 +13,12 @@ import ClientApproach from "../../../public/icons/clientApproach.svg"
 import InnovativeSols from "../../../public/icons/innovativeSolutions.svg"
 import ResultOriented from "../../../public/icons/resultsOriented.svg"
 import requestNote from "../../../public/images/requestNote.png"
-import teamMember1 from "../../../public/images/teamMember1.png"
-import teamMember2 from "../../../public/images/teamMember2.png"
-import teamMember3 from "../../../public/images/teamMember3.png"
+import EricImg from "../../../public/images/team/Eric Pic.jpeg"
+import FabriceImg from "../../../public/images/team/FabPic.jpg"
+import GiseleImg from "../../../public/images/team/Gisele.jpeg"
+import YvonneImg from "../../../public/images/team/Yvonne.jpeg"
+import RuthImg from "../../../public/images/team/Ruth.jpeg"
+import RedemptaImg from "../../../public/images/team/Redempta_croped.jpg"
 import Quote from "../../../public/icons/quote.svg"
 import WelcomeToGTech from "../../../public/images/welcomeToGtech.svg"
 import bgImg1 from "../../../public/images/bgImg2.png"
@@ -266,32 +269,107 @@ const MainUserPage = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full md:w-[75%]">
           {/* Team member cards */}
+
+          <div className='relative'>
+            <div className='w-full h-[50vh] md:h-[70vh]'>
+
+              <Image
+                className='w-full h-full object-cover'
+                src={RedemptaImg}
+                fill
+                alt="image" />
+              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
+                <p className='font-semibold '>Redempta</p>
+                <p>Managing Director</p>
+              </div>
+            </div>
+          </div>
+
+
           <div className="relative">
-            <Image
-              src={teamMember1}
-              alt="team member"
-              className="w-full h-auto"
-            />
-            <div className="w-12 h-12 md:w-[60px] md:h-[60px] absolute bottom-0 bg-headerInfoBgColor"></div>
+            <div className='w-full h-[50vh] md:h-[70vh]'>
+
+              <Image
+                src={YvonneImg}
+                alt="team member"
+                fill
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
+              <p className='font-semibold '>Yvonne</p>
+              <p>Buiness Operation Manager</p>
+            </div>
           </div>
 
 
           <div className='relative'>
-            <Image
-              className='w-full h-auto'
-              src={teamMember2}
-              alt="image" />
-            <div className='w-12 h-12 md:w-[60px] md:h-[60px] absolute bottom-0 bg-headerInfoBgColor'></div>
-          </div>
-          <div className='relative'>
-            <Image
-              className='w-full h-auto'
-              src={teamMember3}
-              alt="image" />
-            <div className='w-12 h-12 md:w-[60px] md:h-[60px] absolute bottom-0 bg-headerInfoBgColor'></div>
+            <div className='w-full h-[50vh] md:h-[70vh]'>
+
+              <Image
+                className='w-full h-full object-cover'
+                src={FabriceImg}
+                fill
+                alt="image" />
+              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
+                <p className='font-semibold '>Fabrice</p>
+                <p className='text-[90%]'>Senior Business Development Officer</p>
+              </div>
+            </div>
           </div>
 
-          {/* Repeat for other team members */}
+
+          <div className='relative'>
+            <div className='w-full h-[50vh] md:h-[70vh]'>
+
+              <Image
+                className='w-full h-full object-cover'
+                src={EricImg}
+                fill
+                alt="image" />
+              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
+                <p className='font-semibold '>Eric</p>
+                <p>Business Development Officer</p>
+              </div>
+            </div>
+          </div>
+
+          
+
+         
+
+          <div className='relative'>
+            <div className='w-full h-[50vh] md:h-[70vh]'>
+
+
+              <Image
+                className='w-full h-full object-cover'
+                src={GiseleImg}
+                fill
+                alt="image" />
+            </div>
+            <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
+              <p className='font-semibold '>Gisele</p>
+              <p>Business Development Officer</p>
+            </div>
+          </div>
+
+          <div className='relative'>
+            <div className='w-full h-[50vh] md:h-[70vh]'>
+
+              <Image
+                className='w-full h-full object-cover'
+                src={RuthImg}
+                fill
+                alt="image" />
+              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
+                <p className='font-semibold '>Ruth</p>
+                <p>Business Development Officer</p>
+              </div>
+            </div>
+          </div>
+
+          {/*  team member cards */}
         </div>
       </div>
 

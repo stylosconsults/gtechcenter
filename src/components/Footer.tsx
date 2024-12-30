@@ -198,8 +198,8 @@ const Footer = () => {
                     <p className='text-white font-semibold text-[1.1em]'>Get In Touch</p>
                     <div className='flex flex-col gap-1 ps-4 text-headerLinkBorderColor'>
                         <Link href="" className='hover:text-white transition-colors'>Kk 345 st., Kicukiro Saint Joseph</Link>
-                        <Link href="" className='hover:text-white transition-colors'>info@example.com</Link>
-                        <Link href="" className='hover:text-white transition-colors'>+250788647871</Link>
+                        <a href="mailto:gwissenconsult@gmail.com" className='hover:text-white transition-colors'>gwissenconsult@gmail.com</a>
+                        <a href="tel:+50788647871" className='hover:text-white transition-colors'>+250788647871</a>
                     </div>
                 </div>
 

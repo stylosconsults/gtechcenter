@@ -29,15 +29,20 @@ const Header = () => {
                     <Link className="flex justify-center w-[30%] h-full items-center text-welcomeBgColor" href="/privacy_policy">Privacy Policy</Link>
                 </div>
 
-                <div className="flex items-center ps-9 h-full justify-center pe-[2%] gap-[10%] text-white w-[30%] bg-headerInfoBgColor inclined-left">
-                    <Link href="" className="flex text-[1.3vw] items-center gap-1 font-semibold">
-                        <InfoIcon /> info@example.com
-                    </Link>
+                <div className="flex items-center ps-9 h-full justify-center pe-[2%] gap-[10%] text-white w-[40%] bg-headerInfoBgColor inclined-left">
+                    <a
+                        href="mailto:gwissenconsult@gmail.com"
+                        className="flex text-[1.3vw] items-center gap-1 font-semibold"
+
+                    >
+
+                        <InfoIcon /> gwissenconsult@gmail.com
+                    </a>
 
 
-                    <Link href="" className="flex  text-[1.3vw] items-center gap-2 font-semibold">
+                    <a href="tel:+250788647871" className="flex  text-[1.3vw] items-center gap-2 font-semibold">
                         <PhoneIcon />+250788647871
-                    </Link>
+                    </a>
                 </div>
             </div>
 
