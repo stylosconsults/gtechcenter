@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { Barlow } from 'next/font/google';
 import Header from './Header';
 import Link from 'next/link';
-import NavIcon from "../../public/icons/navbarIcon.svg"
+import NavIcon from "../../public/icons/GwissenIcon.svg"
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
