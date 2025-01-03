@@ -261,113 +261,111 @@ const MainUserPage = () => {
       </div>
 
       {/* Team Members section */}
-      <div className="flex flex-col relative items-center gap-8 md:gap-10 mt-12 md:mt-[5em] px-4">
+      <div className="flex flex-col relative items-center gap-8 md:gap-10 mt-12 md:mt-[5em]">
         <p className="text-textColor font-semibold text-2xl md:text-[2.5em] text-center relative
           before:absolute before:h-[1px] before:bg-headerInfoBgColor before:w-[10%] 
           before:top-[1.6em] before:left-[50%] md:before:left-[17em] before:-translate-x-1/2">
           Our Team Members
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full md:w-[75%]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full md:w-[95%]">
           {/* Team member cards */}
 
-          <div className='relative'>
-            <div className='w-full h-[50vh] md:h-[70vh]'>
-
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
-                className='w-full h-full object-cover'
+                className='w-full rounded-[15px] h-full object-cover'
                 src={RedemptaImg}
                 fill
                 alt="image" />
-              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
-                <p className='font-semibold '>Redempta</p>
-                <p>Managing Director</p>
+                </div>
+              <div className=" my-auto  ">
+                <p className='font-bold mb-1'>Redempta Uwayezu</p>
+                <p className='text-headerInfoBgColor'>Co-founder</p>
               </div>
             </div>
-          </div>
+          
 
 
-          <div className="relative">
-            <div className='w-full h-[50vh] md:h-[70vh]'>
-
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
+                className='w-full rounded-[15px] h-full object-cover'
                 src={YvonneImg}
-                alt="team member"
-                fill
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
-              <p className='font-semibold '>Yvonne</p>
-              <p>Buiness Operation Manager</p>
-            </div>
-          </div>
-
-
-          <div className='relative'>
-            <div className='w-full h-[50vh] md:h-[70vh]'>
-
-              <Image
-                className='w-full h-full object-cover'
-                src={FabriceImg}
                 fill
                 alt="image" />
-              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
-                <p className='font-semibold '>Fabrice</p>
-                <p className='text-[90%]'>Senior Business Development Officer</p>
+                </div>
+              <div className=" my-auto  ">
+                <p className='font-bold mb-1'>Yvonne Uwase</p>
+                <p className='text-headerInfoBgColor'>Managing Director</p>
               </div>
             </div>
-          </div>
+          
 
-
-          <div className='relative'>
-            <div className='w-full h-[50vh] md:h-[70vh]'>
-
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
-                className='w-full h-full object-cover'
+                className='w-full rounded-[15px] h-full object-cover'
                 src={EricImg}
                 fill
                 alt="image" />
-              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
-                <p className='font-semibold '>Eric</p>
-                <p>Business Development Officer</p>
+                </div>
+              <div className=" my-auto  ">
+                <p className='font-bold mb-1'>Nsengiyumva Eric</p>
+                <p className='text-headerInfoBgColor'>Business Development Manager</p>
               </div>
             </div>
-          </div>
+          
+            <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
+              <Image
+                className='w-full rounded-[15px] h-full object-cover'
+                src={FabriceImg}
+                fill
+                alt="image" />
+                </div>
+              <div className="my-auto">
+                <p className='font-bold mb-1'>Kagina Fabrice</p>
+                <p className='text-headerInfoBgColor'>Human Resources Officer</p>
+              </div>
+            </div>
+
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
+              <Image
+                className='w-full rounded-[15px] h-full object-cover'
+                src={GiseleImg}
+                fill
+                alt="image" />
+                </div>
+              <div className=" my-auto  ">
+                <p className='font-bold mb-1'>Nyirarukundo Gisele</p>
+                <p className='text-headerInfoBgColor'>Business Development Officer</p>
+              </div>
+            </div>
+          
 
           
 
          
 
-          <div className='relative'>
-            <div className='w-full h-[50vh] md:h-[70vh]'>
-
-
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
-                className='w-full h-full object-cover'
-                src={GiseleImg}
-                fill
-                alt="image" />
-            </div>
-            <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
-              <p className='font-semibold '>Gisele</p>
-              <p>Business Development Officer</p>
-            </div>
-          </div>
-
-          <div className='relative'>
-            <div className='w-full h-[50vh] md:h-[70vh]'>
-
-              <Image
-                className='w-full h-full object-cover'
+                className='w-full rounded-[15px] h-full object-cover'
                 src={RuthImg}
                 fill
                 alt="image" />
-              <div className="w-[90%] h-12 flex flex-col items-center justify-center text-white md:w-[90%] md:h-[60px] absolute bottom-[3%] left-[5%] bg-headerInfoBgColor">
-                <p className='font-semibold '>Ruth</p>
-                <p>Business Development Officer</p>
+                </div>
+              <div className=" my-auto  ">
+                <p className='mb-1 font-bold'>Bamukunde Ruth</p>
+                <p className='text-headerInfoBgColor'>Business Development officer</p>
               </div>
             </div>
-          </div>
+          
+
+
+         
+          
 
           {/*  team member cards */}
         </div>
@@ -398,7 +396,7 @@ const MainUserPage = () => {
         <p className="text-textColor font-semibold text-2xl md:text-[2.5em] text-center">
           Latest Blog Post
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-[40px] w-full md:w-[80%]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-[40px] w-full md:w-[80%]  ">
           {loadingStates.loadingAllBlogs ? (
             loadingBlogCards.map((_, index) => (
               <LoadingBlogCard key={index} />
