@@ -15,6 +15,7 @@ import ResultOriented from "../../../public/icons/resultsOriented.svg"
 import requestNote from "../../../public/images/requestNote.png"
 import EricImg from "../../../public/images/team/Eric Pic.jpeg"
 import FabriceImg from "../../../public/images/team/FabPic.jpg"
+import AdolpheImg from "../../../public/images/team/adolpheImg.jpeg"
 import GiseleImg from "../../../public/images/team/Gisele.jpeg"
 import YvonneImg from "../../../public/images/team/Yvonne.jpeg"
 import RuthImg from "../../../public/images/team/Ruth.jpeg"
@@ -100,7 +101,7 @@ const MainUserPage = () => {
   return (
     <div className="flex flex-col mb-16 w-full">
       {/* Hero Section */}
-      <div className={`relative min-h-[50vh] md:h-[80vh] w-full text-white flex flex-col justify-center items-center ${barlow.variable}`}>
+      <div className={`relative min-h-[50vh] md:h-[82vh] w-full text-white flex flex-col justify-center items-center ${barlow.variable}`}>
         <div className="w-full h-[50vh] md:h-[660px] flex relative">
           {bgImgs.map(({ image, imgIndex }, index) => (
             <Image
@@ -112,12 +113,12 @@ const MainUserPage = () => {
           ))}
         </div>
 
-        <div className="absolute text-white border-0 flex flex-col justify-center items-center gap-6 md:gap-12 w-full h-full p-4">
-          <p className="font-semibold text-base md:text-xl">
+        <div className="absolute text-white border-0 flex flex-col justify-center items-center gap-6 md:gap-10 w-full h-full p-4">
+          <p className="font-semibold text-base md:text-[2vw] md:mt-9">
             IT CONSULTANCY
           </p>
 
-          <p className="text-2xl md:text-4xl lg:text-[4em] w-[90%] md:w-[60%] text-center font-bold leading-tight md:leading-[1.3em]">
+          <p className="text-2xl md:text-[3vw] lg:text-[4.7vw] w-[90%] md:w-[60%] text-center font-bold leading-tight md:leading-[1.3em]">
             Your Trusted Partner for Innovative Solutions
           </p>
 
@@ -136,7 +137,7 @@ const MainUserPage = () => {
 
       {/* Welcome section */}
       <div className="flex flex-col md:flex-row">
-        <div className="flex flex-col items-center justify-center bg-headerBgColor w-full md:w-[50%] px-4 md:px-6 py-8 gap-7">
+        <div className="flex flex-col  justify-center bg-headerBgColor w-full md:w-[50%] px-4 md:px-6 py-8 gap-7">
           <p className="font-bold text-xl md:text-[2.5em] text-center md:text-left">
             Welcome to <span className="text-headerInfoBgColor">G-WISSEN Ltd</span>
           </p>
@@ -267,24 +268,8 @@ const MainUserPage = () => {
           before:top-[1.6em] before:left-[50%] md:before:left-[17em] before:-translate-x-1/2">
           Our Team Members
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full md:w-[95%]">
+        <div className="grid grid-cols-1  md:grid-cols-3 gap-6 w-full md:w-[95%]">
           {/* Team member cards */}
-
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
-            <div className='w-[50%] rounded-[15px] h-full relative'>
-              <Image
-                className='w-full rounded-[15px] h-full object-cover'
-                src={RedemptaImg}
-                fill
-                alt="image" />
-                </div>
-              <div className=" my-auto  ">
-                <p className='font-bold mb-1'>Redempta Uwayezu</p>
-                <p className='text-headerInfoBgColor'>Co-founder</p>
-              </div>
-            </div>
-          
-
 
           <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
@@ -293,13 +278,29 @@ const MainUserPage = () => {
                 src={YvonneImg}
                 fill
                 alt="image" />
-                </div>
-              <div className=" my-auto  ">
-                <p className='font-bold mb-1'>Yvonne Uwase</p>
-                <p className='text-headerInfoBgColor'>Managing Director</p>
-              </div>
             </div>
-          
+            <div className=" my-auto  ">
+              <p className='font-bold mb-1'>Yvonne Uwase</p>
+              <p className='text-headerInfoBgColor'>Managing Director</p>
+            </div>
+          </div>
+
+
+
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
+              <Image
+                className='w-full rounded-[15px] h-full object-cover'
+                src={RedemptaImg}
+                fill
+                alt="image" />
+            </div>
+            <div className=" my-auto  ">
+              <p className='font-bold mb-1'>Redempta Uwayezu</p>
+              <p className='text-headerInfoBgColor'>Co-founder</p>
+            </div>
+          </div>
+
 
           <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
@@ -308,26 +309,41 @@ const MainUserPage = () => {
                 src={EricImg}
                 fill
                 alt="image" />
-                </div>
-              <div className=" my-auto  ">
-                <p className='font-bold mb-1'>Nsengiyumva Eric</p>
-                <p className='text-headerInfoBgColor'>Business Development Manager</p>
-              </div>
             </div>
-          
-            <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className=" my-auto  ">
+              <p className='font-bold mb-1'>Nsengiyumva Eric</p>
+              <p className='text-headerInfoBgColor'>Business Development Manager</p>
+            </div>
+          </div>
+
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
                 src={FabriceImg}
                 fill
                 alt="image" />
-                </div>
-              <div className="my-auto">
-                <p className='font-bold mb-1'>Kagina Fabrice</p>
-                <p className='text-headerInfoBgColor'>Human Resources Officer</p>
-              </div>
             </div>
+            <div className="my-auto">
+              <p className='font-bold mb-1'>Kagina Fabrice</p>
+              <p className='text-headerInfoBgColor'>Human Resources Officer</p>
+            </div>
+          </div>
+
+          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+            <div className='w-[50%] rounded-[15px] h-full relative'>
+              <Image
+                className='w-full rounded-[15px] h-full object-cover'
+                src={AdolpheImg}
+                fill
+                alt="image" />
+            </div>
+            <div className=" my-auto  ">
+              <p className='mb-1 font-bold'>Karemera Adolphe</p>
+              <p className='text-headerInfoBgColor'>Senior Advisor</p>
+            </div>
+          </div>
+
 
           <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
@@ -336,17 +352,17 @@ const MainUserPage = () => {
                 src={GiseleImg}
                 fill
                 alt="image" />
-                </div>
-              <div className=" my-auto  ">
-                <p className='font-bold mb-1'>Nyirarukundo Gisele</p>
-                <p className='text-headerInfoBgColor'>Business Development Officer</p>
-              </div>
             </div>
-          
+            <div className=" my-auto  ">
+              <p className='font-bold mb-1'>Nyirarukundo Gisele</p>
+              <p className='text-headerInfoBgColor'>Business Development Officer</p>
+            </div>
+          </div>
 
-          
 
-         
+
+
+
 
           <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
@@ -355,17 +371,19 @@ const MainUserPage = () => {
                 src={RuthImg}
                 fill
                 alt="image" />
-                </div>
-              <div className=" my-auto  ">
-                <p className='mb-1 font-bold'>Bamukunde Ruth</p>
-                <p className='text-headerInfoBgColor'>Business Development officer</p>
-              </div>
             </div>
-          
+            <div className=" my-auto  ">
+              <p className='mb-1 font-bold'>Bamukunde Ruth</p>
+              <p className='text-headerInfoBgColor'>Business Development officer</p>
+            </div>
+          </div>
 
 
          
-          
+
+
+
+
 
           {/*  team member cards */}
         </div>
