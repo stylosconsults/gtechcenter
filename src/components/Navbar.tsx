@@ -1,20 +1,14 @@
 "use client"
 
 import React, { useState } from 'react'
-// import { Open_Sans } from 'next/font/google';
 import { Barlow } from 'next/font/google';
 import Header from './Header';
 import Link from 'next/link';
 import NavIcon from "../../public/icons/GwissenIcon.svg"
+import InfoIcon from '../../public/icons/infoIcon.svg'
+import PhoneIcon from "../../public/icons/phoneIcon.svg"
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-
-// const open_sans = Open_Sans({
-//     display: "swap",
-//     subsets: ['latin'],
-//     variable: "--font-open-sans",
-//     weight: "300",
-//   });
 
 const barlow = Barlow({
     display: "swap",
@@ -28,12 +22,11 @@ type NavLink = {
     href: string
 }
 
-const navLinks: NavLink[] = [
+const primaryNavLinks: NavLink[] = [
     {
         name: 'HOME',
         href: '/'
     },
-
     {
         name: 'ABOUT',
         href: '/about'
@@ -42,47 +35,30 @@ const navLinks: NavLink[] = [
         name: 'SERVICES',
         href: '/services'
     },
-
     {
         name: 'BLOGS',
         href: '/blogs'
     },
-
     {
         name: 'CONTACT',
         href: '/contact'
     }
 ]
 
-// const Navbar = () => {
-//     const currentPath = usePathname()
-//     return (
-//         <nav className='flex flex-col h-[18vh] gap-2 '>
-//             <Header />
-//             <div className={`${barlow.className} sticky top-0 z-40 flex items-center justify-between px-[40px] h-[60%]`}>
-//                 <Link href={"/"} className='flex items-center gap-4 ' >
-//                     <NavIcon width="40px" />
-//                     <p className={`text-[40px] font-extrabold text-headerInfoBgColor`}>G-WISSEN LTD</p>
-//                 </Link>
-
-//                 <div className='flex gap-[40px]'>
-//                     {navLinks.map(({ name, href }, index) => (
-//                         <Link key={index} className={`${currentPath === href ? 'text-headerInfoBgColor' : 'text-navBarLinksColor'} ${href === '/app/blogs' ? 'flex items-center gap-1' : ''} font-semibold `} href={href}>{name} {href === '/app/blogs' && <div className='w-[6px] h-[4px] bg-black'></div>
-//                         }</Link>
-
-//                     ))}
-//                 </div>
-//             </div>
-
-
-//         </nav>
-//     )
-// }
-
-
-
-// export default Navbar
-
+const secondaryNavLinks: NavLink[] = [
+    {
+        name: 'FAQ',
+        href: '/faq'
+    },
+    {
+        name: 'PRIVACY POLICY',
+        href: '/privacy-policy'
+    },
+    {
+        name: 'SUPPORT',
+        href: '/support'
+    }
+]
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -98,18 +74,13 @@ const Navbar = () => {
             <div className={`${barlow.className} sticky top-0 z-40 bg-white`}>
                 <div className='flex items-center justify-between px-4 md:px-[40px] py-4 h-full'>
                     <Link href="/" className='flex items-center gap-4'>
-                        {/* <div className=' w-[60%] border border-black  sm:h-full md:h-[10%] '>
-                            <NavIcon className="h-[20%] p-2 border border-black mx-auto w-[20%]" />
-                        </div> */}
-
                         <NavIcon className="w-13" />
-
                         <p className='text-[6vw] md:text-[2.8vw] font-extrabold text-headerInfoBgColor'>G-WISSEN LTD</p>
                     </Link>
 
-                    {/* Desktop Navigation */}
+                    {/* Desktop Navigation - Shows only primary links */}
                     <div className='hidden md:flex md:gap-[3vw]'>
-                        {navLinks.map(({ name, href }, index) => (
+                        {primaryNavLinks.map(({ name, href }, index) => (
                             <Link
                                 key={index}
                                 className={`${currentPath === href ? 'text-headerInfoBgColor' : 'text-navBarLinksColor'} 
@@ -133,13 +104,14 @@ const Navbar = () => {
                     </button>
                 </div>
 
-                {/* Mobile Navigation */}
+                {/* Mobile Navigation - Shows both primary and secondary links */}
                 {isMenuOpen && (
                     <div className='md:hidden'>
-                        <div className='flex flex-col px-4 py-2 bg-white border-t'>
-                            {navLinks.map(({ name, href }, index) => (
+                        <div className='flex flex-col px-4 py-2 bg-white border-t w-[100vw]'>
+                            {/* Primary Navigation Links */}
+                            {primaryNavLinks.map(({ name, href }, index) => (
                                 <Link
-                                    key={index}
+                                    key={`primary-${index}`}
                                     className={`${currentPath === href ? 'text-headerInfoBgColor' : 'text-navBarLinksColor'}
                                         py-3 font-semibold hover:text-headerInfoBgColor transition-colors`}
                                     href={href}
@@ -148,6 +120,47 @@ const Navbar = () => {
                                     {name}
                                 </Link>
                             ))}
+
+                            {/* Divider */}
+                            <div className="h-px bg-gray-200 my-2" />
+
+                            {/* Secondary Navigation Links */}
+                            {secondaryNavLinks.map(({ name, href }, index) => (
+                                <Link
+                                    key={`secondary-${index}`}
+                                    className={`${currentPath === href ? 'text-headerInfoBgColor' : 'text-gray-600'}
+                                        py-3 font-medium hover:text-headerInfoBgColor transition-colors text-sm`}
+                                    href={href}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {name}
+                                </Link>
+                            ))}
+
+                            <div className="flex flex-col w-full gap-4  text-white ">
+                                <a href="mailto:gwissenconsult@gmail.com" className="flex bg-headerInfoBgColor items-center gap-1 w-[40%] font-semibold mb-2 py-3 px-4 rounded-[10px]">
+                                    <InfoIcon /> gwissenconsult@gmail.com
+                                </a>
+                                <a href="tel:+250788647871" className="flex bg-headerInfoBgColor items-center gap-2 w-[40%] font-semibold py-3 px-4 rounded-[10px]">
+                                    <PhoneIcon />+250788647871
+                                </a>
+                            </div>
+
+                            {/* <div className="flex items-center ps-9 h-full justify-center pe-[2%] gap-[10%] text-white w-[40%] bg-headerInfoBgColor inclined-left">
+                                <a
+                                    href="mailto:gwissenconsult@gmail.com"
+                                    className="flex text-[1.3vw] items-center gap-1 font-semibold"
+
+                                >
+
+                                    <InfoIcon /> gwissenconsult@gmail.com
+                                </a>
+
+
+                                <a href="tel:+250788647871" className="flex  text-[1.3vw] items-center gap-2 font-semibold">
+                                    <PhoneIcon />+250788647871
+                                </a>
+                            </div> */}
                         </div>
                     </div>
                 )}

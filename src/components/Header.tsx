@@ -1,10 +1,9 @@
 "use client"
-import React, { useState } from 'react'
+import React from 'react'
 import { Open_Sans } from 'next/font/google';
 import Link from 'next/link';
 import InfoIcon from '../../public/icons/infoIcon.svg'
 import PhoneIcon from "../../public/icons/phoneIcon.svg"
-import { Menu, X } from 'lucide-react';
 
 
 const open_sans = Open_Sans({
@@ -17,7 +16,6 @@ const open_sans = Open_Sans({
 
 
 const Header = () => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
         <div className={`${open_sans.variable}`}>
@@ -46,56 +44,7 @@ const Header = () => {
                 </div>
             </div>
 
-            {/* Mobile View */}
-            <div className="md:hidden">
-                <div className="bg-headerBgColor flex justify-between items-center px-4 h-[35px]">
-                    <Link href="/frequently_asked" className="text-welcomeBgColor">
-                        FAQs
-                    </Link>
-                    <button
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="text-welcomeBgColor p-1"
-                        aria-label="Toggle menu"
-                    >
-                        {isMobileMenuOpen ? (
-                            <X size={20} />
-                        ) : (
-                            <Menu size={20} />
-                        )}
-                    </button>
-                </div>
-
-                {/* Mobile Menu */}
-                {isMobileMenuOpen && (
-                    <div className="absolute z-50 w-full bg-headerBgColor shadow-lg">
-                        <div className="flex flex-col py-2">
-                            <Link
-                                className="px-4 py-2 text-welcomeBgColor hover:bg-gray-100"
-                                href="/contact"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Support
-                            </Link>
-                            <Link
-                                className="px-4 py-2 text-welcomeBgColor hover:bg-gray-100"
-                                href="/privacy_policy"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Privacy Policy
-                            </Link>
-                        </div>
-
-                        <div className="bg-headerInfoBgColor text-white py-3 px-4">
-                            <Link href="" className="flex items-center gap-1 font-semibold mb-2">
-                                <InfoIcon /> info@example.com
-                            </Link>
-                            <Link href="" className="flex items-center gap-2 font-semibold">
-                                <PhoneIcon />+250788647871
-                            </Link>
-                        </div>
-                    </div>
-                )}
-            </div>
+          
         </div>
     );
 };

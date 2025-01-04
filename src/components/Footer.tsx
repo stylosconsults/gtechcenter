@@ -207,10 +207,10 @@ const Footer = () => {
                 <div className='flex flex-col gap-3'>
                     <p className='text-white font-semibold text-[1.1em]'>Follow Us</p>
                     <div className='flex gap-3 ps-4'>
-                        <Link href="" className='hover:opacity-80 transition-opacity'><Twitter /></Link>
-                        <Link href="" className='hover:opacity-80 transition-opacity'><Facebook /></Link>
-                        <Link href="" className='hover:opacity-80 transition-opacity'><LinkedIn /></Link>
-                        <Link href="" className='hover:opacity-80 transition-opacity'><Instagram /></Link>
+                        <Link target='_blank' rel='noopener noreferrer' href="https://x.com/wissen_g14898" className='hover:opacity-80 transition-opacity'><Twitter /></Link>
+                        <Link target='_blank' rel='noopener noreferrer' href="https://www.facebook.com/" className='hover:opacity-80 transition-opacity'><Facebook /></Link>
+                        <Link target='_blank' rel='noopener noreferrer' href="https://www.linkedin.com/notifications/" className='hover:opacity-80 transition-opacity'><LinkedIn /></Link>
+                        <Link target='_blank' rel='noopener noreferrer' href="https://www.instagram.com/" className='hover:opacity-80 transition-opacity'><Instagram /></Link>
                     </div>
                 </div>
             </div>
