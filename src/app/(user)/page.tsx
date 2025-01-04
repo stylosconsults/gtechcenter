@@ -301,20 +301,20 @@ const MainUserPage = () => {
             </div>
           </div>
 
-
           <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
-                src={EricImg}
+                src={AdolpheImg}
                 fill
                 alt="image" />
             </div>
             <div className=" my-auto  ">
-              <p className='font-bold mb-1'>Nsengiyumva Eric</p>
-              <p className='text-headerInfoBgColor'>Business Development Manager</p>
+              <p className='mb-1 font-bold'>Karemera Adolphe</p>
+              <p className='text-headerInfoBgColor'>Senior Advisor</p>
             </div>
           </div>
+
 
           <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
@@ -334,15 +334,17 @@ const MainUserPage = () => {
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
-                src={AdolpheImg}
+                src={EricImg}
                 fill
                 alt="image" />
             </div>
             <div className=" my-auto  ">
-              <p className='mb-1 font-bold'>Karemera Adolphe</p>
-              <p className='text-headerInfoBgColor'>Senior Advisor</p>
+              <p className='font-bold mb-1'>Nsengiyumva Eric</p>
+              <p className='text-headerInfoBgColor'>Business Development Manager</p>
             </div>
           </div>
+
+
 
 
           <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
@@ -379,7 +381,7 @@ const MainUserPage = () => {
           </div>
 
 
-         
+
 
 
 

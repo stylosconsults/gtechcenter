@@ -8,7 +8,7 @@ import LoadingGoogleMap from '@/components/LoadingContactPage'
 
 const containerStyle = {
     width: "100%",
-    height: "100%"
+    height: "100%",
 }
 
 
@@ -154,7 +154,7 @@ const Page = () => {
         <div className='flex flex-col'>
             <PagesTopDiv heading='Contact Us' paragraph='Home Contact' />
 
-            <div className='grid grid-cols-1 md:grid-cols-2 md:h-[500px] bg-headerBgColor'>
+            <div className='grid grid-cols-1 md:grid-cols-2 md:h-[600px] h-[1300px] bg-headerBgColor'>
                 {/* Contact form */}
                 <div className='flex flex-col gap-3 col-span-1 pt-2 h-full px-4 justify-center'>
 
@@ -224,7 +224,7 @@ const Page = () => {
 
 
                 {/* Google map section */}
-                <div className='flex justify-center items-center col-span-1'>
+                <div className='flex justify-center items-center col-span-1 '>
                     {loadError ? (
                         <p>Error while loading google map</p>
                     ) : !isLoaded ? (

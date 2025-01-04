@@ -48,15 +48,15 @@ const primaryNavLinks: NavLink[] = [
 const secondaryNavLinks: NavLink[] = [
     {
         name: 'FAQ',
-        href: '/faq'
+        href: '/frequently_asked'
     },
     {
         name: 'PRIVACY POLICY',
-        href: '/privacy-policy'
+        href: '/privacy_policy'
     },
     {
         name: 'SUPPORT',
-        href: '/support'
+        href: '/contact'
     }
 ]
 
