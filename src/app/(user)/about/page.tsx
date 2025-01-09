@@ -15,7 +15,7 @@ const page = () => {
                 {/* Welcome section */}
                 <div className='flex flex-col col-span-1  justify-center bg-headerBgColor px-6 gap-7 h-full '>
                     <p className='font-bold text-[2.5em] '>Welcome to <span className='text-headerInfoBgColor'>G-WISSEN Ltd</span></p>
-                    <p className='text-welcomeBgColor'>G-WISSEN Consultsis a forward-thinking consultancy firm established in 2024 and headquartered in Kk 345 st. Founded by Fabrice Kagina, G-WISSEN Consultsis driven by innovation, integrity, and a commitment to excellence. We focus on delivering impactful solutions that drive sustainable growth for our clients.</p>
+                    <p className='text-welcomeBgColor'>G-WISSEN Consultsis a forward-thinking consultancy firm established in 2024 and headquartered in Kk 345 st. G-WISSEN Consults is driven by innovation, integrity, and a commitment to excellence. We focus on delivering impactful solutions that drive sustainable growth for our clients.</p>
                     <p className='text-welcomeBgColor'>With a deep understanding of the dynamic and ever-evolving tech landscape, we work closely with our clients to deliver customized solutions that are not only practical but also forward-thinking. Whether you’re a small business or a large corporation, we have the expertise to provide strategic advice and implement effective solutions that drive real results.</p>
                     <div className='w-full mb-8 sm:mb-8 md:mb-2 lg:mb-2'>
                         <button className='bg-headerInfoBgColor text-white font-semibold mx-auto  rounded-[30px] p-3 w-[10em]'>Get A Quote</button>

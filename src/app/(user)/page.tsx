@@ -13,12 +13,12 @@ import ClientApproach from "../../../public/icons/clientApproach.svg"
 import InnovativeSols from "../../../public/icons/innovativeSolutions.svg"
 import ResultOriented from "../../../public/icons/resultsOriented.svg"
 import requestNote from "../../../public/images/requestNote.png"
-import EricImg from "../../../public/images/team/Eric Pic.jpeg"
-import FabriceImg from "../../../public/images/team/FabPic.jpg"
-import AdolpheImg from "../../../public/images/team/adolpheImg.jpeg"
-import GiseleImg from "../../../public/images/team/Gisele.jpeg"
+// import EricImg from "../../../public/images/team/Eric Pic.jpeg"
+// import FabriceImg from "../../../public/images/team/FabPic.jpg"
+// import AdolpheImg from "../../../public/images/team/adolpheImg.jpeg"
+// import GiseleImg from "../../../public/images/team/Gisele.jpeg"
 import YvonneImg from "../../../public/images/team/Yvonne.jpeg"
-import RuthImg from "../../../public/images/team/Ruth.jpeg"
+// import RuthImg from "../../../public/images/team/Ruth.jpeg"
 import RedemptaImg from "../../../public/images/team/Redempta_croped.jpg"
 import Quote from "../../../public/icons/quote.svg"
 import WelcomeToGTech from "../../../public/images/welcomeToGtech.svg"
@@ -268,10 +268,10 @@ const MainUserPage = () => {
           before:top-[1.6em] before:left-[50%] md:before:left-[17em] before:-translate-x-1/2">
           Our Team Members
         </p>
-        <div className="grid grid-cols-1  md:grid-cols-3 gap-6 w-full md:w-[95%]">
+        <div className="grid grid-cols-1 md:flex  md:grid-cols-3  gap-6 w-full md:w-[95%] justify-center">
           {/* Team member cards */}
 
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+          <div className='flex gap-3 h-[40vh] md:w-[35%] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
@@ -287,7 +287,7 @@ const MainUserPage = () => {
 
 
 
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+          <div className='flex gap-3 h-[40vh] md:w-[35%] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
@@ -297,11 +297,12 @@ const MainUserPage = () => {
             </div>
             <div className=" my-auto  ">
               <p className='font-bold mb-1'>Redempta Uwayezu</p>
-              <p className='text-headerInfoBgColor'>Co-founder</p>
+              <p className='text-headerInfoBgColor'>Co-Managing Director</p>
             </div>
           </div>
 
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+          {/* Adolphe's card */}
+          {/* <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
@@ -313,10 +314,11 @@ const MainUserPage = () => {
               <p className='mb-1 font-bold'>Karemera Adolphe</p>
               <p className='text-headerInfoBgColor'>Senior Advisor</p>
             </div>
-          </div>
+          </div> */}
 
 
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+          {/* Fabrice's card */}
+          {/* <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
@@ -328,9 +330,11 @@ const MainUserPage = () => {
               <p className='font-bold mb-1'>Kagina Fabrice</p>
               <p className='text-headerInfoBgColor'>Human Resources Officer</p>
             </div>
-          </div>
+          </div> */}
 
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+
+          {/* Eric's card */}
+          {/* <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
@@ -342,12 +346,12 @@ const MainUserPage = () => {
               <p className='font-bold mb-1'>Nsengiyumva Eric</p>
               <p className='text-headerInfoBgColor'>Business Development Manager</p>
             </div>
-          </div>
+          </div> */}
 
 
 
-
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+          {/* Gisele's card */}
+          {/* <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
@@ -359,14 +363,11 @@ const MainUserPage = () => {
               <p className='font-bold mb-1'>Nyirarukundo Gisele</p>
               <p className='text-headerInfoBgColor'>Business Development Officer</p>
             </div>
-          </div>
+          </div> */}
 
 
-
-
-
-
-          <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
+          {/* Ruth's card */}
+          {/* <div className='flex gap-3 h-[40vh] col-span-1 border-[1.4px] border-slate-200 rounded-[15px]'>
             <div className='w-[50%] rounded-[15px] h-full relative'>
               <Image
                 className='w-full rounded-[15px] h-full object-cover'
@@ -378,7 +379,7 @@ const MainUserPage = () => {
               <p className='mb-1 font-bold'>Bamukunde Ruth</p>
               <p className='text-headerInfoBgColor'>Business Development officer</p>
             </div>
-          </div>
+          </div> */}
 
 
 

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Barlow } from 'next/font/google';
 import Header from './Header';
 import Link from 'next/link';
-import NavIcon from "../../public/icons/GwissenIcon.svg"
+import NavIcon from "../../public/icons/navbar/icon1.svg"
 import InfoIcon from '../../public/icons/infoIcon.svg'
 import PhoneIcon from "../../public/icons/phoneIcon.svg"
 import { Menu, X } from 'lucide-react';
@@ -75,7 +75,7 @@ const Navbar = () => {
                 <div className='flex items-center justify-between px-4 md:px-[40px] py-4 h-full'>
                     <Link href="/" className='flex items-center gap-4'>
                         <NavIcon className="w-13" />
-                        <p className='text-[6vw] md:text-[2.8vw] font-extrabold text-headerInfoBgColor'>G-WISSEN LTD</p>
+                        <p className='text-[6vw] md:text-[2.8vw] font-extrabold text-textColor'>G-WISSEN CONSULT</p>
                     </Link>
 
                     {/* Desktop Navigation - Shows only primary links */}

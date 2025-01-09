@@ -1,7 +1,7 @@
 "use client"
 import PagesTopDiv from '../../../components/PagesTopDiv'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
-import { GoogleMap, Marker, DirectionsService, Libraries, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api'
+import { GoogleMap, Marker, Libraries, useJsApiLoader } from '@react-google-maps/api'
 import { useContacts } from '@/hooks/useContacts'
 import { Contact } from '@/types/Contact'
 import LoadingGoogleMap from '@/components/LoadingContactPage'
@@ -22,16 +22,16 @@ const destination = {
     lng:30.113565499744208
 }
 
-const defaultValue = {
-    lat: 0,
-    lng: 0
-}
+// const defaultValue = {
+//     lat: 0,
+//     lng: 0
+// }
 
 const libraries: Libraries = ['places']
 
 const Page = () => {
 
-    const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
+    // const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
     // State for storing current location
     // const [currentLocation, setCurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
 
@@ -270,7 +270,7 @@ const Page = () => {
                                 callback={directionsCallback}
                             /> */}
 
-                            {
+                            {/* {
                                 directions && (
                                     <DirectionsRenderer
                                         options={{
@@ -278,7 +278,7 @@ const Page = () => {
                                         }}
                                     />
                                 )
-                            }
+                            } */}
                         </GoogleMap>
                     )}
                 </div>
