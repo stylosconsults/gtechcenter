@@ -11,10 +11,15 @@ const containerStyle = {
     height: "100%",
 }
 
+// Destination of Igitego boutique hotel
+// const destination = {
+//     lat: -1.9757035631385522,
+//     lng: 30.10670646256887
+// }
 
 const destination = {
-    lat: -1.9757035631385522,
-    lng: 30.10670646256887
+    lat: -1.9780960816739035, 
+    lng:30.113565499744208
 }
 
 const defaultValue = {
@@ -27,7 +32,8 @@ const libraries: Libraries = ['places']
 const Page = () => {
 
     const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null)
-    const [currentLocation, setCurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
+    // State for storing current location
+    // const [currentLocation, setCurrentLocation] = useState<{ lat: number, lng: number }>(defaultValue)
 
     // contact form control 
     const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false)
@@ -102,52 +108,55 @@ const Page = () => {
 
     // contact from control
 
+    // Success cb for showing directions
+    // const successCallback = (position: GeolocationPosition) => {
+    //     setCurrentLocation(
+    //         {
+    //             lat: position.coords.latitude,
+    //             lng: position.coords.longitude
+    //         }
+    //     )
+    // }
 
-    const successCallback = (position: GeolocationPosition) => {
-        setCurrentLocation(
-            {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            }
-        )
-    }
+    // Error cb for showing directions
+    //     const errorCallback = (error: GeolocationPositionError) => {
+    //         alert(`ERROR: ${error.code} MESSAGE: ${error.message}`)
 
+    //     }
 
-    const errorCallback = (error: GeolocationPositionError) => {
-        alert(`ERROR: ${error.code} MESSAGE: ${error.message}`)
-
-    }
-
-    const directionsCallback = (response: google.maps.DirectionsResult | null) => {
-        if (response !== null) {
-            if (response.routes.length && response.routes[0].legs.length) {
-                setDirections(response)
-                // const route = response.routes[0].legs[0]
-                // settravelTime(route.duration?.text || 'N/A')
-            } else {
-            }
-        }
-    }
-
-    useEffect(() => {
-        if (navigator.geolocation) {
-            const watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {
-                enableHighAccuracy: true, // Optional: better accuracy but higher battery usage
-                maximumAge: 0,            // Optional: don't use cached location
-            })
+    // Direction cb for showing directions from current location to destination point
+    // const directionsCallback = (response: google.maps.DirectionsResult | null) => {
+    //     if (response !== null) {
+    //         if (response.routes.length && response.routes[0].legs.length) {
+    //             setDirections(response)
+    //             // const route = response.routes[0].legs[0]
+    //             // settravelTime(route.duration?.text || 'N/A')
+    //         } else {
+    //         }
+    //     }
+    // }
 
 
-            // setwatchPositionId(watchId)
+    // Watching the current locatin
+    // useEffect(() => {
+    //     if (navigator.geolocation) {
+    //         const watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {
+    //             enableHighAccuracy: true, // Optional: better accuracy but higher battery usage
+    //             maximumAge: 0,            // Optional: don't use cached location
+    //         })
 
-            return () => {
-                if (watchId !== null) {
-                    navigator.geolocation.clearWatch(watchId)
-                }
-            }
-        }
+
+    //         // setwatchPositionId(watchId)
+
+    //         return () => {
+    //             if (watchId !== null) {
+    //                 navigator.geolocation.clearWatch(watchId)
+    //             }
+    //         }
+    //     }
 
 
-    }, [])
+    // }, [])
 
 
     return (
@@ -228,29 +237,30 @@ const Page = () => {
                     {loadError ? (
                         <p>Error while loading google map</p>
                     ) : !isLoaded ? (
-                        <LoadingGoogleMap/>
+                        <LoadingGoogleMap />
                     ) : (
 
                         <GoogleMap
                             mapContainerStyle={containerStyle}
-                            center={currentLocation}
-                            zoom={12}
+                            center={destination}
+                            zoom={16}
                         >
 
-                            <Marker
+                            {/* <Marker
                                 position={currentLocation}
-                            // icon={{
-                            //     url: "/gifs/output-onlinegiftools (1).gif",  // Path to the blinking GIF
-                            //     scaledSize: new window.google.maps.Size(50, 50), // Adjust the size
-                            //     origin: new window.google.maps.Point(0,0),
-                            //     anchor: new window.google.maps.Point(25,25)
+                            icon={{
+                                url: "/gifs/output-onlinegiftools (1).gif",  // Path to the blinking GIF
+                                scaledSize: new window.google.maps.Size(50, 50), // Adjust the size
+                                origin: new window.google.maps.Point(0,0),
+                                anchor: new window.google.maps.Point(25,25)
 
-                            // }}
+                            }}
+                            /> */}
 
 
-                            />
                             <Marker position={destination} />
-                            <DirectionsService
+
+                            {/* <DirectionsService
                                 options={{
                                     destination: destination,
                                     origin: currentLocation,
@@ -258,7 +268,7 @@ const Page = () => {
                                 }}
 
                                 callback={directionsCallback}
-                            />
+                            /> */}
 
                             {
                                 directions && (
