@@ -8,7 +8,6 @@ import { LoggingUser } from '@/types/User'
 import PagesTopDiv from '@/components/PagesTopDiv'
 import Image from 'next/image'
 import LoginImage from "../../../../public/images/bgImg2.png"
-import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
 
 function LoginPageContent() {
@@ -17,6 +16,7 @@ function LoginPageContent() {
     const { error, setError, loading, userSuccessMsgs, currentUser, loginUser } = useUsers()
     const [disableLoginBtn, setDisableLoginBtn] = useState<boolean>(true)
 
+    console.log('current user ', currentUser);
     const [loggingUserData, setLoggingUserData] = useState<LoggingUser>({
         email: "",
         password: ""
@@ -63,7 +63,7 @@ function LoginPageContent() {
         let redirectTimeout: NodeJS.Timeout
         if (userSuccessMsgs.logInSuccessMsg && currentUser) {
             redirectTimeout = setTimeout(() => {
-                const redirectPath = currentUser.role === ROLES.ADMIN ? "/admin/blogs" : currentUser.role === ROLES.USER ? "/" : null
+                const redirectPath = currentUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "/admin/blogs" : "/"
                 if (redirectPath) router.replace(redirectPath)
             }, 2000);
         }

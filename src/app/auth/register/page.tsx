@@ -4,7 +4,6 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import LoginImage from "../../../../public/images/bgImg2.png"
 import Image from 'next/image'
 import { useUsers } from '@/hooks/useUsers'
-import { ROLES } from '@/constants/userRoles'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -14,7 +13,6 @@ type RegisteringUser = {
     first_name: string;
     last_name: string;
     phone_number: string;  // Change type from number | null to string
-    role?: (typeof ROLES)[keyof typeof ROLES];
     
 }
 
@@ -28,7 +26,6 @@ const RegisterPage = () => {
         first_name: "",
         last_name: "",
         phone_number: "",
-        role: ROLES.USER
     })
 
     const handleRegisteringDataChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,9 +58,7 @@ const RegisterPage = () => {
                     password: "",
                     first_name: "",
                     last_name: "",
-                    phone_number: "0",
-                    role: ROLES.USER
-                }
+                    phone_number: "0"                }
             )
 
         }
@@ -88,7 +83,7 @@ const RegisterPage = () => {
         let redirectTimeout: NodeJS.Timeout
         if (userSuccessMsgs.registerSuccessMsg && currentUser) {
             redirectTimeout = setTimeout(() => {
-                const redirectPath = currentUser.role === ROLES.ADMIN ? "/admin/blogs" : currentUser.role === ROLES.USER ? "/" : null
+                const redirectPath = currentUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "/admin/blogs" : "/"
                 if (redirectPath) router.replace(redirectPath)
             }, 2000);
         }

@@ -1,4 +1,3 @@
-import { ROLES } from "../constants/userRoles";
 
 export interface User {
     first_name: string;
@@ -6,7 +5,6 @@ export interface User {
     email: string;
     phone_number: number| null;
     password: string;
-    role?: (typeof ROLES)[keyof typeof ROLES];
 }
 
 export interface LoggingUser{

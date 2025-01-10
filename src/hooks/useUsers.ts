@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
-import { ROLES } from "@/constants/userRoles";
 import { loginApi, registerUserApi } from "@/lib/users.api";
 import { LoggingUser, SavedUser, User } from "@/types/User";
 
@@ -34,7 +33,6 @@ export function useUsers() {
         phone_number: null,
         last_name: "",
         password: "",
-        role: ROLES.USER,
     });
 
     const loginUser = async (loggingUser: LoggingUser) => {
@@ -65,7 +63,6 @@ export function useUsers() {
                 last_name: loggedInUser.user.last_name,
                 phone_number: loggedInUser.user.phone_number,
                 password: loggedInUser.user.password,
-                role: loggedInUser.user.role
             });
 
             setUserSuccessMsgs(prev => ({
@@ -115,7 +112,6 @@ export function useUsers() {
                 last_name: registeredUser.user.last_name,
                 phone_number: registeredUser.user.phone_number,
                 password: registeredUser.user.password,
-                role: registeredUser.user.role
             });
 
             setUserSuccessMsgs(prev => ({

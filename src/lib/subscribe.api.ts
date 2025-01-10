@@ -6,7 +6,7 @@ import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 
 
-const BASEURL = "https://gtechcenter-backend.onrender.com/api"
+const BASEURL = process.env.NEXT_PUBLIC_BASEURL
 
 const apiClient = axios.create({
   baseURL: BASEURL,

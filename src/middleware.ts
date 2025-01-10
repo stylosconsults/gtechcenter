@@ -1,7 +1,6 @@
 // middleware.ts
 import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { ROLES } from "./constants/userRoles";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
@@ -18,7 +17,7 @@ export function middleware(req: NextRequest) {
     const currentUser = payload.user;
 
     // Role-based access check
-    if (req.nextUrl.pathname.startsWith("/admin") && currentUser.role !== ROLES.ADMIN) {
+  if (req.nextUrl.pathname.startsWith("/admin") && currentUser.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL  ) {
       loginUrl.searchParams.set("forbidden", "Admin privileges required");
       return NextResponse.redirect(loginUrl);
     }
