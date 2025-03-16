@@ -17,7 +17,6 @@ export const loginApi = async (loggingUser:LoggingUser):Promise<ResponseUser>=>{
         // localStorage.setItem("authToken", response.data.)
     } catch (error) {
         if(error instanceof AxiosError){
-            console.log('error ', error.response);
             throw new Error(error.response?.data.message)
         }
         throw error
