@@ -5,6 +5,8 @@ import { Barlow } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { usePathname } from 'next/navigation'
+import { WhatsAppButton } from '@/components/tsapButton'
+import { SmsButton } from '@/components/smsButton'
 
 
 
@@ -49,6 +51,14 @@ export default function UserLayout({ children }: Readonly<{ children: React.Reac
 
         <Navbar />
         {children}
+        <WhatsAppButton
+          phoneNumber="+250788647871"
+          message="Hi! I would like to know more about your services."
+        />
+        <SmsButton
+          phoneNumber="+250788647871"
+          message="Hi! I would like to know more about your services."
+        />
         <Footer />
 
       </body>
