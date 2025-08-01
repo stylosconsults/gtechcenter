@@ -161,11 +161,11 @@ const Navbar = () => {
                   <InfoIcon /> gwissenconsult@gmail.com
                 </a>
                 <a
-                  href="tel:+250788647871"
+                  href="tel:+250 787 919 252"
                   className="flex bg-headerInfoBgColor items-center gap-2 w-[40%] font-semibold py-3 px-4 rounded-[10px]"
                 >
                   <PhoneIcon />
-                  +250788647871
+                  +250 787 919 252
                 </a>
               </div>
 
@@ -180,8 +180,8 @@ const Navbar = () => {
                                 </a>
 
 
-                                <a href="tel:+250788647871" className="flex  text-[1.3vw] items-center gap-2 font-semibold">
-                                    <PhoneIcon />+250788647871
+                                <a href="tel:+250 787 919 252" className="flex  text-[1.3vw] items-center gap-2 font-semibold">
+                                    <PhoneIcon />+250 787 919 252
                                 </a>
                             </div> */}
             </div>
